@@ -10,7 +10,7 @@
 #  This file allows you to add & remove routers to the db file.
 
 def read():
-    filepath = '/Users/coblere/Documents/GitHub/MikrotikBackup/router.db'       # the desired line by overwriting the entire file omitting the desired line.      
+    filepath = '/home/oxidized/.config/oxidized/router.db'       # the desired line by overwriting the entire file omitting the desired line.      
     router_list = []
     with open(filepath, 'r+') as input:                                         # Appends all lines of the file to a list for removal later
         for line in input:                                                      # Yes I know this isn't the best/fastest way to do this but it was the first
@@ -26,7 +26,7 @@ def add(name, router_ip, username, password):
 
 
 def remove(router):                                                               # This function reads each line in the database file then removes the 
-    filepath = '/Users/coblere/Documents/GitHub/MikrotikBackup/router.db'       # the desired line by overwriting the entire file omitting the desired line.      
+    filepath = '/home/oxidized/.config/oxidized/router.db'       # the desired line by overwriting the entire file omitting the desired line.      
     line_list = []
     with open(filepath, 'r+') as input:                                         # Appends all lines of the file to a list for removal later
         for line in input:                                                      # Yes I know this isn't the best/fastest way to do this but it was the first
