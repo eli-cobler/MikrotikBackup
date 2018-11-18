@@ -10,7 +10,7 @@
 #  Runs the mian flask app.
 
 from flask import Flask, render_template, redirect, request
-import updateDB
+import database
 
 app = Flask(__name__)
 
@@ -26,12 +26,13 @@ def add():
         username = request.form['username']
         password = request.form['password']
 
-        updateDB.add(name, router_ip, username, password)
+        database.add(name, router_ip, username, password)
 
     return render_template('add.html')
 
 @app.route('/remove', methods=['GET', 'POST'])
 def remove():
-    return render_template('remove.html')
+    routers = database.read()
+    return render_template('remove.html', routers=routers)
 
 app.run(debug=True, host='0.0.0.0')
