@@ -25,7 +25,7 @@ def add(name, router_ip, username, password):
         f.write("{}:{}:routeros:{}:{}:enable_password\n".format(name, router_ip, username, password))           # writes new router to database file   
 
 
-def remove(this):                                                               # This function reads each line in the database file then removes the 
+def remove(router):                                                               # This function reads each line in the database file then removes the 
     filepath = '/Users/coblere/Documents/GitHub/MikrotikBackup/router.db'       # the desired line by overwriting the entire file omitting the desired line.      
     line_list = []
     with open(filepath, 'r+') as input:                                         # Appends all lines of the file to a list for removal later
@@ -35,6 +35,6 @@ def remove(this):                                                               
         
     with open(filepath, 'w') as output:
         for item in line_list:
-            if this not in item:                                                # If the line does not have the name of the router we want to remove then it
+            if router not in item:                                                # If the line does not have the name of the router we want to remove then it
                 output.write(item)                                              # is written back to the db file. 
     output.close()

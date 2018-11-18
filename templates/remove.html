@@ -15,8 +15,14 @@
     <a class="active" href="/remove">Remove Router</a>
 </div>
 
-<select name= routers method="GET" action="/">
-    {% for router in routers %}
-    <option value= "{{router}}" SELECTED>{{router}}</option>"
-    {% endfor %}
-</select>
+<form action="/remove" method="POST">
+    <select name="selected router">
+        <option value="{{routers[0]}}" selected>{{routers[0]}}</option>
+        {% for router in routers[1:] %}
+            <option value= "{{router}}">{{router}}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Remove Router"></input>
+</form>
+
+</html>

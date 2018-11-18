@@ -32,7 +32,17 @@ def add():
 
 @app.route('/remove', methods=['GET', 'POST'])
 def remove():
-    routers = database.read()
+    router_list = database.read()
+    routers = []
+    for item in router_list:
+        data = item.split(':')
+        routers.append(data[0])
+
+    if request.method == 'POST':
+        router_to_remove = request.form.get('selected router')
+        database.remove(router_to_remove)
+
+    
     return render_template('remove.html', routers=routers)
 
 app.run(debug=True, host='0.0.0.0')
