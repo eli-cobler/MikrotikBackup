@@ -14,3 +14,9 @@
     <a href="/add">Add Router</a>
     <a class="active" href="/remove">Remove Router</a>
 </div>
+
+<select name= routers method="GET" action="/">
+    {% for router in routers %}
+    <option value= "{{router}}" SELECTED>{{router}}</option>"
+    {% endfor %}
+</select>
