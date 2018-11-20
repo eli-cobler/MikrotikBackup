@@ -35,6 +35,9 @@ def remove(router):                                                             
         
     with open(filepath, 'w') as output:
         for item in line_list:
-            if router not in item:                                                # If the line does not have the name of the router we want to remove then it
+            if router not in item:                                              # If the line does not have the name of the router we want to remove then it
                 output.write(item)                                              # is written back to the db file. 
     output.close()
+
+def update(name, router, username, password):
+    pass

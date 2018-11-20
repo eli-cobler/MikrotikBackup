@@ -45,4 +45,8 @@ def remove():
     
     return render_template('remove.html', routers=routers)
 
+@app.route('/remove', methods=['GET', 'POST'])
+def update():
+    return render_template('update.html')
+
 app.run(host='0.0.0.0')
