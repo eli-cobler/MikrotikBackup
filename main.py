@@ -32,7 +32,7 @@ def add():
 
 @app.route('/remove', methods=['GET', 'POST'])
 def remove():
-    router_list = database.read()
+    router_list = database.get()
     routers = []
     for item in router_list:
         data = item.split(':')
@@ -45,8 +45,51 @@ def remove():
     
     return render_template('remove.html', routers=routers)
 
-@app.route('/remove', methods=['GET', 'POST'])
+@app.route('/update', methods=['GET', 'POST'])
 def update():
-    return render_template('update.html')
+    router_list = database.get()
+    routers_list = []
+    for item in router_list:
+        data = item.split(':')
+        routers_list.append(data[0])
+
+    routers_dict = {}
+    for item in router_list:
+        data = item.split(':')
+        routers_dict[data[0]] = [data[1], data[3], data[4]]
+
+    if request.method == 'POST':
+        router_to_update = request.form.get('selected router')
+
+        if request.form['name'] == '':
+            name = router_to_update
+        else:
+            name = request.form['name']
+        
+        if request.form['router_ip'] == '':
+            router_ip_list = routers_dict.get(router_to_update)
+            router_ip = router_ip_list[0]
+        else:
+            router_ip = request.form['router_ip']
+
+        if request.form['username'] == '':
+            username_list = routers_dict.get(router_to_update)
+            username = username_list[1]
+        else:
+            username = request.form['username']
+
+        if request.form['password'] == '':
+            password_list = routers_dict.get(router_to_update)
+            password = password_list[2]
+        else:
+            password = request.form['password']
+
+        database.update(name, router_ip, username, password, router_to_update)
+
+    return render_template('update.html', routers=routers_list)
+
+@app.route('/success')
+def success():
+    render_template('success.html')
 
 app.run(host='0.0.0.0')
