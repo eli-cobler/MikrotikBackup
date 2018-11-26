@@ -5,19 +5,21 @@
 #  Created by Eli Cobler on 11/18/18.
 #  Copyright © 2018 Eli Cobler. All rights reserved.
 #
-#  This project allows you to add and remove routers to your Oxidized Router backup.
+#  This project allows you to add and remove routers to your Oxidized Router database file.
 #
-#  Runs the mian flask app.
+#  Runs the main flask app.
 
 from flask import Flask, render_template, redirect, request
 import database
 
 app = Flask(__name__)
 
+# currently does nothing looking to display router info at some point
 @app.route('/', methods=['GET', 'POST'])
 def index():
     return render_template('index.html')
 
+# takes input form from user to add needed info to the database file
 @app.route('/add', methods=['GET', 'POST'])
 def add():
     if request.method == 'POST':                    
@@ -30,6 +32,7 @@ def add():
 
     return render_template('add.html')
 
+# allows user to select which location to remove viva dropdown menu
 @app.route('/remove', methods=['GET', 'POST'])
 def remove():
     router_list = database.get()
@@ -41,10 +44,11 @@ def remove():
     if request.method == 'POST':
         router_to_remove = request.form.get('selected router')
         database.remove(router_to_remove)
-
     
     return render_template('remove.html', routers=routers)
 
+# allows users to update already existing routers in the database file
+# I know there is a more pythonic way to do this but for now it works ¯\_(ツ)_/¯
 @app.route('/update', methods=['GET', 'POST'])
 def update():
     router_list = database.get()
@@ -88,6 +92,8 @@ def update():
 
     return render_template('update.html', routers=routers_list)
 
+# looking to return a success page when database file is changed 
+# currently not in use 
 @app.route('/success')
 def success():
     render_template('success.html')
