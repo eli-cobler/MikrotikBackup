@@ -17,7 +17,18 @@ app = Flask(__name__)
 # currently does nothing looking to display router info at some point
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
+    router_list = database.get()
+    routers = []
+    for item in router_list:
+        data = item.split(':')
+        routers.append(data[0])
+
+    routers_dict = {}
+    for item in router_list:
+        data = item.split(':')
+        routers_dict[data[0]] = [data[1], data[3], data[4]]    
+
+    return render_template('index.html', routers=routers_dict)
 
 # takes input form from user to add needed info to the database file
 @app.route('/add', methods=['GET', 'POST'])
@@ -98,4 +109,4 @@ def update():
 def success():
     render_template('success.html')
 
-app.run(host='0.0.0.0')
+app.run(host='0.0.0.0', debug=True)

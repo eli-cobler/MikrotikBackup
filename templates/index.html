@@ -9,8 +9,28 @@
 </div>
 
 <div class="topnav">
-    <a class="active" href="/">Home</a>
+    <a class="active" href="/">Routers</a>
     <a href="/add">Add Router</a>
     <a href="/update">Update Router</a>
     <a href="/remove">Remove Router</a>
+</div>
+
+<div class="routertable">
+    <table> 
+        <tr> 
+            <th>Name</th> 
+            <th>IP Address</th>
+            <th>Username</th>
+            <th>Password</th>
+        </tr> 
+        {% for k, v in routers.items() %}
+            <tr> 
+                <td>{{ k }}</td> 
+                <td>{{ v[0] }}</td>
+                <td>{{ v[1] }}</td>
+                <td>{{ v[2] }}</td> 
+            </tr>
+        {% endfor %} 
+    </table>
+
 </div>
