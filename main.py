@@ -109,4 +109,4 @@ def update():
 def success():
     render_template('success.html')
 
-app.run(host='0.0.0.0', debug=True)
+app.run(host='0.0.0.0')
