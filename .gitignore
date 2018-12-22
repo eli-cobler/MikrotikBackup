@@ -226,6 +226,7 @@ pip-selfcheck.json
 
 ### Random Ignored Files ###
 *.db
+*.db copy
 **/backups
 
 
