@@ -9,28 +9,47 @@
 #
 #  This file allows you to add, update, &, remove routers to the Oxidized db file.
 
+import os, shutil
+from distutils.dir_util import copy_tree
+
 # paths to database file one for testing local, other for remote server
-#filepath = '/Users/coblere/Documents/GitHub/MikrotikBackup/router.db'
-filepath = '/home/oxidized/.config/oxidized/router.db'
+filepath = os.getcwd() + '/router.db'
+#filepath = '/home/oxidized/.config/oxidized/router.db'
+
 
 def get():      
     router_list = []
-    with open(filepath, 'r+') as input:                                         # Appends all lines of the file to a list for removal later
-        for line in input:                                                      # Yes I know this isn't the best/fastest way to do this but it was the first
-            router_list.append(line)                                            # way it worked for me. So I will optimize this at a later date.
+    # Appends all lines of the file to a list for removal later
+    with open(filepath, 'r+') as input:
+        for line in input:
+            router_list.append(line)
     input.close()
 
     return router_list
 
-
 def add(name, router_ip, username, password):
+    # writes new router to database file 
     with open(filepath, 'a') as f: 
-        f.write("{}:{}:routeros:{}:{}:enable_password\n".format(name, 
-                                                                router_ip, 
-                                                                username, 
-                                                                password))      # writes new router to database file   
+        f.write("{}:{}:{}:{}:Not Set\n".format(name,router_ip,username,password))
+    
+    path = os.getcwd()
+    os.mkdir(path + '/backups/{}'.format(name))
 
-# This function reads each line in the database file then removes the unwanted router. 
+# This function completely removes a router, including the backup files. 
+def complete_removal(router):
+    router_list = get()
+    path = os.getcwd()
+
+    with open(filepath, 'w') as output:
+        for item in router_list:
+            if router not in item:
+                output.write(item)
+    output.close()
+
+    shutil.rmtree(path + '/backups/{}'.format(router))
+
+# This function reads each line in the database file then removes the unwanted router.
+# Used in update function.
 def remove(router):
     router_list = get()
         
@@ -42,12 +61,18 @@ def remove(router):
 
 # Uses remove function to rewrite the whole database file removing old 
 # router info and replacing it with updated info
-def update(name, router_ip, username, password, selected_router):
+def update(name, router_ip, username, password, selected_router, status):
+    path = os.getcwd()
+    if name != selected_router:
+        os.mkdir(path + '/backups/{}'.format(name))
+        fromDirectory = path + '/backups/{}'.format(selected_router)
+        toDirectory = path + '/backups/{}'.format(name)
+        copy_tree(fromDirectory, toDirectory)
+        shutil.rmtree(path + '/backups/{}'.format(selected_router))
+    
     remove(selected_router)
 
+    # updates changed router values in database file
     with open(filepath, 'a') as f:
-        f.write("{}:{}:routeros:{}:{}:enable_password\n".format(name, 
-                                                                router_ip, 
-                                                                username, 
-                                                                password))      # updates changed router values in database file
+        f.write("{}:{}:{}:{}:{}\n".format(name,router_ip,username,password, status))
     

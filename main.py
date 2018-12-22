@@ -9,8 +9,8 @@
 #
 #  Runs the main flask app.
 
-from flask import Flask, render_template, redirect, request
-import database
+from flask import Flask, render_template, redirect, request, abort, send_file
+import database, backup, os
 
 app = Flask(__name__)
 
@@ -26,7 +26,7 @@ def index():
     routers_dict = {}
     for item in router_list:
         data = item.split(':')
-        routers_dict[data[0]] = [data[1], data[3], data[4]]    
+        routers_dict[data[0]] = [data[1], data[2], data[3], data[4]]    
 
     return render_template('index.html', routers=routers_dict)
 
@@ -54,7 +54,7 @@ def remove():
 
     if request.method == 'POST':
         router_to_remove = request.form.get('selected router')
-        database.remove(router_to_remove)
+        database.complete_removal(router_to_remove)
     
     return render_template('remove.html', routers=routers)
 
@@ -71,7 +71,7 @@ def update():
     routers_dict = {}
     for item in router_list:
         data = item.split(':')
-        routers_dict[data[0]] = [data[1], data[3], data[4]]
+        routers_dict[data[0]] = [data[1], data[2], data[3], data[4]]
 
     if request.method == 'POST':
         router_to_update = request.form.get('selected router')
@@ -98,10 +98,37 @@ def update():
             password = password_list[2]
         else:
             password = request.form['password']
+        
+        status = "Not Set"
 
-        database.update(name, router_ip, username, password, router_to_update)
+        database.update(name,router_ip,username,password,router_to_update,status)
 
     return render_template('update.html', routers=routers_list)
+
+@app.route('/run-backup')
+def run_backup():
+    #backup.run()
+    return render_template('run_backup.html')
+
+@app.route('/', defaults={'req_path': ''})
+@app.route('/<path:req_path>')
+def dir_listing(req_path):
+    BASE_DIR = os.getcwd()
+
+    # Joining the base and the requested path
+    abs_path = os.path.join(BASE_DIR, req_path)
+
+    # Return 404 if path doesn't exist
+    if not os.path.exists(abs_path):
+        return abort(404)
+
+    # Check if path is a file and serve
+    if os.path.isfile(abs_path):
+        return send_file(abs_path)
+
+    # Show directory contents
+    files = os.listdir(abs_path)
+    return render_template('files.html', files=files)
 
 # looking to return a success page when database file is changed 
 # currently not in use 
@@ -109,4 +136,4 @@ def update():
 def success():
     render_template('success.html')
 
-app.run(host='0.0.0.0')
+app.run(debug=True, host='0.0.0.0')
