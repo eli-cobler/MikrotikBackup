@@ -14,7 +14,7 @@
     <a href="/add">Add Router</a>
     <a href="/update">Update Router</a>
     <a href="/remove">Remove Router</a>
-    <a href="http://192.168.1.17:8888/nodes">Oxidized</a>
+    <a href="/run-backup">Run Backup</a>
     <a href="winbox:">Launch Winbox</a>
 </div>
 
@@ -25,6 +25,7 @@
             <th>IP Address</th>
             <th>Username</th>
             <th>Password</th>
+            <th>Status</th>
         </tr> 
         {% for k, v in routers.items() %}
             <tr> 
@@ -32,6 +33,14 @@
                 <td>{{ v[0] }}</td>
                 <td>{{ v[1] }}</td>
                 <td>{{ v[2] }}</td> 
+                <td>{{ v[3] }}</td>
+                <td>
+                    <a href="/backups/{{ k }}">
+                        <div style="color:white">
+                            View Backups
+                        </div>
+                    </a>
+                </td>
             </tr>
         {% endfor %} 
     </table>
