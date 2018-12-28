@@ -13,7 +13,8 @@ import os, shutil
 from distutils.dir_util import copy_tree
 
 # paths to database file one for testing local, other for remote server
-filepath = os.getcwd() + '/router.db'
+#filepath = os.getcwd() + '/router.db'
+filepath = '/var/MikrotikBackup/router.db'
 #filepath = '/home/oxidized/.config/oxidized/router.db'
 
 

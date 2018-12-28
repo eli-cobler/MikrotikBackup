@@ -128,7 +128,7 @@ def dir_listing(req_path):
 
     # Show directory contents
     files = os.listdir(abs_path)
-    return render_template('files.html', files=files, location=os.path.basename(abs_path))
+    return render_template('files.html', files=files)
 
 # looking to return a success page when database file is changed 
 # currently not in use 
