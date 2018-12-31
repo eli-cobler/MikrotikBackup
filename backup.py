@@ -35,9 +35,12 @@ def create(router_name, router_ip, username, password):
         ssh.close()
         print("Backup for {} complete.".format(router_name))
         status = "Backup Completed"
-    except TimeoutError:
-        print("Timeout Error...")
-        status = "Timeout Error"
+    except TimeoutError as err:
+        print(err)
+        status = err
+    except EOFError as err:
+        print(err)
+        status = err
     except:
         print("Unexpected Error, no backup was grabbed.")
         status = "Unexpected Error"
@@ -55,14 +58,13 @@ def run():
     for item in routers:
         create(item['router_name'], item['router_ip'], item['username'], item['password'])
 
-if __name__ == "__main__":
-    #schedule.every(1).minutes.do(job)
-    #schedule.every().hour.do(job)
-    schedule.every().day.at("01:00").do(run)
-    #schedule.every().monday.do(job)
-    #schedule.every().monday.at("00:08").do(job)
+#run()
+#schedule.every(1).minutes.do(job)
+#schedule.every().hour.do(job)
+schedule.every().day.at("01:00").do(run)
+#schedule.every().monday.do(job)
+#schedule.every().monday.at("00:08").do(job)
 
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
-    #run()
+while True:
+    schedule.run_pending()
+    time.sleep(1)
