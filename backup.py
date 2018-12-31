@@ -59,13 +59,4 @@ def run():
         create(item['router_name'], item['router_ip'], item['username'], item['password'])
 
 if __name__ == "__main__":
-    #run()
-    #schedule.every(1).minutes.do(job)
-    #schedule.every().hour.do(job)
-    schedule.every().day.at("01:00").do(run)
-    #schedule.every().monday.do(job)
-    #schedule.every().monday.at("00:08").do(job)
-
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
+    run()
