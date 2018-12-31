@@ -114,10 +114,10 @@ def run_backup():
 @app.route('/<path:req_path>')
 def dir_listing(req_path):
     BASE_DIR = os.getcwd()
-
+    
     # Joining the base and the requested path
     abs_path = os.path.join(BASE_DIR, req_path)
-
+    
     # Return 404 if path doesn't exist
     if not os.path.exists(abs_path):
         return abort(404)
@@ -126,9 +126,11 @@ def dir_listing(req_path):
     if os.path.isfile(abs_path):
         return send_file(abs_path)
 
+    backup_folder = os.path.basename(req_path)
+
     # Show directory contents
     files = os.listdir(abs_path)
-    return render_template('files.html', files=files)
+    return render_template('files.html', files=files, backups=backup_folder)
 
 # looking to return a success page when database file is changed 
 # currently not in use 
