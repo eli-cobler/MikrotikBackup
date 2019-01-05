@@ -18,6 +18,17 @@
     <a href="winbox:">Launch Winbox</a>
 </div>
 
+<div class="backuptable">
+    <table>
+        <tr>
+            <th>Backups</th>
+        </tr>
+        {% for file in files %}
+            <td><a href="/backups/{{ backups }}/{{ file }}" style="color:white">{{ file }}</a></td>
+        {% endfor %}        
+    </table>
+</div>
+
 <ul>
     {% for file in files %}
         <li><a href="/backups/{{ backups }}/{{ file }}" style="color:white">{{ file }}</a></li>

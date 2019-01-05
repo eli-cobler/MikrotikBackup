@@ -42,11 +42,10 @@
 
   .routertable td, th {
     border: 1px solid rgb(110, 110, 110);
-    padding: 8px;
+    padding: 16px;
+    text-align: left;
+    cursor: pointer;
   }
-
-  .routertable tr:nth-child(even){background-color: #444444;}
-  .routertable tr:hover {background-color: rgb(129, 129, 129);}
 
   .routertable th {
     padding-top: 12px;
@@ -54,4 +53,8 @@
     text-align: center;
     background-color: #4CAF50;
     color: white;
+    cursor: pointer;
   }
+
+  .routertable tr:nth-child(even){background-color: #444444;}
+  .routertable tr:hover {background-color: rgb(129, 129, 129);}
