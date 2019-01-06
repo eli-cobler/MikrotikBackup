@@ -130,6 +130,7 @@ def dir_listing(req_path):
 
     # Show directory contents
     files = os.listdir(abs_path)
+    files.sort(reverse=True)
     return render_template('files.html', files=files, backups=backup_folder)
 
 # looking to return a success page when database file is changed 
