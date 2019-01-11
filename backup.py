@@ -41,9 +41,9 @@ def create(router_name, router_ip, username, password):
     except paramiko.SSHException as err:
         print(err)
         status = err
-    except:
+    '''except:
         print("Unexpected Error, no backup was grabbed.")
-        status = "Unexpected Error"
+        status = "Unexpected Error"'''
 
     database.update(router_name,router_ip,username,password,router_name,status)
 
