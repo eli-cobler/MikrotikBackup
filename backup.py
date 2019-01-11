@@ -38,16 +38,18 @@ def create(router_name, router_ip, username, password):
     except TimeoutError as err:
         print(err)
         status = err
-    except paramiko.SSHException as err:
+    except paramiko.ssh_exception.SSHException as err:
         print(err)
         status = err
     except EOFError as err:
         print(err)
         status = err
-
-    '''except:
+    except paramiko.ssh_exception.NoValidConnectionsError as err:
+        print(err)
+        status = err
+    except:
         print("Unexpected Error, no backup was grabbed.")
-        status = "Unexpected Error"'''
+        status = "Unexpected Error"
 
     database.update(router_name,router_ip,username,password,router_name,status)
 
