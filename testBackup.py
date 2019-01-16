@@ -29,6 +29,7 @@ def create(router_name, router_ip, username, password):
         print("Set remote and local path")
         remotepath = "/{}.backup".format(date)
         localpath = 'backups/{}/{}'.format(router_name,filename)
+        print("Backup transfered")
         sftp.get(remotepath, localpath)
         print("Closing sftp and transport")
         sftp.close()
