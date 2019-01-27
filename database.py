@@ -1,13 +1,14 @@
 #
-#  update.py
+#  database.py
 #  MikrotikBackup
 #
-#  Created by Eli Cobler on 11/18/18.
+#
+#  Created by Eli Cobler on 01/27/19.
 #  Copyright © 2018 Eli Cobler. All rights reserved.
 #
 #  This project allows you to add and remove routers to your Oxidized Router database file.
 #
-#  This file allows you to add, update, &, remove routers to the Oxidized db file.
+#  This file allows you to add, update, &, remove routers to the Oxidized db file.
 
 import os, shutil
 from distutils.dir_util import copy_tree
@@ -31,7 +32,7 @@ def get():
 def add(name, router_ip, username, password):
     # writes new router to database file 
     with open(filepath, 'a') as f: 
-        f.write("{}:{}:{}:{}:Not Set\n".format(name,router_ip,username,password))
+        f.write("{}:{}:{}:{}:Not Set:Not Set\n".format(name,router_ip,username,password))
     
     path = os.getcwd()
     os.mkdir(path + '/backups/{}'.format(name))
@@ -62,7 +63,7 @@ def remove(router):
 
 # Uses remove function to rewrite the whole database file removing old 
 # router info and replacing it with updated info
-def update(name, router_ip, username, password, selected_router, status):
+def update(name, router_ip, username, password, selected_router, status, backup_date):
     path = os.getcwd()
     if name != selected_router:
         os.mkdir(path + '/backups/{}'.format(name))
@@ -75,5 +76,5 @@ def update(name, router_ip, username, password, selected_router, status):
 
     # updates changed router values in database file
     with open(filepath, 'a') as f:
-        f.write("{}:{}:{}:{}:{}\n".format(name,router_ip,username,password, status))
+        f.write("{}:{}:{}:{}:{}:{}\n".format(name,router_ip,username,password, status, backup_date))
     

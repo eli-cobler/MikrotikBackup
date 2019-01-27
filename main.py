@@ -100,8 +100,9 @@ def update():
             password = request.form['password']
         
         status = "Not Set"
+        backup_date = "Not Set"
 
-        database.update(name,router_ip,username,password,router_to_update,status)
+        database.update(name,router_ip,username,password,router_to_update,status, backup_date)
 
     return render_template('update.html', routers=routers_list)
 

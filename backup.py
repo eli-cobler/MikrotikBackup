@@ -67,7 +67,7 @@ def create(router_name, router_ip, username, password):
         print("Unexpected Error, no backup was grabbed.")
         status = "Unexpected Error"
 
-    database.update(router_name,router_ip,username,password,router_name,status)
+    database.update(router_name,router_ip,username,password,router_name,status, date)
 
 def run():
     router_list = database.get()
