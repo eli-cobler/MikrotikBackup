@@ -6,8 +6,8 @@ from datetime import date
 
 def create(router_name, router_ip, username, password):
     # getting current date and time for naming backup file
-    date_time = datetime.datetime.today().strftime('%m-%d-%Y_%H:%M:%S')
-    filename = date_time + ".backup"
+    date = datetime.datetime.today().strftime('%m-%d-%Y_%H:%M:%S')
+    filename = date + ".backup"
 
     try:
         print("Generating backup for {}...".format(router_name))
@@ -19,7 +19,7 @@ def create(router_name, router_ip, username, password):
         print('Connecting to router...')
         ssh.connect(router_ip, username=username, password=password)
         print('Running backup command')
-        ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command("/system backup save name={}".format(date_time))
+        ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command("/system backup save name={}".format(date))
         print("Closing connection")
         ssh.close()
 
@@ -68,7 +68,7 @@ def create(router_name, router_ip, username, password):
         print("Unexpected Error, no backup was grabbed.")
         status = "Unexpected Error"
 
-    todays_date = date.today().strftime('%m-%d-%Y')
+    todays_date = datetime.datetime.date.today().strftime('%m-%d-%Y')
     database.update(router_name,router_ip,username,password,router_name,status, todays_date)
 
 def run():
