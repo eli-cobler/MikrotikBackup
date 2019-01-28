@@ -3,8 +3,8 @@ from datetime import date
 
 def create(router_name, router_ip, username, password):
     # getting current date and time for naming backup file
-    date = datetime.datetime.today().strftime('%m-%d-%Y_%H:%M:%S')
-    filename = date + ".backup"
+    date_time = datetime.datetime.today().strftime('%m-%d-%Y_%H:%M:%S')
+    filename = date_time + ".backup"
 
     try:
         print("Generating backup for {}...".format(router_name))
@@ -16,7 +16,7 @@ def create(router_name, router_ip, username, password):
         print('Connecting to router...')
         ssh.connect(router_ip, username=username, password=password)
         print('Running backup command')
-        ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command("/system backup save name={}".format(date))
+        ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command("/system backup save name={}".format(date_time))
         print("Closing connection")
         ssh.close()
 
@@ -62,7 +62,7 @@ def create(router_name, router_ip, username, password):
         print(err)
         status = err
 
-    todays_date = date.today('%m-%d-%Y')
+    todays_date = date.today().strftime('%m-%d-%Y')
     database.update(router_name,router_ip,username,password,router_name,status, todays_date)
 
 router_name = input("What is the router_name? ")
