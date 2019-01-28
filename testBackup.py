@@ -62,7 +62,8 @@ def create(router_name, router_ip, username, password):
         print(err)
         status = err
 
-    database.update(router_name,router_ip,username,password,router_name,status, date.today('%m-%d-%Y'))
+    todays_date = date.today('%m-%d-%Y')
+    database.update(router_name,router_ip,username,password,router_name,status, todays_date)
 
 router_name = input("What is the router_name? ")
 router_ip = input("What is the router_ip? ")
