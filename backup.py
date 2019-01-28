@@ -1,4 +1,5 @@
 import datetime, paramiko, subprocess, database, os, schedule, time
+from datetime import date 
 # office ip 47.217.151.73
 # home ip 47.217.140.46
 # roberts home ip 66.76.254.137
@@ -67,7 +68,7 @@ def create(router_name, router_ip, username, password):
         print("Unexpected Error, no backup was grabbed.")
         status = "Unexpected Error"
 
-    database.update(router_name,router_ip,username,password,router_name,status, date)
+    database.update(router_name,router_ip,username,password,router_name,status, date.today('%m-%d-%Y'))
 
 def run():
     router_list = database.get()
