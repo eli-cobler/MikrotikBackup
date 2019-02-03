@@ -50,4 +50,4 @@ def add(router_name, router_ip, username, password):
     #except:
     #    print("Unexpected Error.")
 
-add('eConstruct USA (Orlando)', '75.58.178.237', 'admin', 'Admin1@3')
+add('GPSS Tahlequah', '206.255.125.166', 'admin', 'GQt@eGqMpDZ9fKqt')
