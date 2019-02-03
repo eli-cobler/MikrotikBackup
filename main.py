@@ -10,7 +10,7 @@
 #  Runs the main flask app.
 
 from flask import Flask, render_template, redirect, request, abort, send_file
-import database, backup, os
+import database, backup, autoUpdate, os
 
 app = Flask(__name__)
 
@@ -40,6 +40,7 @@ def add():
         password = request.form['password']
 
         database.add(name, router_ip, username, password)
+        autoUpdate.add(router_ip, username, password)
 
     return render_template('add.html')
 
