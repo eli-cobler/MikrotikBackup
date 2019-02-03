@@ -44,7 +44,6 @@ def add(router_ip, username, password):
         print(err)
     except paramiko.ssh_exception.NoValidConnectionsError as err:
         print(err)
-    except err as err:
-        print(err)
+    except:
         print("Unexpected Error, no backup was grabbed.")
 
