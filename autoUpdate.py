@@ -4,8 +4,6 @@ def add(router_name, router_ip, username, password):
 
     today = datetime.datetime.today() 
     tomorrow = today + datetime.timedelta(1)
-    currentPath = os.path.dirname(os.path.realpath(__file__))
-    print(currentPath)
 
     print("Trying to connect to {}".format(router_name))
     try: 
@@ -49,5 +47,3 @@ def add(router_name, router_ip, username, password):
         print(err)
     #except:
     #    print("Unexpected Error.")
-
-add('GPSS Tahlequah', '206.255.125.166', 'admin', 'GQt@eGqMpDZ9fKqt')
