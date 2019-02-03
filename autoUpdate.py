@@ -1,10 +1,13 @@
 import datetime, paramiko, subprocess, database, os, schedule, time
 
-def add(router_ip, username, password):
+def add(router_name, router_ip, username, password):
 
     today = datetime.datetime.today() 
     tomorrow = today + datetime.timedelta(1)
+    currentPath = os.path.dirname(os.path.realpath(__file__))
+    print(currentPath)
 
+    print("Trying to connect to {}".format(router_name))
     try: 
         # sftping script to router
         transport = paramiko.Transport((router_ip))
@@ -15,7 +18,7 @@ def add(router_ip, username, password):
         sftp = paramiko.SFTPClient.from_transport(transport)
         print("Set remote and local path")
         remotepath = "/autoUpdater.rsc"
-        localpath = '/Users/coblere/Documents/GitHub/MikrotikBackup/autoUpdater.rsc'
+        localpath = 'autoUpdater.rsc'
         print("Transfering Script...")
         sftp.put(localpath, remotepath)
         print("Script transfered.")
@@ -44,6 +47,7 @@ def add(router_ip, username, password):
         print(err)
     except paramiko.ssh_exception.NoValidConnectionsError as err:
         print(err)
-    except:
-        print("Unexpected Error, no backup was grabbed.")
+    #except:
+    #    print("Unexpected Error.")
 
+add('eConstruct USA (Orlando)', '75.58.178.237', 'admin', 'Admin1@3')
