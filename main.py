@@ -40,7 +40,7 @@ def add():
         password = request.form['password']
 
         database.add(name, router_ip, username, password)
-        autoUpdate.add(router_ip, username, password)
+        autoUpdate.add(name, router_ip, username, password)
 
     return render_template('add.html')
 
