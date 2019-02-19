@@ -71,9 +71,9 @@ def create(router_name, router_ip, username, password):
     except paramiko.ssh_exception.NoValidConnectionsError as err:
         print(err)
         status = err
-    except:
-        print("Unexpected Error, no backup was grabbed.")
-        status = "Unexpected Error"
+    #except:
+    #    print("Unexpected Error, no backup was grabbed.")
+    #    status = "Unexpected Error"
 
     todays_date = datetime.datetime.today().strftime('%m-%d-%Y')
     database.update(router_name,router_ip,username,password,router_name,status, todays_date)
