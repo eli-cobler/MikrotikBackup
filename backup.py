@@ -34,12 +34,12 @@ def create(router_name, router_ip, username, password):
         print("Sftp created")
         sftp = paramiko.SFTPClient.from_transport(transport)
         print("Set remote and local path for backup file...")
-        remotepath_backup = "/{}.backup".format(date)
+        remotepath_backup = "/{}".format(filename)
         localpath_backup = 'backups/{}/{}'.format(router_name,filename)
         print("Backup transfered")
         sftp.get(remotepath_backup, localpath_backup)
         print("Set remote and local path for exported config...")
-        remotepath_export = "/{}.rsc".format(date)
+        remotepath_export = "/{}".format(export_name)
         localpath_export = 'backups/{}/{}'.format(router_name,export_name)
         print("Exported config transfered")
         sftp.get(remotepath_export, localpath_export)
@@ -74,9 +74,12 @@ def create(router_name, router_ip, username, password):
     except paramiko.ssh_exception.NoValidConnectionsError as err:
         print(err)
         status = err
-    except:
-        print("Unexpected Error, unsure if a backup was grabbed.")
-        status = "Unexpected Error"
+    except FileNotFoundError as err:
+        print(err)
+        status = err
+    #except:
+    #    print("Unexpected Error, unsure if a backup was grabbed.")
+    #    status = "Unexpected Error"
 
     todays_date = datetime.datetime.today().strftime('%m-%d-%Y')
     database.update(router_name,router_ip,username,password,router_name,status, todays_date)
