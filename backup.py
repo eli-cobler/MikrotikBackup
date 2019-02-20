@@ -76,9 +76,9 @@ def create(router_name, router_ip, username, password):
     except paramiko.ssh_exception.NoValidConnectionsError as err:
         print(err)
         status = err
-    except FileNotFoundError as err:
-        print(err)
-        status = err
+    #except FileNotFoundError as err:
+    #    print(err)
+    #    status = err
     #except:
     #    print("Unexpected Error, unsure if a backup was grabbed.")
     #    status = "Unexpected Error"
