@@ -75,7 +75,7 @@ def create(router_name, router_ip, username, password):
         print(err)
         status = err
     except:
-        print("Unexpected Error, no backup was grabbed.")
+        print("Unexpected Error, unsure if a backup was grabbed.")
         status = "Unexpected Error"
 
     todays_date = datetime.datetime.today().strftime('%m-%d-%Y')
