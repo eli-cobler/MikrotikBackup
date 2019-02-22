@@ -43,8 +43,6 @@ def add(name, router_ip, username, password):
         os.mkdir(path + '/backups/{}'.format(name))
         return False
 
-add("Test Router", "192.168.1.1", "admin", "Admin1@3")
-
 # This function completely removes a router, including the backup files. 
 def complete_removal(router):
     router_list = get()
