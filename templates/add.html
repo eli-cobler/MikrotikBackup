@@ -1,6 +1,5 @@
-<!DOCTYPE html>
-
-<html>
+{% extends "layout.html" %}
+{% block body %}
 <head>
     <title>Mikrotik Backup</title>
     <link rel="stylesheet" href="/static/styles.css">
@@ -17,7 +16,9 @@
     <a href="/remove">Remove Router</a>
     <a href="/run-backup">Run Backup</a>
 </div>
-
+    {% if error %}
+    <p class=error><strong>Error:</strong> {{ error }}
+    {% endif %}
     <form action="/add" method="post">
         Name:<input name="name" type="text" required></input><br>
         Router IP/Hostname:<input name="router_ip" type="text" required></input><br>
@@ -25,4 +26,4 @@
         Password to Router:<input name="password" type="text" required></input><br>
         <input type="submit" value="Submit"></input>
     </form>
-</html>
+{% endblock %}

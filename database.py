@@ -30,12 +30,20 @@ def get():
     return router_list
 
 def add(name, router_ip, username, password):
-    # writes new router to database file 
-    with open(filepath, 'a') as f: 
-        f.write("{}:{}:{}:{}:Not Set:Not Set\n".format(name,router_ip,username,password))
-    
     path = os.getcwd()
-    os.mkdir(path + '/backups/{}'.format(name))
+    directory_exists = os.path.isdir(path + '/backups/{}'.format(name))
+    
+    if directory_exists == True:
+        return True
+    else:
+        # writes new router to database file
+        with open(filepath, 'a') as f:
+            f.write("{}:{}:{}:{}:Not Set:Not Set\n".format(name,router_ip,username,password))
+        
+        os.mkdir(path + '/backups/{}'.format(name))
+        return False
+
+add("Test Router", "192.168.1.1", "admin", "Admin1@3")
 
 # This function completely removes a router, including the backup files. 
 def complete_removal(router):

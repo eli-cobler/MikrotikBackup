@@ -9,10 +9,11 @@
 #
 #  Runs the main flask app.
 
-from flask import Flask, render_template, redirect, request, abort, send_file
+from flask import Flask, render_template, redirect, request, abort, send_file, flash, url_for
 import database, backup, autoUpdate, os
 
 app = Flask(__name__)
+app.secret_key = 'some_secret'
 
 # currently does nothing looking to display router info at some point
 @app.route('/', methods=['GET', 'POST'])
@@ -39,8 +40,13 @@ def add():
         username = request.form['username']
         password = request.form['password']
 
-        database.add(name, router_ip, username, password)
+        exists = database.add(name, router_ip, username, password)
         autoUpdate.add(name, router_ip, username, password)
+
+        if exists == True:
+            flash("This has already be Added.")
+        else:
+            return redirect(url_for('index'))
 
     return render_template('add.html')
 
@@ -56,6 +62,7 @@ def remove():
     if request.method == 'POST':
         router_to_remove = request.form.get('selected router')
         database.complete_removal(router_to_remove)
+        return redirect(url_for('index'))
     
     return render_template('remove.html', routers=routers)
 
@@ -104,6 +111,7 @@ def update():
         backup_date = "Not Set"
 
         database.update(name,router_ip,username,password,router_to_update,status, backup_date)
+        return redirect(url_for('index'))
 
     return render_template('update.html', routers=routers_list)
 
@@ -134,11 +142,5 @@ def dir_listing(req_path):
     files = os.listdir(abs_path)
     files.sort(reverse=True)
     return render_template('files.html', files=files, backups=backup_folder)
-
-# looking to return a success page when database file is changed 
-# currently not in use 
-@app.route('/success')
-def success():
-    render_template('success.html')
 
 app.run(debug=True, host='0.0.0.0')
