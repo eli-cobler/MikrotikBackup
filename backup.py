@@ -96,6 +96,7 @@ def run():
     
     for item in routers:
         create(item['router_name'], item['router_ip'], item['username'], item['password'])
+        time.sleep(2)
 
 if __name__ == "__main__":
     run()
