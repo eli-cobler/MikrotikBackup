@@ -40,7 +40,7 @@ def create(router_name, router_ip, username, password):
         sftp.get(remotepath_backup, localpath_backup)
         print("Set remote and local path for exported config...")
         remotepath_export = "/{}".format(export_name)
-        localpath_export = '/var/MikrotikBackup/backups/{}/{}'.format(router_name,export_name)
+        localpath_export = 'backups/{}/{}'.format(router_name,export_name)
         print("Remotepath_export: {}".format(remotepath_export))
         print("Localpath_export: {}".format(localpath_export))
         print("Exported config transfered")
