@@ -69,7 +69,7 @@ def remove(router):
 
 # Uses remove function to rewrite the whole database file removing old 
 # router info and replacing it with updated info
-def update(name, router_ip, username, password, selected_router, status, backup_date):
+def update(name, router_ip, username, password, selected_router, backup_status, config_status, backup_date):
     path = os.getcwd()
     if name != selected_router:
         os.mkdir(path + '/backups/{}'.format(name))
@@ -82,5 +82,5 @@ def update(name, router_ip, username, password, selected_router, status, backup_
 
     # updates changed router values in database file
     with open(filepath, 'a') as f:
-        f.write("{}:{}:{}:{}:{}:{}\n".format(name,router_ip,username,password, status, backup_date))
+        f.write("{}:{}:{}:{}:{}:{}:{}\n".format(name,router_ip,username,password, backup_status, config_status, backup_date))
     

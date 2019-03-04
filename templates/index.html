@@ -27,23 +27,25 @@
             <th class="tooltip" onclick="sortTable(1)">IP Address
                 <span class="tooltiptext">Click to Sort by First Number</span>
             </th>
-            <th>Username</th>
             <th>Password</th>
             <!--<th>Show Password</th>--> 
-            <th class="tooltip" onclick="sortTable(4)">Status
+            <th class="tooltip" onclick="sortTable(4)">Backup Status
                 <span class="tooltiptext">Click to Sort
             </th>
-            <th>Last Backup</th>
+            <th class="tooltip" onclick="sortTable(4)">Config Status
+              <span class="tooltiptext">Click to Sort
+            </th>
+            <th>Last Attempted Backup</th>
         </tr> 
         {% for k, v in routers.items() %}
             <tr> 
                 <td>{{ k }}</td> 
                 <td>{{ v[0] }}</td>
-                <td>{{ v[1] }}</td>
                 <td>{{ v[2] }}</td>
                 <!--<td><input type="checkbox"></td> -->
                 <td>{{ v[3] }}</td>
                 <td>{{ v[4] }}</td>
+                <td>{{ v[5] }}</td>
                 <td>
                     <a href="/backups/{{ k }}">
                         <div style="color:white">
