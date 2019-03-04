@@ -107,10 +107,11 @@ def update():
         else:
             password = request.form['password']
         
-        status = "Not Set"
+        backup_status = "Not Set"
+        config_status = "Not Set"
         backup_date = "Not Set"
 
-        database.update(name,router_ip,username,password,router_to_update,status, backup_date)
+        database.update(name,router_ip,username,password,router_to_update,backup_status,config_status,backup_date)
         return redirect(url_for('index'))
 
     return render_template('update.html', routers=routers_list)

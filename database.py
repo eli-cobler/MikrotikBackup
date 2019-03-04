@@ -82,5 +82,5 @@ def update(name, router_ip, username, password, selected_router, backup_status, 
 
     # updates changed router values in database file
     with open(filepath, 'a') as f:
-        f.write("{}:{}:{}:{}:{}:{}:{}\n".format(name,router_ip,username,password, backup_status, config_status, backup_date))
+        f.write("{}:{}:{}:{}:{}:{}:{}\n".format(name,router_ip,username,password,backup_status,config_status,backup_date))
     
