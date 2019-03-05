@@ -39,8 +39,11 @@ def add():
         router_ip = request.form['router_ip']
         username = request.form['username']
         password = request.form['password']
+        backup_status = "Not Set"
+        config_status = "Not Set" 
+        backup_date = "Not Set"
 
-        exists = database.add(name, router_ip, username, password)
+        exists = database.add(name, router_ip, username, password, backup_status, config_status, backup_date)
         autoUpdate.add(name, router_ip, username, password)
 
         if exists == True:

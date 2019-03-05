@@ -29,7 +29,7 @@ def get():
 
     return router_list
 
-def add(name, router_ip, username, password):
+def add(name, router_ip, username, password, backup_status, config_status, backup_date):
     path = os.getcwd()
     directory_exists = os.path.isdir(path + '/backups/{}'.format(name))
     
