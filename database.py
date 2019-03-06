@@ -29,7 +29,7 @@ def get():
 
     return router_list
 
-def add(name, router_ip, username, password, backup_status, config_status, backup_date):
+def add(name, router_ip, username, password):
     path = os.getcwd()
     directory_exists = os.path.isdir(path + '/backups/{}'.format(name))
     
@@ -38,7 +38,7 @@ def add(name, router_ip, username, password, backup_status, config_status, backu
     else:
         # writes new router to database file
         with open(filepath, 'a') as f:
-            f.write("{}:{}:{}:{}:Not Set:Not Set\n".format(name,router_ip,username,password))
+            f.write("{}:{}:{}:{}:Not Set:Not Set:Not Set\n".format(name,router_ip,username,password))
         
         os.mkdir(path + '/backups/{}'.format(name))
         return False
