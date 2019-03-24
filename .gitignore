@@ -229,5 +229,4 @@ pip-selfcheck.json
 *.db copy
 **/backups
 
-
 # End of https://www.gitignore.io/api/macos,flask,python,visualstudiocode
