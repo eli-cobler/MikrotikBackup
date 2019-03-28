@@ -7,16 +7,46 @@
 #
 #  This project allows you to add and remove routers to your Oxidized Router database file.
 #
-#  This file allows you to track changes made to the backups folder. 
+#  This file allows you to keep only 21 days worth of backups. 
 
 import os
-import datetime
-from datetime import date
-def modification_date(filename):
+from datetime import datetime, timedelta
+
+def filename_date(filename):
+    date = os.path.basename(filename).split('_')[0]
+    return date
+
+def creation_date(filename):
     t = os.path.getctime(filename)
-    return datetime.datetime.fromtimestamp(t)
+    return datetime.fromtimestamp(t)
 
-d = modification_date('/Users/coblere/Documents/GitHub/MikrotikBackup/backups/Boulevard Church/12-26-2018_19:03:16.backup')
+def check_date(filename, file_path):
+    compare_date = datetime.now() - timedelta(days=21)
+    print(filename)
+    print(compare_date)
 
-print(d)
-print(date.today())
+    if filename < compare_date:
+        print("True")
+        #os.remove(str(file_path))
+    else: 
+        print("False")
+        pass
+
+def run():
+    backup_path = os.listdir(os.path.join(os.getcwd(), 'backups')) 
+    for folder in backup_path:
+        if folder == '.DS_Store':
+            pass
+        else:
+            print(folder)
+            path = os.path.join(os.getcwd(), 'backups/{}'.format(folder))
+            print(path)
+            listed = os.listdir(path)
+            for file in listed:
+                files_date = creation_date(os.path.join(os.getcwd(), 'backups/{}/{}'.format(folder, file)))
+                file_path = os.path.join(os.getcwd(), 'backups/{}/{}'.format(folder, file))
+                print(file_path)
+                check_date(files_date, file_path)
+
+if __name__ == "__main__":
+    run()
