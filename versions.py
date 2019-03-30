@@ -17,7 +17,7 @@ def filename_date(filename):
     return date
 
 def creation_date(filename):
-    t = os.path.getctime(filename)
+    t = os.path.getmtime(filename)
     return datetime.fromtimestamp(t)
 
 def check_date(filename, file_path):
@@ -27,7 +27,7 @@ def check_date(filename, file_path):
 
     if filename < compare_date:
         print("True")
-        #os.remove(str(file_path))
+        os.remove(str(file_path))
     else: 
         print("False")
         pass
