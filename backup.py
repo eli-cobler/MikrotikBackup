@@ -79,8 +79,12 @@ def run():
         routers.append(data[0])            
     
     for item in routers:
+        print("Starting backup for {}...".format(item['router_name']))
         backup_status = create_backup(item['router_name'], item['router_ip'], item['username'], item['password'])
+        print("Completed backup for {}".format(item['router_name']))
+        print("Starting config export for {}...".format(item['router_name']))
         create_config(item['router_name'], item['router_ip'], item['username'], item['password'], backup_status)
+        print("Config export complete for {}".format(item['router_name']))
 
 if __name__ == "__main__":
     run()
