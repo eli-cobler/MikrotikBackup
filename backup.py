@@ -74,6 +74,7 @@ def get_info(router_name, router_ip, username, password):
     ssh.close()
 
 def run():
+    ignore_list = ['Spectrum Voice', 'CASA', 'Value Med Midwest City', 'Valu Med Harrah', 'Value Med FTG']
     router_list = database.get()
     routers = []
     for item in router_list:
@@ -82,12 +83,15 @@ def run():
         routers.append(data[0])            
     
     for item in routers:
-        print("Starting backup for {}...".format(item['router_name']))
-        backup_status = create_backup(item['router_name'], item['router_ip'], item['username'], item['password'])
-        print("Completed backup for {}".format(item['router_name']))
-        print("Starting config export for {}...".format(item['router_name']))
-        create_config(item['router_name'], item['router_ip'], item['username'], item['password'], backup_status)
-        print("Config export complete for {}".format(item['router_name']))
+        if item['router_name'] in ignore_list:
+            pass
+        else:
+            print("Starting backup for {}...".format(item['router_name']))
+            backup_status = create_backup(item['router_name'], item['router_ip'], item['username'], item['password'])
+            print("Completed backup for {}".format(item['router_name']))
+            print("Starting config export for {}...".format(item['router_name']))
+            create_config(item['router_name'], item['router_ip'], item['username'], item['password'], backup_status)
+            print("Config export complete for {}".format(item['router_name']))
 
 if __name__ == "__main__":
     run()
