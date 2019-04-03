@@ -11,6 +11,8 @@ def create_backup(router_name, router_ip, username, password):
         #print('ssh {}@{} export terse > {}'.format(username, router_ip, export_name))
         subprocess.run('ssh {}@{} /system backup save name={}'.format(username, router_ip, backup_name), shell=True)
         subprocess.run('scp {}@{}:/{} "backups/{}/{}"'.format(username, router_ip, backup_name, router_name, backup_name), shell=True)
+        subprocess.run('ssh {}@{} /file remove {}'.format(username, router_ip, backup_name), shell=True)
+        backup_status = 'Backup Complete'
     except TimeoutError as err:
         print(err)
         backup_status = err
@@ -36,6 +38,7 @@ def create_config(router_name, router_ip, username, password, backup_status):
         export_name = date + ".rsc"
         #print('ssh {}@{} export terse > {}'.format(username, router_ip, export_name))
         subprocess.run('ssh {}@{} export terse > "backups/{}/{}"'.format(username, router_ip, router_name, export_name), shell=True)
+        backup_status = 'Config Export Complete'
     except TimeoutError as err:
         print(err)
         config_status = err
