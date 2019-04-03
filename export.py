@@ -6,7 +6,7 @@ router_ip = '66.76.254.121'
 date = datetime.datetime.today().strftime('%m-%d-%Y_%H:%M:%S')
 export_name = date + ".rsc"
 #print('ssh {}@{} export terse > {}'.format(username, router_ip, export_name))
-subprocess.run('ssh {}@{} export terse > {}'.format(username, router_ip, export_name), shell=True)
+subprocess.run('ssh {}@{} export terse > backups/{}'.format(username, router_ip, export_name), shell=True)
 
 # ssh {}@{} export terse > {}.format(username, router_ip, export_name) 
 
