@@ -31,6 +31,7 @@ def run():
     for item in routers:
         print("Attempting {}...".format(item['router_name']))
         config(item['router_name'], item['username'], item['router_ip'])
+        print("Finished {}...".format(item['router_name']))
 
 if __name__ == "__main__":
     run()
