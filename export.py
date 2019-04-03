@@ -5,7 +5,7 @@ def config(router_name, username, router_ip):
         date = datetime.datetime.today().strftime('%m-%d-%Y_%H:%M:%S')
         export_name = date + ".rsc"
         #print('ssh {}@{} export terse > {}'.format(username, router_ip, export_name))
-        subprocess.run('ssh {}@{} export terse > backups/{}/{}'.format(username, router_ip, router_name, export_name), shell=True)
+        subprocess.run('ssh {}@{} export terse > "backups/{}/{}"'.format(username, router_ip, router_name, export_name), shell=True)
     except TimeoutError as err:
         print(err)
         config_status = err
