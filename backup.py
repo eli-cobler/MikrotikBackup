@@ -38,7 +38,7 @@ def create_config(router_name, router_ip, username, password, backup_status):
         export_name = date + ".rsc"
         #print('ssh {}@{} export terse > {}'.format(username, router_ip, export_name))
         subprocess.run('ssh {}@{} export terse > "backups/{}/{}"'.format(username, router_ip, router_name, export_name), shell=True)
-        backup_status = 'Config Export Complete'
+        config_status = 'Config Export Complete'
     except TimeoutError as err:
         print(err)
         config_status = err
