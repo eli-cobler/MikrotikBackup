@@ -17,4 +17,5 @@ def run():
     for item in routers:
          config(item['router_name'], item['username'], item['router_ip'])
 
-config('Aces', 'admin', '66.76.254.121')
+if __name__ == "__main__":
+    run()
