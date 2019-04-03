@@ -1,5 +1,26 @@
 import subprocess, datetime, database, sys
 
+def backup(router_name, username, router_ip):
+    try:
+        date = datetime.datetime.today().strftime('%m-%d-%Y_%H:%M:%S')
+        backup_name = date + ".backup"
+        #print('ssh {}@{} export terse > {}'.format(username, router_ip, export_name))
+        subprocess.run('ssh {}@{} /system backup save name={}'.format(username, router_ip, backup_name), shell=True)
+        subprocess.run('scp {}@{}:/{} "backups/{}/{}"'.format(username, router_ip, backup_name, router_name, backup_name))
+    except TimeoutError as err:
+        print(err)
+        config_status = err
+    except EOFError as err:
+        print(err)
+        config_status = err
+    except FileNotFoundError as err:
+        print(err)
+        config_status = err
+    except:
+        the_type, the_value, the_traceback = sys.exc_info()
+        print("{}\n{}".format(the_type, the_value))
+        config_status = the_value
+
 def config(router_name, username, router_ip):
     try:
         date = datetime.datetime.today().strftime('%m-%d-%Y_%H:%M:%S')
@@ -34,4 +55,4 @@ def run():
         print("Finished {}...".format(item['router_name']))
 
 if __name__ == "__main__":
-    run()
+    backup('Aces', 'admin', '66.76.254.121')
