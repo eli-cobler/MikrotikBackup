@@ -15,7 +15,8 @@ def run():
         routers.append(data[0])            
     
     for item in routers:
-         config(item['router_name'], item['username'], item['router_ip'])
+        print("Attempting {}...".format(item['router_name']))
+        config(item['router_name'], item['username'], item['router_ip'])
 
 if __name__ == "__main__":
     run()
