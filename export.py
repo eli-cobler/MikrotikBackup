@@ -1,4 +1,4 @@
-import subprocess, datetime, database, sys
+import subprocess, datetime, database, sys, time
 
 def backup(router_name, username, router_ip):
     try:
@@ -6,6 +6,7 @@ def backup(router_name, username, router_ip):
         backup_name = date + ".backup"
         #print('ssh {}@{} export terse > {}'.format(username, router_ip, export_name))
         subprocess.run('ssh {}@{} /system backup save name={}'.format(username, router_ip, backup_name), shell=True)
+        time.sleep(5)
         subprocess.run('scp {}@{}:/{} "backups/{}/{}"'.format(username, router_ip, backup_name, router_name, backup_name))
     except TimeoutError as err:
         print(err)
