@@ -10,7 +10,7 @@
 #  Runs the main flask app.
 
 from flask import Flask, render_template, redirect, request, abort, send_file, flash, url_for
-import database, backup, autoUpdate, os
+import database, backup, autoUpdate, os, add_ssh_key
 
 app = Flask(__name__)
 app.secret_key = 'some_secret'
@@ -42,6 +42,7 @@ def add():
 
         exists = database.add(name, router_ip, username, password)
         autoUpdate.add(name, router_ip, username, password)
+        add_ssh_key.add_key(username, password, router_ip)
 
         if exists == True:
             flash("This has already be Added or the folder already exists in backups directory.")
