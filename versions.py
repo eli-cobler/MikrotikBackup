@@ -22,30 +22,37 @@ def creation_date(filename):
 
 def check_date(filename, file_path):
     compare_date = datetime.now() - timedelta(days=21)
-    print(filename)
-    print(compare_date)
 
     if filename < compare_date:
-        print("True")
-        os.remove(str(file_path))
+        try:
+            os.remove(str(file_path))
+            print("{} was removed.".format(filename))
+        except:
+            print("There was an issue removeing {}.".format(filename))
     else: 
-        print("False")
         pass
 
 def run():
-    backup_path = os.listdir(os.path.join(os.getcwd(), 'backups')) 
+    backup_path = os.listdir(os.path.join(os.getcwd(), 'backups'))
+    ignore_list = ['Farmers Wayne Buck',
+                    'Broadway Liquor',
+                    'Spectrum Voice',
+                    'CASA',
+                    'Value Med Midwest City',
+                    'Valu Med Harrah',
+                    'Value Med FTG',
+                    '.DS_Store'] 
     for folder in backup_path:
-        if folder == '.DS_Store':
-            pass
+        if folder in ignore_list:
+            print("{} has been ignored.".format(folder))
         else:
-            print(folder)
+            pass
+            print("{} has been checked.".format(folder))
             path = os.path.join(os.getcwd(), 'backups/{}'.format(folder))
-            print(path)
             listed = os.listdir(path)
             for file in listed:
                 files_date = creation_date(os.path.join(os.getcwd(), 'backups/{}/{}'.format(folder, file)))
                 file_path = os.path.join(os.getcwd(), 'backups/{}/{}'.format(folder, file))
-                print(file_path)
                 check_date(files_date, file_path)
 
 if __name__ == "__main__":
