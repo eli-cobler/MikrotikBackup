@@ -41,6 +41,7 @@ def run():
                     'Value Med Midwest City',
                     'Valu Med Harrah',
                     'Value Med FTG',
+                    'GPSS Hobart',
                     '.DS_Store'] 
     for folder in backup_path:
         if folder in ignore_list:

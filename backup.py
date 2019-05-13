@@ -74,7 +74,14 @@ def get_info(router_name, router_ip, username, password):
     ssh.close()
 
 def run():
-    ignore_list = ['Spectrum Voice', 'CASA', 'Value Med Midwest City', 'Valu Med Harrah', 'Value Med FTG']
+    ignore_list = ['Farmers Wayne Buck',
+                    'Broadway Liquor',
+                    'Spectrum Voice',
+                    'CASA',
+                    'Value Med Midwest City',
+                    'Valu Med Harrah', 
+                    'Value Med FTG',
+                    'GPSS Hobart']
     router_list = database.get()
     routers = []
     for item in router_list:
