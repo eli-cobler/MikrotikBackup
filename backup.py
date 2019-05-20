@@ -75,7 +75,6 @@ def get_info(router_name, router_ip, username, password):
 
 def run():
     ignore_list = ['Farmers Wayne Buck',
-                    'Broadway Liquor',
                     'Spectrum Voice',
                     'CASA',
                     'Value Med Midwest City',
