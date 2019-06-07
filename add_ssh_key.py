@@ -27,7 +27,7 @@ def add_key(username, password, router_ip):
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         print('Set ssh key')
         print('Connecting to router...')
-        ssh.connect(router_ip, username=username, password=password)
+        ssh.connect(router_ip, username=username, password=password, look_for_keys=False)
         print('Running import command')
         #/user ssh-keys import public-key-file=mykey.pub user=admin
         ssh.exec_command("/user ssh-keys import public-key-file=id_rsa-2.pub user=admin")
@@ -62,3 +62,4 @@ def run():
             print("Starting {}...".format(item['router_name']))
             add_key(item['username'], item['password'], item['router_ip'])
 
+add_key("admin", "Admin1@3", "68.177.85.218")

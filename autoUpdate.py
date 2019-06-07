@@ -31,7 +31,7 @@ def add(router_name, router_ip, username, password):
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         print('Set ssh key')
         print('Connecting to router...')
-        ssh.connect(router_ip, username=username, password=password)
+        ssh.connect(router_ip, username=username, password=password, look_for_keys=False)
         print('Running commands...')
         ssh.exec_command('/system script add name=autoupdate policy=ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon source="/import file-name=autoUpdater.rsc"')
         ssh.exec_command('/system scheduler add name=AutoUpdate interval=24h start-time=02:30:00 on-event=autoupdate start-date={}'.format(tomorrow.strftime('%b/%d/%Y')))
