@@ -10,7 +10,7 @@
 #  Runs the main flask app.
 
 from flask import Flask, render_template, redirect, request, abort, send_file, flash, url_for
-import database, backup, autoUpdate, os, add_ssh_key
+import database, backup, autoUpdate, os, add_file
 
 app = Flask(__name__)
 app.secret_key = 'some_secret'
@@ -41,8 +41,9 @@ def add():
         password = request.form['password']
 
         exists = database.add(name, router_ip, username, password)
-        autoUpdate.add(name, router_ip, username, password)
-        add_ssh_key.add_key(username, password, router_ip)
+        add_file.autoUpdater(name, router_ip, username, password)
+        add_file.ssh_key(username, password, router_ip)
+        add_file.remove_Backup_Files(username, password, router_ip)
 
         if exists == True:
             flash("This has already be Added or the folder already exists in backups directory.")
@@ -117,10 +118,27 @@ def update():
 
     return render_template('update.html', routers=routers_list)
 
-@app.route('/run-backup')
+@app.route('/run-backup', methods=['GET', 'POST'])
 def run_backup():
-    #backup.run()
+    if request.method == 'POST':
+        backup.run()
+    
     return render_template('run_backup.html')
+
+@app.route('/single-backup', methods=['GET', 'POST'])
+def single_backup():
+    router_list = database.get()
+    routers = []
+    for item in router_list:
+        data = item.split(':')
+        routers.append(data[0])
+    
+    if request.method == 'POST':
+        router_to_remove = request.form.get('selected router')
+        database.complete_removal(router_to_remove)
+        return redirect(url_for('index'))
+    
+    return render_template('single_backup.html', routers=routers)
 
 @app.route('/', defaults={'req_path': ''})
 @app.route('/<path:req_path>')
