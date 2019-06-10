@@ -11,7 +11,7 @@ def create_backup(router_name, router_ip, username, password):
         backup_name = date + ".backup"
         subprocess.run('ssh {}@{} /system backup save name={}'.format(username, router_ip, backup_name), shell=True)
         subprocess.run('scp {}@{}:/{} "backups/{}/{}"'.format(username, router_ip, backup_name, router_name, backup_name), shell=True)
-        subprocess.run('ssh {}@{} /system script run removeBackupFiles'.format(username, router_ip), shell=True)
+        #subprocess.run('ssh {}@{} /system script run removeBackupFiles'.format(username, router_ip), shell=True)
         backup_status = 'Backup Complete'
     except TimeoutError as err:
         print(err)
