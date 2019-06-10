@@ -62,24 +62,10 @@ def remove_Backup_Files(username, password, router_ip):
         #/Users/coblere/Documents/GitHub/MikrotikBackup/backups/Aces
         print("Trying to place file at {}".format(remotepath_export))
         sftp.put(localpath_export, remotepath_export)
-        print("SSH Pub Key transfered")
+        print("Remove Backup script transfered")
         print("Closing sftp and transport")
         sftp.close()
         transport.close()
-
-        print("SSH into router to run import ssh key command")
-        # sshing into router to create .backup and export config file
-        ssh = paramiko.SSHClient()
-        print('Created client')
-        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        print('Set ssh key')
-        print('Connecting to router...')
-        ssh.connect(router_ip, username=username, password=password, look_for_keys=False)
-        print('Running import command')
-        #/user ssh-keys import public-key-file=mykey.pub user=admin
-        ssh.exec_command("/user ssh-keys import public-key-file=id_rsa-2.pub user=admin")
-        print("Closing connection")
-        ssh.close()
     except TimeoutError as err:
         print(err)
     except paramiko.ssh_exception.SSHException as err:
