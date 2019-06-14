@@ -49,7 +49,7 @@ def ssh_key(username, password, router_ip):
 
 def remove_Backup_Files(username, password, router_ip):
     try:
-        # sftping ssh pub key to router
+        # sftping remove backup files script to router
         transport = paramiko.Transport((router_ip))
         print("Transport created")
         print("Attemption connection...")
