@@ -7,6 +7,7 @@ from flask import flash
 logging.basicConfig(filename='logs/backup.log',
                     format='%(asctime)s %(levelname)s %(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p',
+                    filemode='w',
                     level=logging.DEBUG)
 
 def create_backup(router_name, router_ip, username, password):
