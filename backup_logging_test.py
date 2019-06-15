@@ -4,9 +4,9 @@ from flask import flash
 # server ip 66.76.254.137
 
 # log setup
-logging.basicConfig(filename='logs/backup.log', 
-                    format='%(asctime)s %(levelname)s %(message)s', 
-                    datefmt='%m/%d/%Y %I:%M:%S %p', 
+logging.basicConfig(filename='logs/backup.log',
+                    format='%(asctime)s %(levelname)s %(message)s',
+                    datefmt='%m/%d/%Y %I:%M:%S %p',
                     level=logging.DEBUG)
 
 def create_backup(router_name, router_ip, username, password):
@@ -16,19 +16,23 @@ def create_backup(router_name, router_ip, username, password):
         #subprocess.run('ssh {}@{} /system backup save name={}'.format(username, router_ip, backup_name), shell=True)
         #subprocess.run('scp {}@{}:/{} "backups/{}/{}"'.format(username, router_ip, backup_name, router_name, backup_name), shell=True, capture_output=True)
         try:
-            backup_output = subprocess.run('ssh {}@{} /system backup save name={}'.format(username, 
-                                                                                        router_ip, 
-                                                                                        backup_name), 
-                                                                                        universal_newlines=True, 
-                                                                                        stdout=subprocess.PIPE, 
+            backup_output = subprocess.run('ssh {}@{} /system backup save name={}'.format(username,
+                                                                                        router_ip,
+                                                                                        backup_name),
+                                                                                        shell=True,
+                                                                                        universal_newlines=True,
+                                                                                        stdout=subprocess.PIPE,
                                                                                         stderr=subprocess.PIPE)
             if backup_output.stdout != '':
                 logging.info(backup_output.stdout)
+                print("stdout: {}".format(backup_output.stdout))
 
             if backup_output.stderr != '':
                 logging.warning(backup_output.stderr)
+                print("stderr: {}".format(backup_output.stderr))
         except:
             logging.info(sys.exc_info()[1])
+            print("Exception: {}".format(sys.exc_info()[1]))
 
         
         try:
@@ -37,16 +41,20 @@ def create_backup(router_name, router_ip, username, password):
                                                                                     backup_name, 
                                                                                     router_name, 
                                                                                     backup_name),
+                                                                                    shell=True,
                                                                                     universal_newlines=True, 
                                                                                     stdout=subprocess.PIPE, 
                                                                                     stderr=subprocess.PIPE)
-            if backup_output.stdout != '':
+            if transfer_output.stdout != '':
                 logging.info(transfer_output.stdout)
+                print("stdout: {}".format(transfer_output.stdout))
 
-            if backup_output.stderr != '':
+            if transfer_output.stderr != '':
                 logging.warning(transfer_output.stderr)
+                print("stderr: {}".format(transfer_output.stderr))
         except:
             logging.info(sys.exc_info()[1])
+            print("Exception: {}".format(sys.exc_info()[1]))
 
         #subprocess.run('ssh {}@{} /file remove [find type="backup]"'.format(username, router_ip), shell=True)
         backup_status = 'Backup Complete'
@@ -83,16 +91,20 @@ def create_config(router_name, router_ip, username, password, backup_status):
                                                                                             router_ip, 
                                                                                             router_name, 
                                                                                             export_name),
+                                                                                            shell=True,
                                                                                             universal_newlines=True, 
                                                                                             stdout=subprocess.PIPE, 
                                                                                             stderr=subprocess.PIPE)
             if config_output.stdout != '':
                 logging.info(config_output.stdout)
+                print("stdout: {}".format(config_output.stdout))
 
             if config_output.stderr != '':
                 logging.warning(config_output.stderr)
+                print("stderr: {}".format(config_output.stdout))
         except:
             logging.info(sys.exc_info()[1])
+            print("Exception: {}".format(sys.exc_info()[1]))
         
         config_status = 'Config Export Complete'
     except TimeoutError as err:
