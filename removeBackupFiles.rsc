@@ -1,1 +1,0 @@
-/file remove [find type="backup"]
