@@ -1,6 +1,5 @@
 import datetime, paramiko, subprocess, database, os, schedule, time, sys, logging
 from datetime import date
-from flask import flash
 # server ip 66.76.254.137
 
 # log setup
@@ -14,8 +13,7 @@ def create_backup(router_name, router_ip, username, password):
     try:
         date = datetime.datetime.today().strftime('%m-%d-%Y_%H:%M:%S')
         backup_name = date + ".backup"
-        #subprocess.run('ssh {}@{} /system backup save name={}'.format(username, router_ip, backup_name), shell=True)
-        #subprocess.run('scp {}@{}:/{} "backups/{}/{}"'.format(username, router_ip, backup_name, router_name, backup_name), shell=True, capture_output=True)
+        
         try:
             backup_output = subprocess.run('ssh {}@{} /system backup save name={}'.format(username,
                                                                                         router_ip,
@@ -57,7 +55,6 @@ def create_backup(router_name, router_ip, username, password):
             logging.error(sys.exc_info()[1])
             print("Exception: {}".format(sys.exc_info()[1]))
             
-        #subprocess.run('ssh {}@{} /file remove [find type="backup]"'.format(username, router_ip), shell=True)
         backup_status = 'Backup Complete'
     except TimeoutError as err:
         print(err)
@@ -86,7 +83,7 @@ def create_config(router_name, router_ip, username, password, backup_status):
     try:
         date = datetime.datetime.today().strftime('%m-%d-%Y_%H:%M:%S')
         export_name = date + ".rsc"
-        #subprocess.run('ssh {}@{} export terse > "backups/{}/{}"'.format(username, router_ip, router_name, export_name), shell=True)
+
         try:
             config_output = subprocess.run('ssh {}@{} export terse > "backups/{}/{}"'.format(username, 
                                                                                             router_ip, 
