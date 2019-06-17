@@ -10,7 +10,7 @@
 #  Runs the main flask app.
 
 from flask import Flask, render_template, redirect, request, abort, send_file, flash, url_for
-import database, backup, autoUpdate, os, add_file
+import database, backup, os, add_file
 
 app = Flask(__name__)
 app.secret_key = 'some_secret'
