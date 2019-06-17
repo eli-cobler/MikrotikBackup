@@ -106,7 +106,7 @@ def autoUpdater(router_name, router_ip, username, password):
     tomorrow = today + datetime.timedelta(1)
 
     print("Trying to connect to {}".format(router_name))
-    logging.info("Trying to connect to %s" router_name)
+    logging.info("Trying to connect to %s" % router_name)
     try: 
         # sftping script to router
         transport = paramiko.Transport((router_ip))
