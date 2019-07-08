@@ -43,7 +43,6 @@ def add():
         exists = database.add(name, router_ip, username, password)
         add_file.autoUpdater(name, router_ip, username, password)
         add_file.ssh_key(username, password, router_ip)
-        add_file.remove_Backup_Files(username, password, router_ip)
 
         if exists == True:
             flash("This has already be Added or the folder already exists in backups directory.")
