@@ -68,7 +68,7 @@ def ssh_key(username, password, router_ip):
 
         print('Running import command')
         logging.info('Running import command')
-        ssh.exec_command("/user ssh-keys import public-key-file=id_rsa-2.pub user=admin")
+        ssh.exec_command("/user ssh-keys import public-key-file=id_rsa-2.pub user={}".format(username))
         logging.info("Command successful.")
 
         print("Closing connection")
