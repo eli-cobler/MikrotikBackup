@@ -25,16 +25,16 @@ def create_backup(router_name, router_ip, username, password):
             if backup_output.stdout != '':
                 logging.info(backup_output.stdout)
                 print("stdout: {}".format(backup_output.stdout))
-                backup_status = backup_output.stdout
+                #backup_status = backup_output.stdout
 
             if backup_output.stderr != '':
                 logging.warning(backup_output.stderr)
                 print("stderr: {}".format(backup_output.stderr))
-                backup_status = backup_output.stderr
+                #backup_status = backup_output.stderr
         except:
             logging.error(sys.exc_info()[1])
             print("Exception: {}".format(sys.exc_info()[1]))
-            backup_status = sys.exc_info()[1]
+            #backup_status = sys.exc_info()[1]
 
         
         try:
@@ -99,13 +99,16 @@ def create_config(router_name, router_ip, username, password, backup_status):
             if config_output.stdout != '':
                 logging.info(config_output.stdout)
                 print("stdout: {}".format(config_output.stdout))
+                #config_status = config_output.stdout
 
             if config_output.stderr != '':
                 logging.warning(config_output.stderr)
                 print("stderr: {}".format(config_output.stdout))
+                #config_status = config_output.stderr
         except:
             logging.info(sys.exc_info()[1])
             print("Exception: {}".format(sys.exc_info()[1]))
+            #config_status = sys.exc_info()[1]
         
         config_status = 'Config Export Complete'
     except TimeoutError as err:
