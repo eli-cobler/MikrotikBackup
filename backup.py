@@ -25,13 +25,16 @@ def create_backup(router_name, router_ip, username, password):
             if backup_output.stdout != '':
                 logging.info(backup_output.stdout)
                 print("stdout: {}".format(backup_output.stdout))
+                backup_status = backup_output.stdout
 
             if backup_output.stderr != '':
                 logging.warning(backup_output.stderr)
                 print("stderr: {}".format(backup_output.stderr))
+                backup_status = backup_output.stderr
         except:
             logging.error(sys.exc_info()[1])
             print("Exception: {}".format(sys.exc_info()[1]))
+            backup_status = sys.exc_info()[1]
 
         
         try:
@@ -144,8 +147,7 @@ def get_info(router_name, router_ip, username, password):
     ssh.close()
 
 def run():
-    ignore_list = ['Farmers Wayne Buck',
-                    'Spectrum Voice',
+    ignore_list = ['Spectrum Voice',
                     'CASA',
                     'Value Med Midwest City',
                     'Valu Med Harrah', 

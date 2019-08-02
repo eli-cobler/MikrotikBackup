@@ -21,8 +21,7 @@ logging.basicConfig(filename='logs/removeBackupFiles.log',
 def run():
     print("Gathering Routers...")
     logging.info("Gathering Routers...")
-    ignore_list = ['Farmers Wayne Buck',
-                    'Spectrum Voice',
+    ignore_list = ['Spectrum Voice',
                     'CASA',
                     'Value Med Midwest City',
                     'Valu Med Harrah', 

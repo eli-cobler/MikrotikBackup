@@ -44,8 +44,7 @@ def check_date(filename, file_path):
 
 def run():
     backup_path = os.listdir(os.path.join(os.getcwd(), 'backups'))
-    ignore_list = ['Farmers Wayne Buck',
-                    'Broadway Liquor',
+    ignore_list = ['Broadway Liquor',
                     'Spectrum Voice',
                     'CASA',
                     'Value Med Midwest City',
