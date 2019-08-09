@@ -36,7 +36,7 @@ def get_info(router_name,router_ip,username):
     c = paramiko.SSHClient()
     c.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     print("connecting")
-    c.connect( hostname = router_ip, username = username, pkey = k )
+    c.connect( hostname = router_ip, username = username, key_filename = k )
     print("connected")
     command = [ "/system resource print"]
     print("Executing {}".format( command ))
