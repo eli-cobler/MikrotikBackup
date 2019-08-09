@@ -25,7 +25,6 @@ def get_info(router_name,router_ip, username):
     router_info = subprocess.run('ssh {}@{} "/system resource print"'.format(username, 
                                                                     router_ip,
                                                                     shell=True,
-                                                                    universal_newlines=True,
                                                                     stdout=subprocess.PIPE,
                                                                     stderr=subprocess.PIPE))
     #system_info = stdout.read().decode('ascii').strip("\n")
