@@ -22,7 +22,7 @@ def get_info(router_name,router_ip, username):
     print("Gathering info for {}...".format(router_name))
     # sshing into router to get router OS verison
     print('Running system info command')
-    router_info = subprocess.run('ssh {}@{} /system resource print'.format(username, 
+    router_info = subprocess.run('ssh {}@{} "/system resource print"'.format(username, 
                                                                     router_ip,
                                                                     shell=True,
                                                                     universal_newlines=True,
