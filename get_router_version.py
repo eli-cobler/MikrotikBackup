@@ -35,7 +35,7 @@ def get_info(router_name,router_ip, username):
     #print(router_info.stdout)
 
     # paths to router info file 
-    filepath = 'router_info/{}/info.txt'.format(router_name)
+    filepath = 'router_info/{}.txt'.format(router_name)
     with open(filepath, 'w') as f:
         f.write(router_info.stdout)
 
