@@ -18,7 +18,7 @@ logging.basicConfig(filename='logs/get_router_version.log',
                     filemode='w',
                     level=logging.DEBUG)
 
-'''def get_info(router_name,router_ip, username):
+def get_info(router_name,router_ip, username):
     print("Gathering info for {}...".format(router_name))
     # sshing into router to get router OS verison
     print('Running system info command')
@@ -29,9 +29,9 @@ logging.basicConfig(filename='logs/get_router_version.log',
                                                                     stdout=subprocess.PIPE,
                                                                     stderr=subprocess.PIPE))
     #system_info = stdout.read().decode('ascii').strip("\n")
-    print(router_info.stdout)'''
+    print(router_info.stdout)
 
-def get_info(router_name,router_ip,username):
+'''def get_info(router_name,router_ip,username):
     k = paramiko.RSAKey.from_private_key_file("id_rsa-2.pub")
     c = paramiko.SSHClient()
     c.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -44,7 +44,7 @@ def get_info(router_name,router_ip,username):
     print(stdout.read())
     print( "Errors")
     print(stderr.read())
-    c.close()
+    c.close()'''
 
 if __name__ == "__main__":
     router_name = input("Router Name: ")
