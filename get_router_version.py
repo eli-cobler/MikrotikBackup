@@ -29,7 +29,7 @@ def get_info(router_name,router_ip, username):
                                                                     stdout=subprocess.PIPE,
                                                                     stderr=subprocess.PIPE))
     #system_info = stdout.read().decode('ascii').strip("\n")
-    print(stdout)
+    print(stdout.stdout)
 
 if __name__ == "__main__":
     router_name = input("Router Name: ")
