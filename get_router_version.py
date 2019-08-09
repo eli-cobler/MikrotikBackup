@@ -32,17 +32,40 @@ def get_info(router_name,router_ip, username):
                                                                     universal_newlines=True,
                                                                     stdout=subprocess.PIPE,
                                                                     stderr=subprocess.PIPE)
-    #print(router_info.stdout)
+    logging.info("Info gatherered for {}".format(router_name))
+    print("Info gatherered for {}".format(router_name))
 
     # paths to router info file 
+    logging.info("Saving info to file.")
+    print(("Saving info to file."))
     filepath = 'router_info/{}.txt'.format(router_name)
     with open(filepath, 'w') as f:
         f.write(router_info.stdout)
+    
+    logging.info("Info saved.")
+    print("Info saved.")
 
-
+def run():
+    ignore_list = ['Spectrum Voice',
+                    'CASA',
+                    'Value Med Midwest City',
+                    'Valu Med Harrah', 
+                    'Value Med FTG',
+                    'GPSS Hobart']
+    router_list = database.get()
+    routers = []
+    for item in router_list:
+        data = item.split(':')
+        data[0] = {'router_name': data[0], 'router_ip': data[1], 'username': data[2], 'password': data[3].replace('\n', '')}
+        routers.append(data[0])            
+    
+    for item in routers:
+        if item['router_name'] in ignore_list:
+            logging.info("Backup skipped for %s", item['router_name'])
+        else:
+            get_info(item['router_name'], item['router_ip'], item['username'])
 
 if __name__ == "__main__":
-    router_name = input('Router Name: ')
-    router_ip = input('Router IP: ')
-    username = input('Username: ')
-    get_info(router_name, router_ip, username)
+    run()
+
+    
