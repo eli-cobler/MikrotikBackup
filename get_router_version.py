@@ -9,7 +9,7 @@
 #
 #  Gets the current version of router OS running on the router. 
 
-import subprocess, database, os, logging, paramiko
+import subprocess, database, os, logging, sys
 
 
 
@@ -26,24 +26,29 @@ def get_info(router_name,router_ip, username):
     # sshing into router to get router OS verison
     print('Running system info command')
     logging.info('Running system info command')
-    router_info = subprocess.run('ssh {}@{} /system resource print'.format(username, 
-                                                                    router_ip),
-                                                                    shell=True,
-                                                                    universal_newlines=True,
-                                                                    stdout=subprocess.PIPE,
-                                                                    stderr=subprocess.PIPE)
-    logging.info("Info gatherered for {}".format(router_name))
-    print("Info gatherered for {}".format(router_name))
-
-    # paths to router info file 
-    logging.info("Saving info to file.")
-    print(("Saving info to file."))
-    filepath = 'router_info/{}.txt'.format(router_name)
-    with open(filepath, 'w') as f:
-        f.write(router_info.stdout)
     
-    logging.info("Info saved.")
-    print("Info saved.")
+    try:
+        router_info = subprocess.run('ssh {}@{} /system resource print'.format(username, 
+                                                                        router_ip),
+                                                                        shell=True,
+                                                                        universal_newlines=True,
+                                                                        stdout=subprocess.PIPE,
+                                                                        stderr=subprocess.PIPE)
+        logging.info("Info gatherered for {}".format(router_name))
+        print("Info gatherered for {}".format(router_name))
+
+        # paths to router info file 
+        logging.info("Saving info to file.")
+        print(("Saving info to file."))
+        filepath = 'router_info/{}.txt'.format(router_name)
+        with open(filepath, 'w') as f:
+            f.write(router_info.stdout)
+        
+        logging.info("Info saved.")
+        print("Info saved.")
+    except:
+        logging.error(sys.exc_info()[1])
+        print("Exception: {}".format(sys.exc_info()[1]))
 
 def run():
     ignore_list = ['Spectrum Voice',
