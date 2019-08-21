@@ -51,7 +51,8 @@ def run():
                     'Valu Med Harrah',
                     'Value Med FTG',
                     'GPSS Hobart',
-                    '.DS_Store'] 
+                    '.DS_Store',
+                    'SPARK Datacenter'] 
     for folder in backup_path:
         if folder in ignore_list:
             print("{} has been ignored.".format(folder))
