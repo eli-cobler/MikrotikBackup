@@ -6,11 +6,12 @@
 #  Created by Eli Cobler on 01/27/19.
 #  Copyright © 2018 Eli Cobler. All rights reserved.
 #
-#  This project allows you to add and remove routers to your Oxidized Router database file.
+#  This project allows you generate and store backup and config
+#  files from Mikrotik Routers.
 #
 #  This file allows you to add, update, &, remove routers to the Oxidized db file.
 
-import os, shutil, logging, sys
+import os,shutil,logging,sys
 from distutils.dir_util import copy_tree
 
 # paths to database file one for testing local, other for remote server
@@ -48,7 +49,7 @@ def add(name, router_ip, username, password):
         logging.info("Attempting to write new router to database.")
         try:
             with open(filepath, 'a') as f:
-                f.write("{}:{}:{}:{}:Not Set:Not Set:Not Set\n".format(name,router_ip,username,password))
+                f.write("{}:{}:{}:{}:Not Set:Not Set:Not Set:Not Set\n".format(name,router_ip,username,password))
             logging.info("Database entry added successfully.")
         except:
             logging.error("There was a problem writing to the database. See the error below.")
@@ -100,11 +101,11 @@ def remove(router):
 
 # Uses remove function to rewrite the whole database file removing old 
 # router info and replacing it with updated info
-def update(name, router_ip, username, password, selected_router, backup_status, config_status, backup_date):
+def update(name, router_ip, username, password, selected_router, backup_status, config_status, backup_date, version):
     path = os.getcwd()
     
     if name != selected_router:
-        logging.info("Changing name of router from %s to %s." % selected_router,name)
+        logging.info("Changing name of router from %s to %s." % (selected_router,name))
         logging.info("Creating new backup directory for %s" % name)
         try:
             os.mkdir(path + '/backups/{}'.format(name))
@@ -137,7 +138,7 @@ def update(name, router_ip, username, password, selected_router, backup_status, 
     logging.info("Updating database values for %s." % selected_router)
     try:
         with open(filepath, 'a') as f:
-            f.write("{}:{}:{}:{}:{}:{}:{}\n".format(name,router_ip,username,password,backup_status,config_status,backup_date))
+            f.write("{}:{}:{}:{}:{}:{}:{}:{}\n".format(name,router_ip,username,password,backup_status,config_status,backup_date,version))
         logging.info("Database values updated successfully.")
     except:
         logging.error("There was a problem updating the database values. See the error below.")

@@ -5,13 +5,12 @@
 #  Created by Eli Cobler on 08/08/19.
 #  Copyright © 2018 Eli Cobler. All rights reserved.
 #
-#  This project allows you to add and remove routers to your Oxidized Router database file.
+#  This project allows you generate and store backup and config
+#  files from Mikrotik Routers. 
 #
-#  Gets the current version of router OS running on the router. 
+#  Gets the current version of routerOS running on the router. 
 
-import subprocess, database, os, logging, sys
-
-
+import subprocess, database, os, logging, sys, datetime
 
 # log setup
 logging.basicConfig(filename='logs/get_router_version.log',
@@ -50,6 +49,21 @@ def get_info(router_name,router_ip, username):
         logging.error(sys.exc_info()[1])
         print("Exception: {}".format(sys.exc_info()[1]))
 
+def parse_info(router_name,router_ip,username,password,backup_status,config_status):
+    todays_date = datetime.datetime.today().strftime('%m-%d-%Y')
+    filepath = 'router_info/{}.txt'.format(router_name)
+    with open(filepath, 'r') as f:
+        lines = f.readlines()
+        for line in lines:
+            if 'version' in line:
+                data = line.split(':')
+                version = data[1].split(' ')
+                router_os = version[1]
+                release_type = version[2]
+                #print("{}: {}".format(router_name,router_os))
+                #logging.info("%s has a RouterOS: %s" % router_name,router_os)
+                database.update(router_name,router_ip,username,password,router_name,backup_status,config_status,todays_date,router_os)
+
 def run():
     ignore_list = ['Spectrum Voice',
                     'CASA',
@@ -66,11 +80,12 @@ def run():
     
     for item in routers:
         if item['router_name'] in ignore_list:
-            logging.info("Backup skipped for %s", item['router_name'])
+            logging.info("Gathering info skipped for %s", item['router_name'])
+            print("Gathering info skipped for " + item['router_name'])
         else:
-            get_info(item['router_name'], item['router_ip'], item['username'])
-
-if __name__ == "__main__":
-    run()
+            #get_info(item['router_name'], item['router_ip'], item['username'])
+            parse_info(item['router_name'],item['router_ip'],item['username'],item['password'],"Not set","Not Set")
 
     
+#if __name__ == "__main__":
+#    run()

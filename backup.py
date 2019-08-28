@@ -1,4 +1,4 @@
-import datetime, paramiko, subprocess, database, os, schedule, time, sys, logging
+import datetime, paramiko, subprocess, database, os, schedule, time, sys, logging, router
 from datetime import date
 # server ip 66.76.254.137
 
@@ -78,7 +78,7 @@ def create_backup(router_name, router_ip, username, password):
         backup_status = the_value
 
     todays_date = datetime.datetime.today().strftime('%m-%d-%Y')
-    database.update(router_name,router_ip,username,password,router_name,backup_status, "Not Set", todays_date)
+    database.update(router_name,router_ip,username,password,router_name,backup_status,"Unknown",todays_date,"Unknown")
 
     return backup_status
 
@@ -131,23 +131,9 @@ def create_config(router_name, router_ip, username, password, backup_status):
 
 
     todays_date = datetime.datetime.today().strftime('%m-%d-%Y')
-    database.update(router_name,router_ip,username,password,router_name,backup_status,config_status,todays_date)
-
-def get_info(router_name, router_ip, username, password):
-    print("Generating info for {}...".format(router_name))
-    # sshing into router to create .backup and export config file
-    ssh = paramiko.SSHClient()
-    print('Created client')
-    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    print('Set ssh key')
-    print('Connecting to router...')
-    ssh.connect(router_ip, username=username, password=password)
-    print('Running system info command')
-    stdin, stdout, stderr = ssh.exec_command("/system resource print")
-    system_info = stdout.read().decode('ascii').strip("\n")
-    print(system_info)
-    print("Closing connection")
-    ssh.close()
+    database.update(router_name,router_ip,username,password,router_name,backup_status,config_status,todays_date,"Unknown")
+    
+    return config_status
 
 def run():
     ignore_list = ['Spectrum Voice',
@@ -167,20 +153,24 @@ def run():
         if item['router_name'] in ignore_list:
             logging.info("Backup skipped for %s", item['router_name'])
         else:
-            #flash("Starting backup for {}...".format(item['router_name']))
+            # starting backup
             print("Starting backup for {}...".format(item['router_name']))
             logging.info("Starting backup for %s...", item['router_name'])
             backup_status = create_backup(item['router_name'], item['router_ip'], item['username'], item['password'])
             print("Completed backup for {}".format(item['router_name']))
             logging.info("Completed backup for %s", item['router_name'])
-            #flash("Completed backup for {}".format(item['router_name']))
+
+            # starting config export
             print("Starting config export for {}...".format(item['router_name']))
             logging.info("Starting config export for %s...", item['router_name'])
-            #flash("Starting config export for {}...".format(item['router_name']))
-            create_config(item['router_name'], item['router_ip'], item['username'], item['password'], backup_status)
+            config_status = create_config(item['router_name'], item['router_ip'], item['username'], item['password'], backup_status)
             print("Config export complete for {}".format(item['router_name']))
             logging.info("Config export complete for %s", item['router_name'])
-            #flash("Config export complete for {}".format(item['router_name']))
+
+            # gathering info from rotuers
+            #router.get_info(item['router_name'], item['router_ip'], item['username'])
+            router.parse_info(item['router_name'],item['router_ip'],item['username'],item['password'],backup_status,config_status)
+            
 
 if __name__ == "__main__":
     run()

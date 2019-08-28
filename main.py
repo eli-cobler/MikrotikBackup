@@ -27,7 +27,7 @@ def index():
     routers_dict = {}
     for item in router_list:
         data = item.split(':')
-        routers_dict[data[0]] = [data[1], data[2], data[3], data[4], data[5], data[6]]    
+        routers_dict[data[0]] = [data[1], data[2], data[3], data[4], data[5], data[6],data[7]]    
 
     return render_template('index.html', routers=routers_dict)
 
@@ -111,8 +111,9 @@ def update():
         backup_status = "Not Set"
         config_status = "Not Set"
         backup_date = "Not Set"
+        version = "Not Set"
 
-        database.update(name,router_ip,username,password,router_to_update,backup_status,config_status,backup_date)
+        database.update(name,router_ip,username,password,router_to_update,backup_status,config_status,backup_date,version)
         return redirect(url_for('index'))
 
     return render_template('update.html', routers=routers_list)

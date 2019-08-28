@@ -5,7 +5,8 @@
 #  Created by Eli Cobler on 06/13/19.
 #  Copyright © 2018 Eli Cobler. All rights reserved.
 #
-#  This project allows you to add and remove routers to your Oxidized Router database file.
+#  This project allows you generate and store backup and config
+#  files from Mikrotik Routers.
 #
 #  This file removes all backup files from the router keeping them from filling up on backups.
 
