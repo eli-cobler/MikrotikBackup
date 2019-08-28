@@ -58,6 +58,9 @@ def add(name, router_ip, username, password):
         logging.info("Attempting to create backup folder for %s" % name)
         try:
             os.mkdir(path + '/backups/{}'.format(name))
+            f = open("router_info/{}.txt".format(name), "w+")
+            f.write('')
+            f.close
         except:
             logging.error("There was a problem creating backup folder. See the error below.")
             logging.error(sys.exc_info()[1])
@@ -84,6 +87,7 @@ def complete_removal(router):
     try:
         shutil.rmtree(path + '/backups/{}'.format(router))
         logging.info("Router backups successfully removed.")
+        os.remove('router_info/{}.txt'.format(router))
     except:
         logging.error("There was a problem removing the router's backups. See the error below.")
         logging.error(sys.exc_info()[1])
