@@ -168,7 +168,7 @@ def run():
             logging.info("Config export complete for %s", item['router_name'])
 
             # gathering info from rotuers
-            #router.get_info(item['router_name'], item['router_ip'], item['username'])
+            router.get_info(item['router_name'], item['router_ip'], item['username'])
             router.parse_info(item['router_name'],item['router_ip'],item['username'],item['password'],backup_status,config_status)
             
 
