@@ -40,7 +40,7 @@ def get_info(router_name,router_ip, username):
         logging.info("Saving info to file.")
         print(("Saving info to file."))
         filepath = 'router_info/{}.txt'.format(router_name)
-        with open(filepath, 'w') as f:
+        with open(filepath, 'w+') as f:
             f.write(router_info.stdout)
         
         logging.info("Info saved.")
