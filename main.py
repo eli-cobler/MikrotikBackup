@@ -15,7 +15,6 @@ import database, backup, os, add_file
 app = Flask(__name__)
 app.secret_key = 'some_secret'
 
-# currently does nothing looking to display router info at some point
 @app.route('/', methods=['GET', 'POST'])
 def index():
     router_list = database.get()
@@ -29,7 +28,7 @@ def index():
         data = item.split(':')
         routers_dict[data[0]] = [data[1], data[2], data[3], data[4], data[5], data[6],data[7]]    
 
-    return render_template('index.html', routers=routers_dict)
+    return render_template('home/index.html', routers=routers_dict)
 
 # takes input form from user to add needed info to the database file
 @app.route('/add', methods=['GET', 'POST'])
@@ -49,7 +48,7 @@ def add():
         else:
             return redirect(url_for('index'))
 
-    return render_template('add.html')
+    return render_template('home/add.html')
 
 # allows user to select which location to remove viva dropdown menu
 @app.route('/remove', methods=['GET', 'POST'])
@@ -65,7 +64,7 @@ def remove():
         database.complete_removal(router_to_remove)
         return redirect(url_for('index'))
     
-    return render_template('remove.html', routers=routers)
+    return render_template('home/remove.html', routers=routers)
 
 # allows users to update already existing routers in the database file
 # I know there is a more pythonic way to do this but for now it works ¯\_(ツ)_/¯
@@ -116,14 +115,14 @@ def update():
         database.update(name,router_ip,username,password,router_to_update,backup_status,config_status,backup_date,version)
         return redirect(url_for('index'))
 
-    return render_template('update.html', routers=routers_list)
+    return render_template('home/update.html', routers=routers_list)
 
 @app.route('/run-backup', methods=['GET', 'POST'])
 def run_backup():
     if request.method == 'POST':
         backup.run()
     
-    return render_template('run_backup.html')
+    return render_template('home/run_backup.html')
 
 @app.route('/single-backup', methods=['GET', 'POST'])
 def single_backup():
@@ -138,7 +137,7 @@ def single_backup():
         database.complete_removal(router_to_remove)
         return redirect(url_for('index'))
     
-    return render_template('single_backup.html', routers=routers)
+    return render_template('home/single_backup.html', routers=routers)
 
 @app.route('/', defaults={'req_path': ''})
 @app.route('/<path:req_path>')
@@ -161,6 +160,6 @@ def dir_listing(req_path):
     # Show directory contents
     files = os.listdir(abs_path)
     files.sort(reverse=True)
-    return render_template('files.html', files=files, backups=backup_folder)
+    return render_template('home/files.html', files=files, backups=backup_folder)
 
 app.run(debug=True, host='0.0.0.0')

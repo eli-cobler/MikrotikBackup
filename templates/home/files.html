@@ -1,0 +1,8 @@
+{% extends "shared/_layout.html" %}
+{% block main_content %}
+<ul>
+    {% for file in files %}
+        <li><a href="/backups/{{ backups }}/{{ file }}" style="color:white">{{ file }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "shared/_layout.html" %}
+{% block main_content %}
+
+<br>Which router do you want to update?<br>
+<form action="/update" method="post">
+    <select name="selected router">
+        <option value="{{routers[0]}}" selected>{{routers[0]}}</option>
+        {% for router in routers[1:] %}
+            <option value= "{{router}}">{{router}}</option>
+        {% endfor %}
+    </select><br>
+
+    Name:<input name="name" type="text"></input><br>
+    Router IP:<input name="router_ip" type="text"></input><br>
+    Username to Router:<input name="username" type="text"></input><br>
+    Password to Router:<input name="password" type="text"></input><br>
+    <input type="submit" value="Submit"></input>
+</form>
+
+{% endblock %}

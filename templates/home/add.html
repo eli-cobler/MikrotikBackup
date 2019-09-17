@@ -1,19 +1,4 @@
-<head>
-    <title>Mikrotik Backup</title>
-    <link rel="stylesheet" href="/static/styles.css">
-</head>
-
-<div>
-    <h2 class="dashboard-title">Mikrotik Backup</h2>
-</div>
-
-<div class="topnav">
-    <a href="/">Routers</a>
-    <a class="active" href="/add">Add Router</a>
-    <a href="/update">Update Router</a>
-    <a href="/remove">Remove Router</a>
-</div>
-{% extends "layout.html" %}
+{% extends "shared/_error.html" %}
 {% block body %}
     {% if error %}
     <p class=error><strong>Error:</strong> {{ error }}

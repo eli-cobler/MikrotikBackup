@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Mikrotik Backup</title>
-    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 
 <div>
@@ -17,8 +17,9 @@
     <a href="winbox:">Launch Winbox</a>
 </div>
 
-<ul>
-    {% for file in files %}
-        <li><a href="/backups/{{ backups }}/{{ file }}" style="color:white">{{ file }}</a></li>
-    {% endfor %}
-</ul>
+<div class="main_content">
+    {% block main_content %}{% endblock %}
+</div>
+
+{% block additional_js %}{% endblock %}
+</html>

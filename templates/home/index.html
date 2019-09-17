@@ -1,21 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Mikrotik Backup</title>
-    <link rel="stylesheet" href="/static/styles.css">
-</head>
-
-<div>
-    <h2 class="index-title">Mikrotik Backup</h2>
-</div>
-
-<div class="topnav">
-    <a class="active" href="/">Routers</a>
-    <a href="/add">Add Router</a>
-    <a href="/update">Update Router</a>
-    <a href="/remove">Remove Router</a>
-    <a href="winbox:">Launch Winbox</a>
-</div>
+{% extends "shared/_layout.html" %}
+{% block main_content %}
 
 <div class="routertable">
     <table id="routertable"> 
@@ -132,3 +116,4 @@
         }
       }
 </script>
+{% endblock %}
