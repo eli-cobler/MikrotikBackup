@@ -1,3 +1,6 @@
+import sys, os
+current_directory = os.getcwd()
+sys.path.insert(1,current_directory.replace('/mikrotik_backup',''))
 import mikrotik_backup.services.backup as backup
 
 router_name = input("What is the router_name? ")

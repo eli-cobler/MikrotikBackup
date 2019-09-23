@@ -1,4 +1,8 @@
-import datetime, subprocess, sys, logging
+import datetime, subprocess, sys, logging, os
+
+import sys
+current_directory = os.getcwd()
+sys.path.insert(1,current_directory.replace('/mikrotik_backup',''))
 import mikrotik_backup.services.router as router
 import mikrotik_backup.services.database as database
 

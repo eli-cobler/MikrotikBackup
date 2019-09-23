@@ -10,7 +10,10 @@
 #  Runs the main flask app.
 
 from flask import Flask, render_template, redirect, request, abort, send_file, flash, url_for
-import os
+import os, sys
+current_directory = os.getcwd()
+sys.path.insert(1,current_directory.replace('/mikrotik_backup',''))
+
 import mikrotik_backup.services.backup as backup
 import mikrotik_backup.services.database as database
 import mikrotik_backup.services.add_file as add_file
@@ -167,5 +170,6 @@ def dir_listing(req_path):
     files.sort(reverse=True)
     return render_template('home/files.html', files=files, backups=backup_folder)
 
-#app.run(debug=True, host='0.0.0.0')
-app.run(debug=True)
+if __name__ == "__main__":
+    #app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True)

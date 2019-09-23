@@ -10,7 +10,10 @@
 #
 #  This file removes all backup files from the router keeping them from filling up on backups.
 
-import subprocess, logging, sys
+import subprocess, logging, sys, os
+
+current_directory = os.getcwd()
+sys.path.insert(1,current_directory.replace('/mikrotik_backup',''))
 import mikrotik_backup.services.database as database
 
 # log setup

@@ -10,7 +10,10 @@
 #
 #  Gets the current version of routerOS running on the router. 
 
-import subprocess, logging, sys, datetime
+import subprocess, logging, sys, datetime, os
+
+current_directory = os.getcwd()
+sys.path.insert(1,current_directory.replace('/mikrotik_backup',''))
 import mikrotik_backup.services.database as database
 
 # log setup

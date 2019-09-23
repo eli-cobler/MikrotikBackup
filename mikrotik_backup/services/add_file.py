@@ -10,7 +10,10 @@
 #  This file is used to add the various files needed on the routers like ssh key's and the auto 
 #  updater script.
 
-import datetime, paramiko, sys, logging
+import datetime, paramiko, sys, logging, os
+
+current_directory = os.getcwd()
+sys.path.insert(1,current_directory.replace('/mikrotik_backup',''))
 import mikrotik_backup.services.database as database
 
 
