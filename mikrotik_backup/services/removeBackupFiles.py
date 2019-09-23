@@ -10,7 +10,8 @@
 #
 #  This file removes all backup files from the router keeping them from filling up on backups.
 
-import database, add_file, subprocess, logging, sys
+import subprocess, logging, sys
+import mikrotik_backup.services.database as database
 
 # log setup
 logging.basicConfig(filename='logs/removeBackupFiles.log',

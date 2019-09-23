@@ -10,7 +10,10 @@
 #  Runs the main flask app.
 
 from flask import Flask, render_template, redirect, request, abort, send_file, flash, url_for
-import database, backup, os, add_file
+import os
+import mikrotik_backup.services.backup as backup
+import mikrotik_backup.services.database as database
+import mikrotik_backup.services.add_file as add_file
 
 app = Flask(__name__)
 app.secret_key = 'some_secret'
@@ -43,7 +46,7 @@ def add():
         add_file.autoUpdater(name, router_ip, username, password)
         add_file.ssh_key(username, password, router_ip)
 
-        if exists == True:
+        if exists:
             flash("This has already be Added or the folder already exists in backups directory.")
         else:
             return redirect(url_for('index'))
@@ -58,6 +61,7 @@ def remove():
     for item in router_list:
         data = item.split(':')
         routers.append(data[0])
+        routers.sort()
 
     if request.method == 'POST':
         router_to_remove = request.form.get('selected router')
@@ -75,6 +79,7 @@ def update():
     for item in router_list:
         data = item.split(':')
         routers_list.append(data[0])
+        router_list.sort()
 
     routers_dict = {}
     for item in router_list:
@@ -112,7 +117,7 @@ def update():
         backup_date = "Not Set"
         version = "Not Set"
 
-        database.update(name,router_ip,username,password,router_to_update,backup_status,config_status,backup_date,version)
+        database.update(name, router_ip, username, password, router_to_update, backup_status, config_status, backup_date, version)
         return redirect(url_for('index'))
 
     return render_template('home/update.html', routers=routers_list)
@@ -162,4 +167,5 @@ def dir_listing(req_path):
     files.sort(reverse=True)
     return render_template('home/files.html', files=files, backups=backup_folder)
 
-app.run(debug=True, host='0.0.0.0')
+#app.run(debug=True, host='0.0.0.0')
+app.run(debug=True)

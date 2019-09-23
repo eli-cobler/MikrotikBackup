@@ -10,7 +10,8 @@
 #
 #  Gets the current version of routerOS running on the router. 
 
-import subprocess, database, os, logging, sys, datetime
+import subprocess, logging, sys, datetime
+import mikrotik_backup.services.database as database
 
 # log setup
 logging.basicConfig(filename='logs/get_router_version.log',
@@ -62,7 +63,7 @@ def parse_info(router_name,router_ip,username,password,backup_status,config_stat
                 release_type = version[2]
                 #print("{}: {}".format(router_name,router_os))
                 #logging.info("%s has a RouterOS: %s" % router_name,router_os)
-                database.update(router_name,router_ip,username,password,router_name,backup_status,config_status,todays_date,router_os)
+                database.update(router_name, router_ip, username, password, router_name, backup_status, config_status, todays_date, router_os)
 
 def run():
     ignore_list = ['Spectrum Voice',
