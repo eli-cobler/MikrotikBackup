@@ -9,7 +9,7 @@ import mikrotik_backup.services.database as database
 # server ip 66.76.254.137
 
 # log setup
-logging.basicConfig(filename='/mikrotik_backup/logs/backup.log',
+logging.basicConfig(filename='mikrotik_backup/logs/backup.log',
                     format='%(asctime)s %(levelname)s %(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p',
                     filemode='w',
