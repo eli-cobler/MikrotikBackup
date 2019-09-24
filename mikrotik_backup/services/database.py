@@ -18,7 +18,7 @@ from distutils.dir_util import copy_tree
 filepath = os.getcwd() + '/mikrotik_backup/resources/router.db'
 
 # log setup
-logging.basicConfig(filename='logs/database.log',
+logging.basicConfig(filename=filepath + 'mikrotik_backup/logs/database.log',
                     format='%(asctime)s %(levelname)s %(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p',
                     level=logging.DEBUG)
