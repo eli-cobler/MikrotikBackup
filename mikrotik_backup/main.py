@@ -11,6 +11,8 @@
 
 from flask import Flask, render_template, redirect, request, abort, send_file, flash, url_for
 import os, sys
+current_directory = os.getcwd()
+sys.path.insert(1,current_directory)
 print(sys.path)
 import mikrotik_backup.services.backup as backup
 import mikrotik_backup.services.database as database
