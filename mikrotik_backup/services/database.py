@@ -15,7 +15,7 @@ import os,shutil,logging,sys
 from distutils.dir_util import copy_tree
 
 # paths to database file one for testing local, other for remote server
-filepath = os.getcwd() + 'mikrotik_backup/resources/router.db'
+filepath = os.getcwd() + '/mikrotik_backup/resources/router.db'
 
 # log setup
 logging.basicConfig(filename='logs/database.log',
