@@ -11,6 +11,7 @@
 
 from flask import Flask, render_template, redirect, request, abort, send_file, flash, url_for
 import os, sys
+print(sys.path)
 import mikrotik_backup.services.backup as backup
 import mikrotik_backup.services.database as database
 import mikrotik_backup.services.add_file as add_file
