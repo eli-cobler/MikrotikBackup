@@ -17,11 +17,11 @@ sys.path.insert(1,current_directory.replace('/mikrotik_backup',''))
 import mikrotik_backup.services.database as database
 
 # log setup
-logging.basicConfig(filename='mikrotik_backup/logs/get_router_version.log',
+'''logging.basicConfig(filename='mikrotik_backup/logs/get_router_version.log',
                     format='%(asctime)s %(levelname)s %(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p',
                     filemode='w',
-                    level=logging.DEBUG)
+                    level=logging.DEBUG)'''
 
 def get_info(router_name,router_ip, username):
     print('Gathering info for {}...'.format(router_name))

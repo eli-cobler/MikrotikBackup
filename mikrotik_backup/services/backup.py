@@ -1,19 +1,20 @@
 import datetime, subprocess, sys, logging, os
 
 import sys
-current_directory = os.getcwd()
-sys.path.insert(1,current_directory.replace('/mikrotik_backup',''))
+#current_directory = os.getcwd()
+#sys.path.insert(1,current_directory)
+print(sys.path)
 import mikrotik_backup.services.router as router
 import mikrotik_backup.services.database as database
 
 # server ip 66.76.254.137
 
 # log setup
-logging.basicConfig(filename='mikrotik_backup/logs/backup.log',
+'''logging.basicConfig(filename='mikrotik_backup/logs/backup.log',
                     format='%(asctime)s %(levelname)s %(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p',
                     filemode='w',
-                    level=logging.DEBUG)
+                    level=logging.DEBUG)'''
 
 def create_backup(router_name, router_ip, username, password):
     try:

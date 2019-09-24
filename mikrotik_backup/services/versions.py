@@ -13,11 +13,11 @@ import os,logging,sys
 from datetime import datetime,timedelta
 
 # log setup
-logging.basicConfig(filename='mikrotik_backup/logs/versions.log',
+'''logging.basicConfig(filename='mikrotik_backup/logs/versions.log',
                     format='%(asctime)s %(levelname)s %(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p',
                     filemode='w',
-                    level=logging.DEBUG)
+                    level=logging.DEBUG)'''
 
 def filename_date(filename):
     date = os.path.basename(filename).split('_')[0]
