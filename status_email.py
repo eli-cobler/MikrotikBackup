@@ -1,8 +1,7 @@
-import smtplib, ssl
+import smtplib, ssl, database
 from html3 import html3
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-import mikrotik_backup.services.database as database
 
 router_list = database.get()
 routers = []

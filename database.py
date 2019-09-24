@@ -15,21 +15,23 @@ import os,shutil,logging,sys
 from distutils.dir_util import copy_tree
 
 # paths to database file one for testing local, other for remote server
-filepath = os.getcwd() + '/mikrotik_backup/resources/router.db'
+filepath = os.getcwd() + '/router.db'
+#filepath = '/var/MikrotikBackup/router.db'
+#filepath = '/home/oxidized/.config/oxidized/router.db'
 
 # log setup
-'''logging.basicConfig(filename=filepath + 'mikrotik_backup/logs/database.log',
+logging.basicConfig(filename='logs/database.log',
                     format='%(asctime)s %(levelname)s %(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p',
-                    level=logging.DEBUG)'''
+                    level=logging.DEBUG)
 
 def get():      
     router_list = []
     # Appends all lines of the file to a list for removal later
-    with open(filepath, 'r+') as database:
-        for line in database:
+    with open(filepath, 'r+') as input:
+        for line in input:
             router_list.append(line)
-    database.close()
+    input.close()
 
     return router_list
 
@@ -38,11 +40,11 @@ def add(name, router_ip, username, password):
     directory_exists = os.path.isdir(path + '/backups/{}'.format(name))
     logging.info("Checking if directory for %s already exists." % name)
     
-    if directory_exists:
-        logging.info("The directory did already exist.")
+    if directory_exists == True:
+        logging.info("The direcotry did already exist.")
         return True
     else:
-        logging.info("The directory didn't exist.")
+        logging.info("The direcotry didn't exist.")
         # writes new router to database file
         logging.info("Attempting to write new router to database.")
         try:

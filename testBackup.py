@@ -1,7 +1,5 @@
-import sys, os
-current_directory = os.getcwd()
-sys.path.insert(1,current_directory.replace('/mikrotik_backup',''))
-import mikrotik_backup.services.backup as backup
+import datetime, paramiko, subprocess, database, os, schedule, time, backup
+from datetime import date
 
 router_name = input("What is the router_name? ")
 router_ip = input("What is the router_ip? ")

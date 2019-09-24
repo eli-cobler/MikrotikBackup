@@ -10,14 +10,7 @@
 #  Runs the main flask app.
 
 from flask import Flask, render_template, redirect, request, abort, send_file, flash, url_for
-import os, sys
-current_directory = os.getcwd()
-sys.path.insert(1,current_directory)
-print(sys.path)
-
-import mikrotik_backup.services.backup as backup
-import mikrotik_backup.services.database as database
-import mikrotik_backup.services.add_file as add_file
+import database, backup, os, add_file
 
 app = Flask(__name__)
 app.secret_key = 'some_secret'
@@ -25,15 +18,11 @@ app.secret_key = 'some_secret'
 @app.route('/', methods=['GET', 'POST'])
 def index():
     router_list = database.get()
-    routers = []
-    for item in router_list:
-        data = item.split(':')
-        routers.append(data[0])
 
     routers_dict = {}
     for item in router_list:
         data = item.split(':')
-        routers_dict[data[0]] = [data[1], data[2], data[3], data[4], data[5], data[6],data[7]]    
+        routers_dict[data[0]] = [data[1], data[2], data[3], data[4], data[5], data[6],data[7]]
 
     return render_template('home/index.html', routers=routers_dict)
 
@@ -121,7 +110,7 @@ def update():
         backup_date = "Not Set"
         version = "Not Set"
 
-        database.update(name, router_ip, username, password, router_to_update, backup_status, config_status, backup_date, version)
+        database.update(name,router_ip,username,password,router_to_update,backup_status,config_status,backup_date,version)
         return redirect(url_for('index'))
 
     return render_template('home/update.html', routers=routers_list)
@@ -171,5 +160,4 @@ def dir_listing(req_path):
     files.sort(reverse=True)
     return render_template('home/files.html', files=files, backups=backup_folder)
 
-if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0')
+app.run(debug=True, host='0.0.0.0')

@@ -1,20 +1,13 @@
-import datetime, subprocess, sys, logging, os
-
-import sys
-#current_directory = os.getcwd()
-#sys.path.insert(1,current_directory)
-print(sys.path)
-import mikrotik_backup.services.router as router
-import mikrotik_backup.services.database as database
-
+import datetime, paramiko, subprocess, database, os, schedule, time, sys, logging, router
+from datetime import date
 # server ip 66.76.254.137
 
 # log setup
-'''logging.basicConfig(filename='mikrotik_backup/logs/backup.log',
+logging.basicConfig(filename='logs/backup.log',
                     format='%(asctime)s %(levelname)s %(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p',
                     filemode='w',
-                    level=logging.DEBUG)'''
+                    level=logging.DEBUG)
 
 def create_backup(router_name, router_ip, username, password):
     try:
@@ -29,10 +22,6 @@ def create_backup(router_name, router_ip, username, password):
                                                                                         universal_newlines=True,
                                                                                         stdout=subprocess.PIPE,
                                                                                         stderr=subprocess.PIPE)
-            if backup_output.stdout == '':
-                logging.info("Backup ouput completed on router Successfully.")
-                print("Backup completed on router Successfully.")
-
             if backup_output.stdout != '':
                 logging.info(backup_output.stdout)
                 print("stdout: {}".format(backup_output.stdout))
@@ -58,11 +47,6 @@ def create_backup(router_name, router_ip, username, password):
                                                                                     universal_newlines=True, 
                                                                                     stdout=subprocess.PIPE, 
                                                                                     stderr=subprocess.PIPE)
-            if transfer_output.stdout == '':
-                logging.info("Backup transfer completed Successfully.")
-                print("Backup transfer completed Successfully.")
-                backup_status = "Backup Complete"
-
             if transfer_output.stdout != '':
                 logging.info(transfer_output.stdout)
                 print("stdout: {}".format(transfer_output.stdout))
@@ -94,7 +78,7 @@ def create_backup(router_name, router_ip, username, password):
         backup_status = the_value
 
     todays_date = datetime.datetime.today().strftime('%m-%d-%Y')
-    database.update(router_name, router_ip, username, password, router_name, backup_status, "Unknown", todays_date, "Unknown")
+    database.update(router_name,router_ip,username,password,router_name,backup_status,"Unknown",todays_date,"Unknown")
 
     return backup_status
 
@@ -112,12 +96,6 @@ def create_config(router_name, router_ip, username, password, backup_status):
                                                                                             universal_newlines=True, 
                                                                                             stdout=subprocess.PIPE, 
                                                                                             stderr=subprocess.PIPE)
-
-            if config_output.stdout == '':
-                logging.info("Config Export Successful.")
-                print("Config Export Successful.")
-                config_status = 'Config Export Complete'
-
             if config_output.stdout != '':
                 logging.info(config_output.stdout)
                 print("stdout: {}".format(config_output.stdout))
@@ -153,7 +131,7 @@ def create_config(router_name, router_ip, username, password, backup_status):
 
 
     todays_date = datetime.datetime.today().strftime('%m-%d-%Y')
-    database.update(router_name, router_ip, username, password, router_name, backup_status, config_status, todays_date, "Unknown")
+    database.update(router_name,router_ip,username,password,router_name,backup_status,config_status,todays_date,"Unknown")
     
     return config_status
 
@@ -191,7 +169,7 @@ def run():
 
             # gathering info from rotuers
             router.get_info(item['router_name'], item['router_ip'], item['username'])
-            router.parse_info(item['router_name'], item['router_ip'], item['username'], item['password'], backup_status, config_status)
+            router.parse_info(item['router_name'],item['router_ip'],item['username'],item['password'],backup_status,config_status)
             
 
 if __name__ == "__main__":
