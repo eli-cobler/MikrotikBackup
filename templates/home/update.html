@@ -1,20 +1,33 @@
+<title>Update Router</title>
+<head>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
 {% extends "shared/_layout.html" %}
 {% block main_content %}
+    <div class="router-form">
+        <form action="/update" method="post">
+            <h2>Which router do you want to update?</h2>
+            <div class="select-router">
+                 <select class="form-control" name="selected router">
+                    <option value="{{routers[0]}}" selected>{{routers[0]}}</option>
+                    {% for router in routers[1:] %}
+                        <option value= "{{router}}">{{router}}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-<br>Which router do you want to update?<br>
-<form action="/update" method="post">
-    <select name="selected router">
-        <option value="{{routers[0]}}" selected>{{routers[0]}}</option>
-        {% for router in routers[1:] %}
-            <option value= "{{router}}">{{router}}</option>
-        {% endfor %}
-    </select><br>
+            <input class="form-control" name="name" type="text" placeholder="Name"></input>
+            <input class="form-control" name="router_ip" type="text" placeholder="Router IP"></input>
+            <input class="form-control" name="username" type="text" placeholder="Username"></input>
+            <input class="form-control" name="password" type="password" placeholder="Password"></input>
 
-    Name:<input name="name" type="text"></input><br>
-    Router IP:<input name="router_ip" type="text"></input><br>
-    Username to Router:<input name="username" type="text"></input><br>
-    Password to Router:<input name="password" type="text"></input><br>
-    <input type="submit" value="Submit"></input>
-</form>
+            <div class="actions">
+                <button type="submit" class="btn btn-success btn-sm">Update Router</button>
+                <a href="/" class="btn btn-danger btn-sm">Cancel</a>
+            </div>
+        </form>
+    </div>
 
 {% endblock %}

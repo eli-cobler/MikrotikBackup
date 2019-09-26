@@ -33,6 +33,34 @@
     color: white;
   }
 
+.router-form input {
+    margin: 10px;
+  }
+
+.router-form form {
+    background-color: white;
+    max-width: 600px;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+    padding: 20px 40px 20px 20px;
+}
+
+.router-form h2 {
+  color: black;
+  text-align: center;
+}
+
+.router-form .actions {
+  text-align: center;
+}
+
+.router-form .select-router {
+  margin-left: 10px;
+  padding-bottom: 10px;
+}
+
   .routertable {
     background-color: black;
     color: white;

@@ -1,13 +1,25 @@
+<title>Add Router</title>
 {% extends "shared/_error.html" %}
+
+
 {% block body %}
     {% if error %}
     <p class=error><strong>Error:</strong> {{ error }}
     {% endif %}
-    <form action="/add" method="post">
-        Name:<input name="name" type="text" required></input><br>
-        Router IP/Hostname:<input name="router_ip" type="text" required></input><br>
-        Username to Router:<input name="username" type="text" required></input><br>
-        Password to Router:<input name="password" type="text" required></input><br>
-        <input type="submit" value="Submit"></input>
-    </form>
+
+        <div class="router-form">
+            <form action="/add" method="post">
+                <h2>Add Router</h2>
+
+                <input class="form-control" name="name" type="text" placeholder="Name" required></input>
+                <input class="form-control" name="router_ip" type="text" placeholder="Router IP/Hostname" required></input>
+                <input class="form-control"  name="username" type="text" placeholder="Username" required></input>
+                <input class="form-control" name="password" type="password" placeholder="Password" required></input>
+
+                <div class="actions">
+                    <button type="submit" class="btn btn-success btn-sm">Add Router</button>
+                </div>
+            </form>
+        </div>
+
 {% endblock %}
