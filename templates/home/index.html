@@ -1,29 +1,34 @@
+<head>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+</head>
+
 {% extends "shared/_layout.html" %}
 {% block main_content %}
 
 <div class="routertable">
-    <table id="routertable"> 
-        <tr> 
-            <th class="tooltip" onclick="sortTable(0)">Name 
-                <!--<span class="tooltiptext">Click to Sort A-Z</span>-->
-            </th> 
-            <th class="tooltip" onclick="sortTable(1)">IP Address
-                <!--<span class="tooltiptext">Click to Sort by First Number</span>-->
-            </th>
-            <th>Password</th>
-            <!--<th>Show Password</th>--> 
-            <th class="tooltip" onclick="sortTable(4)">Backup Status
-                <span class="tooltiptext">Click to Sort
-            </th>
-            <th class="tooltip" onclick="sortTable(4)">Config Status
-              <span class="tooltiptext">Click to Sort
-            </th>
-            <th>Last Attempted Backup</th>
-            <th>Router OS Installed</th>
-        </tr> 
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col" onclick="sortTable(0)">Name</th>
+                <th scope="col" onclick="sortTable(1)">IP Address</th>
+                <th scope="col">Password</th>
+                <th scope="col" onclick="sortTable(4)">Backup Status
+{#                    <span class="tooltiptext">Click to Sort</span>#}
+                </th>
+                <th scope="col" onclick="sortTable(4)">Config Status
+{#                  <span class="tooltiptext">Click to Sort</span>#}
+                </th>
+                <th scope="col">Last Attempted Backup</th>
+                <th scope="col">Router OS Installed</th>
+            </tr>
+        <thead>
+        <tbody>
         {% for k, v in routers.items() %}
             <tr> 
-                <td>{{ k }}</td> 
+                <td scope="row">{{ k }}</td>
                 <td>{{ v[0] }}</td>
                 <td>{{ v[2] }}</td>
                 <!--<td><input type="checkbox"></td> -->
@@ -31,21 +36,18 @@
                 <td>{{ v[4] }}</td>
                 <td>{{ v[5] }}</td>
                 <td>
-                  <a href="/router_info/{{ k }}.txt">
-                      <div style="color:white">
-                          {{ v[6] }}
-                      </div>
-                  </a>
-              </td>
+                    <div class="actions">
+                        <a href="/router_info/{{ k }}.txt" class="btn btn-dark">{{ v[6] }}</a>
+                    </div>
+                </td>
                 <td>
-                    <a href="/backups/{{ k }}">
-                        <div style="color:white">
-                            View Backups
-                        </div>
-                    </a>
+                    <div class="actions">
+                        <a href="/backups/{{ k }}" class="btn btn-success btn-sm">View Backups</a>
+                    </div>
                 </td>
             </tr>
-        {% endfor %} 
+        {% endfor %}
+        </tbody>
     </table>
 </div>
 

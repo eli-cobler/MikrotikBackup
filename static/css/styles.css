@@ -21,6 +21,7 @@
   .topnav a:hover {
     background-color: #ddd;
     color: black;
+    border-radius: 10px;
   }
   
   .topnav a.active {
@@ -62,65 +63,72 @@
 }
 
   .routertable {
-    background-color: black;
-    color: white;
-    border-collapse: collapse;
-    width: 100%;
+    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 60px;
+    border-radius: 10px;
+    padding: 20px 20px 10px 20px;
+    color: black;
   }
 
   .routertable td, th {
-    border: 1px solid rgb(110, 110, 110);
-    padding: 8px;
+    padding: 5px;
     text-align: left;
   }
 
   .routertable th {
     padding-top: 12px;
     padding-bottom: 12px;
-    text-align: center;
-    background-color: #4CAF50;
-    color: white;
     cursor: pointer;
   }
 
-  .routertable tr:nth-child(even){background-color: #444444;}
-  .routertable tr:hover {background-color: rgb(129, 129, 129);}
+  .routertable a {
+    color: black;
+  }
 
-  .tooltip {
-    position: relative;
-    
-    border-bottom: 1px dotted black;
+  .routertable .actions a {
+    color: white;
   }
+
+  /*.routertable tr:nth-child(even){background-color: #444444;}*/
+  /*.routertable tr:hover {background-color: rgb(129, 129, 129);}*/
+
+  /*.tooltip {*/
+  /*  position: relative;*/
+
+  /*  border-bottom: 1px dotted black;*/
+  /*}*/
   
-  .tooltip .tooltiptext {
-    visibility: hidden;
-    width: 125px;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -60px;
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
+  /*.tooltip .tooltiptext {*/
+  /*  visibility: hidden;*/
+  /*  width: 125px;*/
+  /*  background-color: #555;*/
+  /*  color: #fff;*/
+  /*  text-align: center;*/
+  /*  border-radius: 6px;*/
+  /*  padding: 5px 0;*/
+  /*  position: absolute;*/
+  /*  z-index: 1;*/
+  /*  bottom: 125%;*/
+  /*  left: 50%;*/
+  /*  margin-left: -60px;*/
+  /*  opacity: 0;*/
+  /*  transition: opacity 0.3s;*/
+  /*}*/
   
-  .tooltip .tooltiptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
-  }
+  /*.tooltip .tooltiptext::after {*/
+  /*  content: "";*/
+  /*  position: absolute;*/
+  /*  top: 100%;*/
+  /*  left: 50%;*/
+  /*  margin-left: -5px;*/
+  /*  border-width: 5px;*/
+  /*  border-style: solid;*/
+  /*  border-color: #555 transparent transparent transparent;*/
+  /*}*/
   
-  .tooltip:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
-  }
+  /*.tooltip:hover .tooltiptext {*/
+  /*  visibility: visible;*/
+  /*  opacity: 1;*/
+  /*}*/
