@@ -1,33 +1,4 @@
-.index-title {
-    background-color: black;
-    color:white;
-  }
 
-  .topnav {
-    overflow: hidden;
-    background-color: black;
-    padding: 8px;
-  }
-  
-  .topnav a {
-    float: left;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
-  }
-  
-  .topnav a:hover {
-    background-color: #ddd;
-    color: black;
-    border-radius: 10px;
-  }
-  
-  .topnav a.active {
-    background-color: #4CAF50;
-    color: white;
-  }
 
   body {
     background-color: black;
@@ -48,7 +19,7 @@
     padding: 20px 40px 20px 20px;
 }
 
-.router-form h2 {
+.router-form h4 {
   color: black;
   text-align: center;
 }
@@ -90,9 +61,6 @@
   .routertable .actions a {
     color: white;
   }
-
-  /*.routertable tr:nth-child(even){background-color: #444444;}*/
-  /*.routertable tr:hover {background-color: rgb(129, 129, 129);}*/
 
   /*.tooltip {*/
   /*  position: relative;*/
