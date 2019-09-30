@@ -1,7 +1,5 @@
 <title>Add Router</title>
 {% extends "shared/_error.html" %}
-
-
 {% block body %}
     {% if error %}
     <p class=error><strong>Error:</strong> {{ error }}
@@ -11,10 +9,10 @@
             <form action="/add" method="post">
                 <h4>Add Router</h4>
 
-                <input class="form-control" name="name" type="text" placeholder="Name" required></input>
-                <input class="form-control" name="router_ip" type="text" placeholder="Router IP/Hostname" required></input>
-                <input class="form-control"  name="username" type="text" placeholder="Username" required></input>
-                <input class="form-control" name="password" type="password" placeholder="Password" required></input>
+                <input class="form-control" name="name" type="text" placeholder="Name" required/>
+                <input class="form-control" name="router_ip" type="text" placeholder="Router IP/Hostname" required/>
+                <input class="form-control" name="username" type="text" placeholder="Username" required/>
+                <input class="form-control" name="password" type="password" placeholder="Password" required/>
 
                 <div class="actions">
                     <button type="submit" class="btn btn-success btn-sm">Add Router</button>
