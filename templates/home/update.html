@@ -13,14 +13,34 @@
                 </select>
             </div>
 
-            <input class="form-control" name="name" type="text" placeholder="Name"></input>
-            <input class="form-control" name="router_ip" type="text" placeholder="Router IP"></input>
-            <input class="form-control" name="username" type="text" placeholder="Username"></input>
-            <input class="form-control" name="password" type="password" placeholder="Password"></input>
+            <input class="form-control" name="name" type="text" placeholder="Name"/>
+            <input class="form-control" name="router_ip" type="text" placeholder="Router IP"/>
+            <input class="form-control" name="username" type="text" placeholder="Username"/>
+            <input class="form-control" name="password" type="password" placeholder="Password"/>
 
             <div class="actions">
-                <button type="submit" class="btn btn-success btn-sm">Update Router</button>
+                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#updateRouterModal">Update Router</button>
                 <a href="/" class="btn btn-danger btn-sm">Cancel</a>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="updateRouterModal" tabindex="-1" role="dialog" aria-labelledby="updateRouterModalModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="updateRouterModalLabel">Remove Router</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Are you sure you want to update this router?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Update Router</button>
+                  </div>
+                </div>
+              </div>
             </div>
         </form>
     </div>
