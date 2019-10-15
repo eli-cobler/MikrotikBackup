@@ -1,5 +1,6 @@
 import datetime, paramiko, subprocess, database, os, schedule, time, sys, logging, router
 from datetime import date
+from tqdm import tqdm
 # server ip 66.76.254.137
 
 # log setup
@@ -147,24 +148,32 @@ def run():
     for item in router_list:
         data = item.split(':')
         data[0] = {'router_name': data[0], 'router_ip': data[1], 'username': data[2], 'password': data[3].replace('\n', '')}
-        routers.append(data[0])            
-    
-    for item in routers:
+        routers.append(data[0])
+
+    router_count = 0
+    for r in routers:
+        router_count += 1
+
+    for item in tqdm(routers, total=router_count, unit=" router"):
         if item['router_name'] in ignore_list:
             logging.info("Backup skipped for %s", item['router_name'])
         else:
             # starting backup
-            print("Starting backup for {}...".format(item['router_name']))
+            #print("Starting backup for {}...".format(item['router_name']))
+            tqdm.write("Starting backup for {}...".format(item['router_name']))
             logging.info("Starting backup for %s...", item['router_name'])
             backup_status = create_backup(item['router_name'], item['router_ip'], item['username'], item['password'])
-            print("Completed backup for {}".format(item['router_name']))
+            #print("Completed backup for {}".format(item['router_name']))
+            tqdm.write("Completed backup for {}".format(item['router_name']))
             logging.info("Completed backup for %s", item['router_name'])
 
             # starting config export
-            print("Starting config export for {}...".format(item['router_name']))
+            #print("Starting config export for {}...".format(item['router_name']))
+            tqdm.write("Starting config export for {}...".format(item['router_name']))
             logging.info("Starting config export for %s...", item['router_name'])
             config_status = create_config(item['router_name'], item['router_ip'], item['username'], item['password'], backup_status)
-            print("Config export complete for {}".format(item['router_name']))
+            #print("Config export complete for {}".format(item['router_name']))
+            tqdm.write("Config export complete for {}".format(item['router_name']))
             logging.info("Config export complete for %s", item['router_name'])
 
             # gathering info from rotuers
