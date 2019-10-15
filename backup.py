@@ -143,7 +143,8 @@ def run():
                     'Valu Med Harrah', 
                     'Value Med FTG',
                     'GPSS Hobart',
-                   'Farmers Caleb Conner']
+                    'Farmers Caleb Conner',
+                    'Farmers Wayne Buck']
     router_list = database.get()
     routers = []
     for item in router_list:
