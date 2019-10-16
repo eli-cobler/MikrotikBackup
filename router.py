@@ -39,7 +39,7 @@ def get_info(router_name,router_ip, username):
 
         # paths to router info file 
         logging.info("Saving info to file.")
-        tqdm.write(("Saving info to file."))
+        tqdm.write("Saving info to file.")
         filepath = 'router_info/{}.txt'.format(router_name)
         with open(filepath, 'w+') as f:
             f.write(router_info.stdout)
@@ -61,7 +61,7 @@ def parse_info(router_name,router_ip,username,password,backup_status,config_stat
                 version = data[1].split(' ')
                 router_os = version[1]
                 release_type = version[2]
-                tqdm.write()("{}: {}".format(router_name,router_os))
+                tqdm.write("{}: {}".format(router_name,router_os))
                 logging.info("%s has a RouterOS: %s" % router_name,router_os)
                 database.update(router_name,router_ip,username,password,router_name,backup_status,config_status,todays_date,router_os)
 
