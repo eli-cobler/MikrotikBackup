@@ -28,7 +28,7 @@ def get_info(router_name,router_ip, username):
     logging.info('Running system info command')
     
     try:
-        router_info = subprocess.run('ssh {}@{} /system resource tqdm.write()'.format(username,
+        router_info = subprocess.run('ssh {}@{} /system resource print'.format(username,
                                                                         router_ip),
                                                                         shell=True,
                                                                         universal_newlines=True,
@@ -61,8 +61,8 @@ def parse_info(router_name,router_ip,username,password,backup_status,config_stat
                 version = data[1].split(' ')
                 router_os = version[1]
                 release_type = version[2]
-                #tqdm.write()("{}: {}".format(router_name,router_os))
-                #logging.info("%s has a RouterOS: %s" % router_name,router_os)
+                tqdm.write()("{}: {}".format(router_name,router_os))
+                logging.info("%s has a RouterOS: %s" % router_name,router_os)
                 database.update(router_name,router_ip,username,password,router_name,backup_status,config_status,todays_date,router_os)
 
 def run():
