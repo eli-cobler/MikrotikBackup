@@ -10,8 +10,11 @@ import data.db_session as db_session
 from data.router import Router
 from services import router_service, router_details_service
 
-# log setup
+# setting path for cron job
+folder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, folder)
 
+# log setup
 logging.basicConfig(filename='logs/backup.log',
                     format='%(asctime)s %(levelname)s %(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p',
