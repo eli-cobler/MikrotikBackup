@@ -1,0 +1,19 @@
+<title>{{ router_name }}</title>
+{% extends "shared/_layout.html" %}
+{% block main_content %}
+
+<div class="router-info">
+    <div class="info">
+        <h4>{{ router_name }}</h4>
+        <p>Uptime: {{ uptime }}</p>
+        <p>Router OS: {{ version }}</p>
+        <p>Free Memory: {{ free_memory }}</p>
+        <p>Total Memory: {{ total_memory }}</p>
+        <p>CPU Load: {{ cpu_load }}</p>
+        <p>Free HDD Space: {{ free_hdd_space }}</p>
+        <p>Total HDD Space: {{ total_hdd_space }}</p>
+        <p>Bad Blocks: {{ bad_blocks }}</p>
+        <p>Board Name: {{ board_name }}</p>
+    </div>
+</div>
+{% endblock %}

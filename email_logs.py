@@ -9,7 +9,7 @@
 #
 #  This file will send out and email with the log files attached to the specified email receptiant.
 
-import email, smtplib, ssl, os
+import smtplib, ssl, os
 from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart

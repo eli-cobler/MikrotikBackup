@@ -7,15 +7,14 @@
         <h4>Which router do you want to remove?</h4>
         <div class="select-router">
             <select class="form-control" name="selected router">
-                <option value="{{routers[0]}}" selected>{{routers[0]}}</option>
-                {% for router in routers[1:] %}
-                    <option value= "{{router}}">{{router}}</option>
+                {% for r in routers[1:] %}
+                    <option value= "{{r.router_name}}">{{r.router_name}}</option>
                 {% endfor %}
             </select>
         </div>
 
         <div class="actions">
-            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#removeRouterModal">Remove Router</button>
+            <button type="button" class="btn btn-outline-danger btn-group-sm" data-toggle="modal" data-target="#removeRouterModal">Remove Router</button>
         </div>
 
         <!-- Modal -->
@@ -38,8 +37,8 @@
                   </ul>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-danger">Remove Router</button>
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-outline-danger">Remove Router</button>
               </div>
             </div>
           </div>

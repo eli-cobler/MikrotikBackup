@@ -1,5 +1,5 @@
-import datetime, paramiko, subprocess, database, os, schedule, time, backup, router
-from datetime import date
+import backup
+from services import router_details_service
 
 router_name = input("What is the router_name? ")
 router_ip = input("What is the router_ip? ")
@@ -12,8 +12,8 @@ password = input("What is the password? ")
 def run():
     backup_status = backup.create_backup(router_name, router_ip, username, password)
     config_status = backup.create_config(router_name, router_ip, username, password, backup_status)
-    router.get_info(router_name, router_ip, username)
-    router.parse_info(router_name,router_ip,username,password,backup_status,config_status)
+    router_details_service.get_info(router_name, router_ip, username)
+    router_details_service.parse_info(router_name)
 
 if __name__ == "__main__":
     run()

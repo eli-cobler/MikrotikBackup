@@ -52,7 +52,7 @@ def run():
                     'Value Med FTG',
                     'GPSS Hobart',
                     '.DS_Store',
-                    'SPARK Datacenter'] 
+                    'SPARK Datacenter']
     for folder in backup_path:
         if folder in ignore_list:
             print("{} has been ignored.".format(folder))
