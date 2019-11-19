@@ -20,7 +20,7 @@ from services import router_service
 top_folder = os.path.dirname(__file__)
 rel_file = os.path.join('..','logs','get_router_version.log')
 log_file = os.path.abspath(os.path.join(top_folder, rel_file))
-logging.basicConfig(filename='logs/get_router_version.log',
+logging.basicConfig(filename=log_file,
                     format='%(asctime)s %(levelname)s %(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p',
                     filemode='w',
