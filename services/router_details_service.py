@@ -72,7 +72,7 @@ def parse_info(router_name):
     session = db_session.create_session()
     r = session.query(Router).filter(Router.router_name == router_name).one()
 
-    filepath = 'router_info/{}.txt'.format(router_name)
+    filepath = '/var/MikrotikBackup/router_info/{}.txt'.format(router_name)
     with open(filepath, 'r') as f:
         lines = f.readlines()
         for line in lines:
