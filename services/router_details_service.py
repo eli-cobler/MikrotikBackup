@@ -10,7 +10,7 @@
 #
 #  Gets the current version of routerOS running on the router. 
 
-import subprocess, database, os, logging, sys, datetime
+import subprocess, os, logging, sys
 from tqdm import tqdm
 from data import db_session
 from data.router import Router
