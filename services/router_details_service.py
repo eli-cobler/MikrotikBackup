@@ -17,6 +17,9 @@ from data.router import Router
 from services import router_service
 
 # log setup
+top_folder = os.path.dirname(__file__)
+rel_file = os.path.join('..','logs','get_router_version.log')
+log_file = os.path.abspath(os.path.join(top_folder, rel_file))
 logging.basicConfig(filename='logs/get_router_version.log',
                     format='%(asctime)s %(levelname)s %(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p',
