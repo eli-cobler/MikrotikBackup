@@ -6,13 +6,12 @@ import sys
 
 from tqdm import tqdm
 
-import data.db_session as db_session
-from data.router import Router
-from services import router_service, router_details_service
-
 # setting path for cron job
 folder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, folder)
+import data.db_session as db_session
+from data.router import Router
+from services import router_service, router_details_service
 
 # log setup
 logging.basicConfig(filename='logs/backup.log',
