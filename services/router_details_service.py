@@ -56,8 +56,10 @@ def get_info(router_name,router_ip, username):
         # paths to router info file 
         logging.info("Saving info to file.")
         tqdm.write("Saving info to file.")
-        #TODO find this variable dynamically
-        filepath = '/var/MikrotikBackup/router_info/{}.txt'.format(router_name)
+
+        top_folder = os.path.dirname(__file__)
+        rel_folder = os.path.join('..', 'router_info', router_name + '.txt')
+        filepath = os.path.abspath(os.path.join(top_folder, rel_folder))
         with open(filepath, 'w+') as f:
             f.write(router_info.stdout)
         
@@ -73,8 +75,9 @@ def parse_info(router_name):
     session = db_session.create_session()
     r = session.query(Router).filter(Router.router_name == router_name).one()
 
-    # TODO find this variable dynamically
-    filepath = '/var/MikrotikBackup/router_info/{}.txt'.format(router_name)
+    top_folder = os.path.dirname(__file__)
+    rel_folder = os.path.join('..', 'router_info', router_name + '.txt')
+    filepath = os.path.abspath(os.path.join(top_folder, rel_folder))
     with open(filepath, 'r') as f:
         lines = f.readlines()
         for line in lines:

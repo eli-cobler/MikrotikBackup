@@ -56,12 +56,15 @@ def create_backup(router_name, router_ip, username):
             # backup_status = sys.exc_info()[1]
 
         try:
-            # TODO find this path dynamically
-            transfer_output = subprocess.run('scp {}@{}:/{} "/var/MikrotikBackup/backups/{}/{}"'.format(username,
-                                                                                    router_ip,
-                                                                                    backup_name,
-                                                                                    router_name,
-                                                                                    backup_name),
+            top_folder = os.path.dirname(__file__)
+            rel_folder = os.path.join('..', 'backups')
+            backups_path = os.path.abspath(os.path.join(top_folder, rel_folder))
+            transfer_output = subprocess.run('scp {}@{}:/{} "{}/{}/{}"'.format(username,
+                                                                                router_ip,
+                                                                                backup_name,
+                                                                                backups_path,
+                                                                                router_name,
+                                                                                backup_name),
                                              shell=True,
                                              universal_newlines=True,
                                              stdout=subprocess.PIPE,
@@ -110,11 +113,14 @@ def create_config(router_name, router_ip, username):
         export_name = date + ".rsc"
 
         try:
-            # TODO find this path dynamically
-            config_output = subprocess.run('ssh {}@{} export terse > "/var/MikrotikBackup/backups/{}/{}"'.format(username,
-                                                                                             router_ip,
-                                                                                             router_name,
-                                                                                             export_name),
+            top_folder = os.path.dirname(__file__)
+            rel_folder = os.path.join('..', 'backups')
+            backups_path = os.path.abspath(os.path.join(top_folder, rel_folder))
+            config_output = subprocess.run('ssh {}@{} export terse > "{}/{}/{}"'.format(username,
+                                                                                        router_ip,
+                                                                                        backups_path,
+                                                                                        router_name,
+                                                                                        export_name),
                                            shell=True,
                                            universal_newlines=True,
                                            stdout=subprocess.PIPE,
