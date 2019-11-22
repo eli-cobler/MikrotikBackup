@@ -315,5 +315,8 @@ modules.xml
 *.db copy
 **/backups
 **/router_info
+/db/mikrotikbackup.sqlite
+/id_rsa-2.pub
+/services/path_test.py
 
 # End of https://www.gitignore.io/api/macos,flask,python,visualstudiocode
