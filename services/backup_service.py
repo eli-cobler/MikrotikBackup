@@ -179,7 +179,8 @@ def run():
                    'GPSS Hobart',
                    'Farmers Caleb Conner',
                    'Farmers Wayne Buck',
-                   'GPSS HQ']
+                   'GPSS HQ',
+                   'GPSS-CNH - EOMC - Poteau']
     routers = router_service.get_router_list()
 
     router_count = 0

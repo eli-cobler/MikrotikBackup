@@ -10,7 +10,7 @@
 #
 #  This file removes all backup files from the router keeping them from filling up on backups.
 
-import database, add_file, subprocess, logging, sys
+import database, subprocess, logging, sys
 
 # log setup
 logging.basicConfig(filename='logs/removeBackupFiles.log',
@@ -22,12 +22,16 @@ logging.basicConfig(filename='logs/removeBackupFiles.log',
 def run():
     print("Gathering Routers...")
     logging.info("Gathering Routers...")
-    ignore_list = ['Spectrum Voice',
+    ignore_list = ['Broadway Liquor',
+                    'Spectrum Voice',
                     'CASA',
                     'Value Med Midwest City',
-                    'Valu Med Harrah', 
+                    'Valu Med Harrah',
                     'Value Med FTG',
-                    'GPSS Hobart']
+                    'GPSS Hobart',
+                    '.DS_Store',
+                    'SPARK Datacenter',
+                   'GPSS-CNH - EOMC - Poteau']
     router_list = database.get()
     routers = []
     for item in router_list:
