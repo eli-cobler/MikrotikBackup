@@ -191,6 +191,14 @@ def run():
         if item.router_name in ignore_list:
             logging.info("Backup skipped for %s" % item.router_name)
             tqdm.write("Backup skipped for {}".format(item.router_name))
+            backup_status = "Backup Skipped"
+            config_status = "Config Skipped"
+
+            session = db_session.create_session()
+            r = session.query(Router).filter(Router.router_name == item.router_name).one()
+            r.backup_status = backup_status
+            r.config_status = config_status
+            session.commit()
         else:
             # starting backup
             tqdm.write("Starting backup for {}...".format(item.router_name))
