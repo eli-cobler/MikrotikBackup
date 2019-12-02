@@ -17,12 +17,8 @@
                 <th scope="col">Name</th>
                 <th scope="col">IP Address</th>
                 <th scope="col">Password</th>
-                <th scope="col">Backup Status
-{#                    <span class="tooltiptext">Click to Sort</span>#}
-                </th>
-                <th scope="col">Config Status
-{#                  <span class="tooltiptext">Click to Sort</span>#}
-                </th>
+                <th scope="col">Backup Status</th>
+                <th scope="col">Config Status</th>
                 <th scope="col">Last Attempted Backup</th>
                 <th scope="col">Router OS Installed</th>
                 <th href="/run_backup">
@@ -34,20 +30,38 @@
         <thead>
         <tbody>
         {% for r in routers %}
-            <tr> 
-                <td>{{ r.router_name }}</td>
-                <td>{{ r.router_ip }}</td>
-                <td>{{ r.password }}</td>
-                <!--<td><input type="checkbox"></td> -->
-                <td>{{ r.backup_status }}</td>
-                <td>{{ r.config_status }}</td>
-                <td>{{ r.last_attempted }}</td>
-                <td>
+            <tr>
+                <td data-label="{{ r.router_name }}">{{ r.router_name }}</td>
+                <td data-label="{{ r.router_ip }}">{{ r.router_ip }}</td>
+                <td data-label="{{ r.password }}">{{ r.password }}</td>
+
+                {% if r.backup_status == "Backup Complete" %}
+                <td data-label="{{ r.backup_status }}">
+                    <img data-toggle="tooltip" data-placement="top" title="{{ r.backup_status }}" src="/static/img/icons8-filled-circle-96-green.png" width="20" height="20">
+                </td>
+                {% else %}
+                    <td data-label="{{ r.backup_status }}">
+                    <img data-toggle="tooltip" data-placement="top" title="{{ r.backup_status }}" src="/static/img/icons8-filled-circle-96-red.png" width="20" height="20">
+                </td>
+                {% endif %}
+
+                {% if r.config_status == "Config Export Complete" %}
+                <td data-label="{{ r.config_status }}">
+                    <img data-toggle="tooltip" data-placement="top" title="{{ r.config_status }}" src="/static/img/icons8-filled-circle-96-green.png" width="20" height="20">
+                </td>
+                {% else %}
+                    <td data-label="{{ r.config_status }}">
+                    <img data-toggle="tooltip" data-placement="top" title="{{ r.config_status }}" src="/static/img/icons8-filled-circle-96-red.png" width="20" height="20">
+                </td>
+                {% endif %}
+
+                <td data-label="{{ r.last_attempted }}">{{ r.last_attempted }}</td>
+                <td data-label="{{ r.router_os_version }}">
                     <div class="actions">
                         <a href="/router-info/{{ r.router_name }}" class="btn btn-dark">{{ r.router_os_version }}</a>
                     </div>
                 </td>
-                <td>
+                <td data-label="View Backups">
                     <div class="actions">
                         <a href="/backups/{{ r.router_name }}" class="btn btn-success btn-sm">View Backups</a>
                     </div>
@@ -57,4 +71,8 @@
         </tbody>
     </table>
 </div>
+{% endblock %}
+
+{% block additional_css %}
+    <link rel="stylesheet" href="/static/css/router_table.css">
 {% endblock %}
