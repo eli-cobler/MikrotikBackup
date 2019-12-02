@@ -33,6 +33,19 @@ def index():
         'unknown_count': router_service.get_unknown_status_count(),
     }
 
+@app.route('/router_table', methods=['GET', 'POST'])
+@response(template_file='home/router_table.html')
+def router_table():
+    return {
+        'routers':router_service.get_router_list(),
+        'router_count': router_service.get_router_count(),
+        'backup_complete_count': router_service.get_backup_complete_count(),
+        'config_complete_count': router_service.get_config_complete_count(),
+        'backup_failed_count': router_service.get_backup_failed_count(),
+        'config_failed_count': router_service.get_config_failed_count(),
+        'unknown_count': router_service.get_unknown_status_count(),
+    }
+
 @app.route('/router-info/<router_name>')
 @response(template_file='home/details.html')
 def router_info(router_name: str):
@@ -77,7 +90,7 @@ def router_info(router_name: str):
         'board_name': board_name,
     }
 
-# takes input form from user to add needed info to the database file
+# takes input form from user to add needed info to the db
 @app.route('/add', methods=['GET', 'POST'])
 def add():
     if request.method == 'POST':                    
@@ -170,6 +183,50 @@ def single_backup():
         return redirect(url_for('index'))
     
     return render_template('home/single_backup.html', routers=routers)
+
+
+# ################### ACCOUNT #################################
+
+# ################### INDEX #################################
+@app.route('/account')
+@response(template_file='account/index.html')
+def register_index():
+    return {}
+    #render_template('account/index.html')
+
+# ################### REGISTER #################################
+@app.route('/account/register', methods=['GET'])
+@response(template_file='account/register.html')
+def register_get():
+    return {}
+
+@app.route('/account/register', methods=['POST'])
+@response(template_file='account/register.html')
+def register_post():
+    r = flask.request
+
+    name = r.form.get('name')
+    email = r.form.get('email', '').lower().strip()
+    password = r.form.get('password', '').strip()
+
+    if not name or not email or not password:
+        return{
+            'name': name,
+            'email': email,
+            'password': password,
+            'error': "Some required fields are missing."
+        }
+
+    # TODO: Create user
+    # TODO: Log in browser as a session
+
+    return flask.redirect('/account')
+
+# ################### LOGIN #################################
+@app.route('/account/login')
+def login():
+    return render_template('account/login.html')
+
 
 @app.route('/', defaults={'req_path': ''})
 @app.route('/<path:req_path>')
