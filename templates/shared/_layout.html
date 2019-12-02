@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewpoint" content="width=device-width, initial-scale=1">
-    <title>Mikrotik Backup</title>
+    <title>{% block title %}Mikrotik Backup{% endblock %}</title>
     <link rel="shortcut icon" href="static/img/mikrotik_backup.png">
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -24,13 +24,31 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-item nav-link" href="/add">Add Router</a>
-          <a class="nav-item nav-link" href="/update">Update Router</a>
-          <a class="nav-item nav-link" href="/remove">Remove Router</a>
-          <a class="nav-item nav-link" href="/single_backup">Single Backup</a>
-          <a class="nav-item nav-link" href="winbox:">Launch WinBox</a>
-        </div>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-item nav-link" href="/add">Add Router</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-item nav-link" href="/update">Update Router</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-item nav-link" href="/remove">Remove Router</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-item nav-link" href="/single_backup">Single Backup</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-item nav-link" href="winbox:">Launch WinBox</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav">
+              <li class="nav-item">
+                  <a class="nav-item nav-link" href="/account/login">Login</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-item nav-link" href="/account/register" id="last_nav_link">Register</a>
+              </li>
+          </ul>
       </div>
     </nav>
 </div>
@@ -40,12 +58,15 @@
     {% block main_content %}{% endblock %}
 </div>
 
+{% block additional_css %}{% endblock %}
+
 {% block additional_js %}
+    <script src="/static/js/bootstrap.js"></script>
     <script src="/static/js/bootstrap.js"></script>
     <script src="/static/js/bootstrap.bundle.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 {% endblock %}
