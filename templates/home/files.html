@@ -1,37 +1,20 @@
-<title>Backup Files</title>
 {% extends "shared/_layout.html" %}
+{% block title %}Backup Files{% endblock %}
 {% block main_content %}
-
     <div class="files">
-{#        {% for file in files %}#}
-{#            <a href="/backups/{{ backups }}/{{ file }}" class="btn btn-outline-dark btn-sm">{{ file }}</a><br>#}
-{#        {% endfor %}#}
-        <div class="container">
-{#            <div class="row">#}
-{#                <div class="col-6">#}
-{#                    <H4>Config Exports</H4>#}
-{#                </div>#}
-{#                <div class="col-6">#}
-{#                    <h4>Full Backup Files</h4>#}
-{#                </div>#}
-{#            </div>#}
-            <div class="row">
-                {% for file in files %}
-                {% if '.rsc' in file %}
-                <div class="col-6">
-                    <a href="/backups/{{ backups }}/{{ file }}" class="btn btn-outline-dark btn-sm">{{ file }}</a>
-                </div>
-                {% endif %}
-                {% if '.backup' in file %}
-                <div class="col -6">
-                    <a href="/backups/{{ backups }}/{{ file }}" class="btn btn-outline-dark btn-sm">{{ file }}</a>
-                </div>
-                {% endif %}
-                {% endfor %}
+        <div class="row">
+            {% for file in files %}
+            {% if '.rsc' in file %}
+            <div class="col-6">
+                <a href="/backups/{{ backups }}/{{ file }}" class="btn btn-outline-dark btn-sm">{{ file }}</a>
             </div>
+            {% endif %}
+            {% if '.backup' in file %}
+            <div class="col -6">
+                <a href="/backups/{{ backups }}/{{ file }}" class="btn btn-outline-dark btn-sm">{{ file }}</a>
+            </div>
+            {% endif %}
+            {% endfor %}
         </div>
-
-
     </div>
-
 {% endblock %}
