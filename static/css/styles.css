@@ -110,3 +110,7 @@ body {
   .routertable .actions a {
     color: white;
   }
+
+  .error-msg {
+    color: #b30000;
+}
