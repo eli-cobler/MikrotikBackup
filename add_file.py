@@ -10,7 +10,7 @@
 #  This file is used to add the various files needed on the routers like ssh key's and the auto 
 #  updater script.
 
-import subprocess, datetime, paramiko, database, sys, logging
+import datetime, paramiko, database, sys, logging
 
 # log setup
 logging.basicConfig(filename='logs/add_file.log',
@@ -98,7 +98,7 @@ def ssh_key(username, password, router_ip):
         the_type, the_value, the_traceback = sys.exc_info()
         print("{}\n{}".format(the_type, the_value))
         logging.info("Ran the unexpected error below:")
-        logging.error(err)
+        logging.error(the_type,the_value)
 
 def autoUpdater(router_name, router_ip, username, password):
 
@@ -183,22 +183,4 @@ def autoUpdater(router_name, router_ip, username, password):
         the_type, the_value, the_traceback = sys.exc_info()
         print("{}\n{}".format(the_type, the_value))
         logging.info("Ran the unexpected error below:")
-        logging.error(err)
-
-def run():
-    router_list = database.get()
-    routers = []
-    for item in router_list:
-        data = item.split(':')
-        data[0] = {'router_name': data[0], 'router_ip': data[1], 'username': data[2], 'password': data[3].replace('\n', '')}
-        routers.append(data[0])            
-    
-    for item in routers:
-        if item['router_name'] == 'Aces' or item['router_name'] == 'Arrowhead Mall' or item['router_name'] == 'FBC Wagoner':
-            pass
-        else:
-            print("Starting {}...".format(item['router_name']))
-            logging.info("Starting %s..." % item['router_name'])
-            ssh_key(item['username'], item['password'], item['router_ip'])
-            print("{} finished.".format(item['router_name']))
-            logging.info("%s finished." % item['router_name'])
+        logging.error(the_type, the_value)
