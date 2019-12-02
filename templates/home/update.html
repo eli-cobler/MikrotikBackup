@@ -1,5 +1,5 @@
-<title>Update Router</title>
 {% extends "shared/_layout.html" %}
+{% block title %}Update Router{% endblock %}
 {% block main_content %}
     <div class="router-form">
         <form action="/update" method="post">
@@ -15,7 +15,12 @@
             <input class="form-control" name="name" type="text" placeholder="Name"/>
             <input class="form-control" name="router_ip" type="text" placeholder="Router IP"/>
             <input class="form-control" name="username" type="text" placeholder="Username"/>
-            <input class="form-control" name="password" type="password" placeholder="Password"/>
+            <button type="button" class="btn btn-light btn-group-sm" style="float: right; margin-top: 10px;" onclick="showPassword()">
+                <img src="/static/img/icons/lock.svg" width="20" height="20" title="Hide_Pwd">
+            </button>
+            <div style="overflow: hidden; padding-right: .65em;">
+                <input style="overflow: hidden; padding-right: .65em;" class="form-control" id="password" name="password" type="password" placeholder="Password" required/>
+            </div>
 
             <div class="actions">
                 <button type="button" class="btn btn-outline-success btn-group-sm" data-toggle="modal" data-target="#updateRouterModal">Update Router</button>
@@ -44,4 +49,8 @@
         </form>
     </div>
 
+{% endblock %}
+
+{% block additional_js %}
+<script src="/static/js/show_password.js"></script>
 {% endblock %}
