@@ -182,13 +182,14 @@ def run():
                    'GPSS HQ',
                    'GPSS-CNH - EOMC - Poteau']
     routers = router_service.get_router_list()
+    ignored_routers = router_service.get_router_ignore_list()
 
     router_count = 0
     for r in routers:
         router_count += 1
 
     for item in tqdm(routers, total=router_count, unit=" router"):
-        if item.router_name in ignore_list:
+        if item.router_name in ignored_routers:
             logging.info("Backup skipped for %s" % item.router_name)
             tqdm.write("Backup skipped for {}".format(item.router_name))
             backup_status = "Backup Skipped"

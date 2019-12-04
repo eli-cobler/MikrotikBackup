@@ -74,7 +74,7 @@ def get_unknown_status_count() -> int:
 
     return unknown_count
 
-def get_router_list()-> List[Router]:
+def get_router_list() -> List[Router]:
     session = db_session.create_session()
     routers = session.query(Router).\
         order_by(Router.router_name.asc()).\
@@ -83,6 +83,20 @@ def get_router_list()-> List[Router]:
     session.close()
 
     return routers
+
+def get_router_ignore_list() -> List[Router]:
+    session = db_session.create_session()
+    routers = session.query(Router). \
+        filter(Router.ignore == True). \
+        all()
+
+    session.close()
+
+    ignored_routers = []
+    for r in routers:
+        ignored_routers.append(r.router_name)
+
+    return ignored_routers
 
 def get_router_details(router_name: str)-> Optional[Router]:
     if not router_name:
