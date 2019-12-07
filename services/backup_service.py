@@ -65,10 +65,10 @@ def create_backup(router_name, router_ip, username):
                                                                                 backups_path,
                                                                                 router_name,
                                                                                 backup_name),
-                                             shell=True,
-                                             universal_newlines=True,
-                                             stdout=subprocess.PIPE,
-                                             stderr=subprocess.PIPE)
+                                                                                shell=True,
+                                                                                universal_newlines=True,
+                                                                                stdout=subprocess.PIPE,
+                                                                                stderr=subprocess.PIPE)
             if transfer_output.stdout != '':
                 logging.info(transfer_output.stdout)
                 tqdm.write("stdout: {}".format(transfer_output.stdout))
@@ -171,16 +171,6 @@ def create_config(router_name, router_ip, username):
 
 
 def run():
-    ignore_list = ['Spectrum Voice',
-                   'CASA',
-                   'Value Med Midwest City',
-                   'Valu Med Harrah',
-                   'Value Med FTG',
-                   'GPSS Hobart',
-                   'Farmers Caleb Conner',
-                   'Farmers Wayne Buck',
-                   'GPSS HQ',
-                   'GPSS-CNH - EOMC - Poteau']
     routers = router_service.get_router_list()
     ignored_routers = router_service.get_router_ignore_list()
 
@@ -204,16 +194,14 @@ def run():
             # starting backup
             tqdm.write("Starting backup for {}...".format(item.router_name))
             logging.info("Starting backup for %s..." % item.router_name)
-            backup_status = create_backup(item.router_name, item.router_ip, item.username)
+            create_backup(item.router_name, item.router_ip, item.username)
             tqdm.write("Completed backup for {}".format(item.router_name))
             logging.info("Completed backup for %s" % item.router_name)
 
             # starting config export
-            # tqdm.write("Starting config export for {}...".format(item['router_name']))
             tqdm.write("Starting config export for {}...".format(item.router_name))
             logging.info("Starting config export for %s..." % item.router_name)
-            config_status = create_config(item.router_name, item.router_ip, item.username)
-            # tqdm.write("Config export complete for {}".format(item['router_name']))
+            create_config(item.router_name, item.router_ip, item.username)
             tqdm.write("Config export complete for {}".format(item.router_name))
             logging.info("Config export complete for %s" % item.router_name)
 
