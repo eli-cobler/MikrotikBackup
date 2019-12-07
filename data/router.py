@@ -12,6 +12,7 @@ class Router(SqlAlchemyBase):
     router_ip = sa.Column(sa.String, index=True)
     username = sa.Column(sa.String)
     password = sa.Column(sa.String, index=True)
+    ignore = sa.Column(sa.Boolean, index=True)
 
     created_date = sa.Column(sa.DateTime, default=datetime.datetime.now, index=True)
     last_attempted = sa.Column(sa.String)
