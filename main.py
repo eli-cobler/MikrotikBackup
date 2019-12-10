@@ -31,6 +31,7 @@ def index():
         'backup_failed_count': router_service.get_backup_failed_count(),
         'config_failed_count': router_service.get_config_failed_count(),
         'unknown_count': router_service.get_unknown_status_count(),
+        'ignore_count' : router_service.get_router_ignore_count(),
     }
 
 @app.route('/router_table', methods=['GET', 'POST'])

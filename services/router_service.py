@@ -41,6 +41,8 @@ def get_backup_failed_count() -> int:
     for status in backup_status_query:
         if status != ('Backup Complete',):
             failed_count += 1
+        if status == ('Backup Skipped',):
+            failed_count -= 1
 
     session.close()
 
@@ -53,6 +55,8 @@ def get_config_failed_count() -> int:
     for status in config_status_query:
         if status != ('Config Export Complete',):
             failed_count += 1
+        if status == ('Config Skipped',):
+            failed_count -= 1
 
     session.close()
 
@@ -97,6 +101,20 @@ def get_router_ignore_list() -> List[Router]:
         ignored_routers.append(r.router_name)
 
     return ignored_routers
+
+def get_router_ignore_count() -> int:
+    session = db_session.create_session()
+    routers = session.query(Router). \
+        filter(Router.ignore == True). \
+        all()
+
+    session.close()
+
+    ignore_count = 0
+    for r in routers:
+        ignore_count += 1
+
+    return ignore_count
 
 def get_router_details(router_name: str)-> Optional[Router]:
     if not router_name:
