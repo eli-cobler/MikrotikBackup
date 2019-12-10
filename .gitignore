@@ -310,6 +310,12 @@ modules.xml
 # Sonarlint plugin
 .idea/sonarlint
 
+### Alembic ###
+/alembic.ini
+/alembic/env.py
+/alembic/README
+/alembic/script.py.mako
+
 ### Random Ignored Files ###
 *.db
 *.db copy
