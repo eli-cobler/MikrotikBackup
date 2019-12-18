@@ -8,11 +8,9 @@
 #  This project allows you to add and remove routers to your Oxidized Router database file.
 #
 #  Runs the main flask app.
-import time
-
 import flask
 from flask import Flask, render_template, redirect, request, abort, send_file, flash, url_for
-import database, backup, os, add_file
+import os, add_file
 import data.db_session as db_session
 from infrastructure.view_modifiers import response
 from services import router_service, single_backup_service, backup_service
@@ -227,7 +225,6 @@ def register_post():
 @app.route('/account/login')
 def login():
     return render_template('account/login.html')
-
 
 @app.route('/', defaults={'req_path': ''})
 @app.route('/<path:req_path>')
