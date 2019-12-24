@@ -28,6 +28,7 @@ def init_db():
     db_session.global_init(db_file)
 
 def create_backup(router_name, router_ip, username):
+    global backup_status
     try:
         date = datetime.datetime.today().strftime('%m-%d-%Y_%H:%M:%S')
         backup_name = date + ".backup"
