@@ -51,10 +51,9 @@ def create_backup(router_name, router_ip, username):
                 tqdm.write("stderr: {}".format(backup_output.stderr))
                 backup_status = backup_output.stderr
         except:
-            logging.error(sys.exc_info()[2])
-            tqdm.write("Exception: {}".format(sys.exc_info()[2]))
-            tqdm.write("Exception: {}".format(sys.exc_info()))
-            backup_status = sys.exc_info()[2]
+            the_type, the_value, the_traceback = sys.exc_info()
+            tqdm.write("{}\n{}".format(the_type, the_value))
+            backup_status = the_value
 
         try:
             top_folder = os.path.dirname(__file__)
