@@ -27,7 +27,6 @@ def init_db():
     db_file = os.path.abspath(os.path.join(top_folder, rel_file))
     db_session.global_init(db_file)
 
-
 def create_backup(router_name, router_ip, username):
     try:
         date = datetime.datetime.today().strftime('%m-%d-%Y_%H:%M:%S')
@@ -44,12 +43,12 @@ def create_backup(router_name, router_ip, username):
             if backup_output.stdout != '':
                 logging.info(backup_output.stdout)
                 tqdm.write("stdout: {}".format(backup_output.stdout))
-                # backup_status = backup_output.stdout
+                backup_status = backup_output.stdout
 
             if backup_output.stderr != '':
                 logging.warning(backup_output.stderr)
                 tqdm.write("stderr: {}".format(backup_output.stderr))
-                # backup_status = backup_output.stderr
+                backup_status = backup_output.stderr
         except:
             logging.error(sys.exc_info()[1])
             tqdm.write("Exception: {}".format(sys.exc_info()[1]))
@@ -69,9 +68,14 @@ def create_backup(router_name, router_ip, username):
                                                                                 universal_newlines=True,
                                                                                 stdout=subprocess.PIPE,
                                                                                 stderr=subprocess.PIPE)
-            if transfer_output.stdout != '':
+            if transfer_output.stdout == '':
                 logging.info(transfer_output.stdout)
                 tqdm.write("stdout: {}".format(transfer_output.stdout))
+                backup_status = "Backup Complete"
+            elif transfer_output.stdout != '':
+                logging.info(transfer_output.stdout)
+                tqdm.write("stdout: {}".format(transfer_output.stdout))
+                backup_status = transfer_output.stdout
 
             if transfer_output.stderr != '':
                 logging.warning(transfer_output.stderr)
@@ -80,7 +84,7 @@ def create_backup(router_name, router_ip, username):
             logging.error(sys.exc_info()[1])
             tqdm.write("Exception: {}".format(sys.exc_info()[1]))
 
-        backup_status = 'Backup Complete'
+        #backup_status = 'Backup Complete'
     except TimeoutError as err:
         tqdm.write(err)
         backup_status = err
@@ -97,7 +101,7 @@ def create_backup(router_name, router_ip, username):
 
     todays_date = datetime.datetime.today().strftime('%m-%d-%Y')
 
-    # updating database values in sql database
+    # updating database values
     session = db_session.create_session()
     r = session.query(Router).filter(Router.router_name == router_name).one()
     r.backup_status = backup_status
@@ -105,7 +109,6 @@ def create_backup(router_name, router_ip, username):
     session.commit()
 
     return backup_status
-
 
 def create_config(router_name, router_ip, username):
     try:
@@ -125,21 +128,25 @@ def create_config(router_name, router_ip, username):
                                            universal_newlines=True,
                                            stdout=subprocess.PIPE,
                                            stderr=subprocess.PIPE)
-            if config_output.stdout != '':
+            if config_output.stdout == '':
                 logging.info(config_output.stdout)
                 tqdm.write("stdout: {}".format(config_output.stdout))
-                # config_status = config_output.stdout
+                config_status = "Config Complete"
+            elif config_output.stdout != '':
+                logging.info(config_output.stdout)
+                tqdm.write("stdout: {}".format(config_output.stdout))
+                config_status = config_output.stdout
 
             if config_output.stderr != '':
                 logging.warning(config_output.stderr)
                 tqdm.write("stderr: {}".format(config_output.stdout))
-                # config_status = config_output.stderr
+                config_status = config_output.stderr
         except:
             logging.info(sys.exc_info()[1])
             tqdm.write("Exception: {}".format(sys.exc_info()[1]))
             # config_status = sys.exc_info()[1]
 
-        config_status = 'Config Export Complete'
+        #config_status = 'Config Export Complete'
     except TimeoutError as err:
         tqdm.write(err)
         # flash(err)
@@ -168,7 +175,6 @@ def create_config(router_name, router_ip, username):
     session.commit()
 
     return config_status
-
 
 def run():
     routers = router_service.get_router_list()
@@ -208,7 +214,6 @@ def run():
             # gathering info from rotuers
             router_details_service.get_info(item.router_name, item.router_ip, item.username)
             router_details_service.parse_info(item.router_name)
-
 
 if __name__ == "__main__":
     init_db()
