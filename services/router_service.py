@@ -53,7 +53,7 @@ def get_config_failed_count() -> int:
     config_status_query = session.query(Router.config_status)
     failed_count = 0
     for status in config_status_query:
-        if status != ('Config Export Complete',):
+        if status != ('Config Complete',):
             failed_count += 1
         if status == ('Config Skipped',):
             failed_count -= 1
