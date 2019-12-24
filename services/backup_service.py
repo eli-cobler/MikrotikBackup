@@ -69,7 +69,7 @@ def create_backup(router_name, router_ip, username):
                                                                                 universal_newlines=True,
                                                                                 stdout=subprocess.PIPE,
                                                                                 stderr=subprocess.PIPE)
-            if transfer_output.stdout and backup_output.stdout == '':
+            if transfer_output.stdout == '':
                 logging.info(transfer_output.stdout)
                 tqdm.write("stdout: {}".format(transfer_output.stdout))
                 backup_status = "Backup Complete"
