@@ -41,10 +41,41 @@ def create_backup(router_name, router_ip, username):
                                            universal_newlines=True,
                                            stdout=subprocess.PIPE,
                                            stderr=subprocess.PIPE)
-            if backup_output.stdout != '':
+            if backup_output.stdout == 'Configuration backup saved':
                 logging.info(backup_output.stdout)
                 tqdm.write("stdout: {}".format(backup_output.stdout))
-                backup_status = backup_output.stdout
+
+                try:
+                    tqdm.write(f'Starting transfer for {router_name}')
+                    top_folder = os.path.dirname(__file__)
+                    rel_folder = os.path.join('..', 'backups')
+                    backups_path = os.path.abspath(os.path.join(top_folder, rel_folder))
+                    transfer_output = subprocess.run('scp {}@{}:/{} "{}/{}/{}"'.format(username,
+                                                                                       router_ip,
+                                                                                       backup_name,
+                                                                                       backups_path,
+                                                                                       router_name,
+                                                                                       backup_name),
+                                                     shell=True,
+                                                     universal_newlines=True,
+                                                     stdout=subprocess.PIPE,
+                                                     stderr=subprocess.PIPE)
+                    if transfer_output.stdout == '':
+                        logging.info(transfer_output.stdout)
+                        tqdm.write("stdout: {}".format(transfer_output.stdout))
+                        backup_status = "Backup Complete"
+                    elif transfer_output.stdout != '':
+                        logging.info(transfer_output.stdout)
+                        tqdm.write("stdout: {}".format(transfer_output.stdout))
+                        backup_status = transfer_output.stdout
+
+                    if transfer_output.stderr != '':
+                        logging.warning(transfer_output.stderr)
+                        tqdm.write("stderr: {}".format(transfer_output.stderr))
+                except:
+                    logging.error(sys.exc_info()[1])
+                    tqdm.write("Exception: {}".format(sys.exc_info()[1]))
+
 
             if backup_output.stderr != '':
                 logging.warning(backup_output.stderr)
@@ -54,36 +85,6 @@ def create_backup(router_name, router_ip, username):
             the_type, the_value, the_traceback = sys.exc_info()
             tqdm.write("{}\n{}".format(the_type, the_value))
             #backup_status = the_value
-
-        try:
-            top_folder = os.path.dirname(__file__)
-            rel_folder = os.path.join('..', 'backups')
-            backups_path = os.path.abspath(os.path.join(top_folder, rel_folder))
-            transfer_output = subprocess.run('scp {}@{}:/{} "{}/{}/{}"'.format(username,
-                                                                                router_ip,
-                                                                                backup_name,
-                                                                                backups_path,
-                                                                                router_name,
-                                                                                backup_name),
-                                                                                shell=True,
-                                                                                universal_newlines=True,
-                                                                                stdout=subprocess.PIPE,
-                                                                                stderr=subprocess.PIPE)
-            if transfer_output.stdout == '':
-                logging.info(transfer_output.stdout)
-                tqdm.write("stdout: {}".format(transfer_output.stdout))
-                backup_status = "Backup Complete"
-            elif transfer_output.stdout != '':
-                logging.info(transfer_output.stdout)
-                tqdm.write("stdout: {}".format(transfer_output.stdout))
-                backup_status = transfer_output.stdout
-
-            if transfer_output.stderr != '':
-                logging.warning(transfer_output.stderr)
-                tqdm.write("stderr: {}".format(transfer_output.stderr))
-        except:
-            logging.error(sys.exc_info()[1])
-            tqdm.write("Exception: {}".format(sys.exc_info()[1]))
 
         #backup_status = 'Backup Complete'
     except TimeoutError as err:
