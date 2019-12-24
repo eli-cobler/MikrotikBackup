@@ -112,6 +112,7 @@ def create_backup(router_name, router_ip, username):
     return backup_status
 
 def create_config(router_name, router_ip, username):
+    global config_status
     try:
         date = datetime.datetime.today().strftime('%m-%d-%Y_%H:%M:%S')
         export_name = date + ".rsc"
