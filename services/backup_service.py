@@ -53,7 +53,7 @@ def create_backup(router_name, router_ip, username):
         except:
             the_type, the_value, the_traceback = sys.exc_info()
             tqdm.write("{}\n{}".format(the_type, the_value))
-            backup_status = the_value
+            #backup_status = the_value
 
         try:
             top_folder = os.path.dirname(__file__)
