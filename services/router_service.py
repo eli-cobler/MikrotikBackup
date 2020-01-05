@@ -132,7 +132,7 @@ def get_router_details(router_name: str)-> Optional[Router]:
 
     return router
 
-def add_router(router_name,router_ip,username,password):
+def add_router(router_name,router_ip,username,password,ignore):
 
     path = os.getcwd()
     directory_exists = os.path.isdir(path + '/backups/{}'.format(router_name))
@@ -151,11 +151,12 @@ def add_router(router_name,router_ip,username,password):
         r.router_ip = router_ip
         r.username = username
         r.password = password
+        r.ignore = ignore
 
         session = db_session.create_session()
         session.add(r)
         session.commit()
-        logging.info("Database entry added successfully.")
+        logging.info("Database entries added successfully.")
 
         logging.info("Attempting to create backup folder for %s" % router_name)
         try:
@@ -196,7 +197,7 @@ def remove_router(router_name):
         logging.error("There was a problem removing the router's backups. See the error below.")
         logging.error(sys.exc_info()[1])
 
-def update_router(selected_router,router_name, router_ip, username, password):
+def update_router(selected_router,router_name, router_ip, username, password, ignore):
     path = os.path.abspath(os.path.join(os.path.dirname(__file__),'../backups/'))
 
     if router_name != selected_router:
@@ -250,5 +251,6 @@ def update_router(selected_router,router_name, router_ip, username, password):
     r.router_ip = router_ip
     r.username = username
     r.password = password
+    r.ignore = ignore
     session.commit()
     logging.info("Database values updated successfully.")

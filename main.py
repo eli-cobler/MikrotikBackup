@@ -97,8 +97,12 @@ def add():
         router_ip = request.form['router_ip']
         username = request.form['username']
         password = request.form['password']
+        if request.form.getlist('skipped') == ['on']:
+            ignore = True
+        else:
+            ignore = False
 
-        exists = router_service.add_router(router_name, router_ip, username, password)
+        exists = router_service.add_router(router_name, router_ip, username, password, ignore)
         add_file.autoUpdater(router_name, router_ip, username, password)
         add_file.ssh_key(username, password, router_ip)
 
@@ -149,7 +153,12 @@ def update():
         else:
             password = request.form['password']
 
-        router_service.update_router(router_to_update,router_name,router_ip,username,password)
+        if request.form.getlist('skipped') == ['on']:
+            ignore = True
+        else:
+            ignore = False
+
+        router_service.update_router(router_to_update,router_name,router_ip,username,password,ignore)
         return redirect(url_for('index'))
 
     return render_template('home/update.html', routers=routers)
