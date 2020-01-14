@@ -179,8 +179,9 @@ def run_backup():
         rel_folder = os.path.join('services', 'backup_service.py')
         backup_script_path = os.path.abspath(os.path.join(top_folder, rel_folder))
 
+
         proc = subprocess.Popen(
-            [f'python {backup_script_path}'],
+            [f'python3 {backup_script_path}'],
             # call something with a lot of output so we can see it
             shell=True,
             universal_newlines=True,
