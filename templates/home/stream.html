@@ -1,0 +1,9 @@
+{% extends "shared/_layout.html" %}
+{% block title %}Running Backup{% endblock %}
+{% block main_content %}
+<div class="backup-output">
+    {% for item in rows %}
+        {{ item }}<br>
+    {% endfor %}
+</div>
+{% endblock %}

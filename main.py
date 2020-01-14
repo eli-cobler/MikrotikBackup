@@ -9,8 +9,8 @@
 #
 #  Runs the main flask app.
 import flask
-from flask import Flask, render_template, redirect, request, abort, send_file, flash, url_for
-import os, add_file
+from flask import Flask, render_template, redirect, request, abort, send_file, flash, url_for, Response
+import os, add_file, subprocess, time
 import data.db_session as db_session
 from infrastructure.view_modifiers import response
 from services import router_service, single_backup_service, backup_service
@@ -163,18 +163,36 @@ def update():
 
     return render_template('home/update.html', routers=routers)
 
-@app.route('/run_backup', methods=['GET', 'POST'])
-@response(template_file='home/run_backup.html')
+# ################### STREAM SECTION FOR BACKUPS #################################
+
+def stream_template(template_name, **context):
+    app.update_template_context(context)
+    t = app.jinja_env.get_template(template_name)
+    rv = t.stream(context)
+    rv.enable_buffering(5)
+    return rv
+
+@app.route('/run_backup')
 def run_backup():
-    routers = router_service.get_router_list()
+    def backup_background_process():
+        top_folder = os.path.dirname(__file__)
+        rel_folder = os.path.join('services', 'backup_service.py')
+        backup_script_path = os.path.abspath(os.path.join(top_folder, rel_folder))
 
-    # if request.method == 'GET':
-    #     backup_service.run()
+        proc = subprocess.Popen(
+            [f'python {backup_script_path}'],
+            # call something with a lot of output so we can see it
+            shell=True,
+            universal_newlines=True,
+            stdout=subprocess.PIPE
+        )
 
-    return {
-        'routers': routers,
-        'router_total': router_service.get_router_count(),
-    }
+        for line in iter(proc.stdout.readline, ''):
+            time.sleep(.1)  # Don't need this just shows the text streaming
+            yield line.rstrip() + '\n'
+
+    terminal_output = backup_background_process()
+    return Response(stream_template('home/stream.html', rows=terminal_output))
 
 @app.route('/single_backup', methods=['GET', 'POST'])
 def single_backup():
@@ -187,11 +205,47 @@ def single_backup():
         router_ip = router_details.router_ip
         username = router_details.username
 
+        def backup_background_process():
+            top_folder = os.path.dirname(__file__)
+            rel_folder = os.path.join('services', 'single_backup_service.py')
+            backup_script_path = os.path.abspath(os.path.join(top_folder, rel_folder))
+
+            proc = subprocess.Popen(
+                [f'python {backup_script_path}'],
+                # call something with a lot of output so we can see it
+                shell=True,
+                universal_newlines=True,
+                stdout=subprocess.PIPE
+            )
+
+            for line in iter(proc.stdout.readline, ''):
+                time.sleep(.1)  # Don't need this just shows the text streaming
+                yield line.rstrip() + '\n'
+
+        terminal_output = backup_background_process()
+        return Response(stream_template('home/stream.html', rows=terminal_output))
+
         single_backup_service.run(selected_router,router_ip,username)
         return redirect(url_for('index'))
     
     return render_template('home/single_backup.html', routers=routers)
 
+@app.route('/stream')
+def stream():
+    def backup_background_process():
+        proc = subprocess.Popen(
+            ['python /Users/coblere/Documents/GitHub/MikrotikBackup/bin/interate.py'],  # call something with a lot of output so we can see it
+            shell=True,
+            universal_newlines=True,
+            stdout=subprocess.PIPE
+        )
+
+        for line in iter(proc.stdout.readline, ''):
+            time.sleep(.1)  # Don't need this just shows the text streaming
+            yield line.rstrip() + '\n'
+
+    terminal_output = backup_background_process()
+    return Response(stream_template('home/stream.html', rows=terminal_output))
 
 # ################### ACCOUNT #################################
 
