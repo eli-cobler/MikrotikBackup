@@ -69,7 +69,7 @@ def create_backup(router_name, router_ip, username):
             except:
                 logging.error(sys.exc_info()[1])
                 tqdm.write("Exception: {}".format(sys.exc_info()[1]))
-                backup_status = sys.exc_info()[1]
+                #backup_status = sys.exc_info()[1]
 
 
             if backup_output.stderr != '':
@@ -79,7 +79,7 @@ def create_backup(router_name, router_ip, username):
         except:
             the_type, the_value, the_traceback = sys.exc_info()
             tqdm.write("{}\n{}".format(the_type, the_value))
-            #backup_status = the_value
+            backup_status = the_value
 
         #backup_status = 'Backup Complete'
     except TimeoutError as err:
