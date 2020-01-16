@@ -41,6 +41,8 @@ def create_backup(router_name, router_ip, username):
                                                                                            universal_newlines=True,
                                                                                            stdout=subprocess.PIPE,
                                                                                            stderr=subprocess.PIPE)
+            print(f'stdout: {backup_output.stdout}')
+            print(f'sterr: {backup_output.stderr}')
             if backup_output.stdout == '':
                 print('IT WORKED.')
             #     logging.info(backup_output.stdout)
