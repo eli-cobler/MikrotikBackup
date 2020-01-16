@@ -43,7 +43,7 @@ def create_backup(router_name, router_ip, username):
                                                                                            stderr=subprocess.PIPE)
             print(f'stdout: {backup_output.stdout}')
             print(f'sterr: {backup_output.stderr}')
-            if backup_output.stdout == '':
+            if backup_output.stdout == 'Configuration backup saved':
                 print('IT WORKED.')
             #     logging.info(backup_output.stdout)
             #     tqdm.write("stdout: {}".format(backup_output.stdout))
