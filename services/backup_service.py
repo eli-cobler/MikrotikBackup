@@ -28,7 +28,7 @@ def init_db():
     db_session.global_init(db_file)
 
 def create_backup(router_name, router_ip, username):
-    #global backup_status
+    global backup_status
     try:
         date = datetime.datetime.today().strftime('%m-%d-%Y_%H:%M:%S')
         backup_name = date + ".backup"
@@ -79,7 +79,7 @@ def create_backup(router_name, router_ip, username):
         except:
             the_type, the_value, the_traceback = sys.exc_info()
             tqdm.write("{}\n{}".format(the_type, the_value))
-            backup_status = the_value
+            #backup_status = the_value
 
         #backup_status = 'Backup Complete'
     except TimeoutError as err:
