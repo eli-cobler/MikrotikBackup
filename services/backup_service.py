@@ -28,6 +28,7 @@ def init_db():
     db_session.global_init(db_file)
 
 def create_backup(router_name, router_ip, username):
+    #global backup_status
     try:
         date = datetime.datetime.today().strftime('%m-%d-%Y_%H:%M:%S')
         backup_name = date + ".backup"
@@ -68,6 +69,7 @@ def create_backup(router_name, router_ip, username):
             except:
                 logging.error(sys.exc_info()[1])
                 tqdm.write("Exception: {}".format(sys.exc_info()[1]))
+                backup_status = sys.exc_info()[1]
 
 
             if backup_output.stderr != '':
@@ -106,6 +108,7 @@ def create_backup(router_name, router_ip, username):
     return backup_status
 
 def create_config(router_name, router_ip, username):
+    global config_status
     try:
         date = datetime.datetime.today().strftime('%m-%d-%Y_%H:%M:%S')
         export_name = date + ".rsc"
