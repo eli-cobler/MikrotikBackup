@@ -28,7 +28,6 @@ def init_db():
     db_session.global_init(db_file)
 
 def create_backup(router_name, router_ip, username):
-    global backup_status
     try:
         date = datetime.datetime.today().strftime('%m-%d-%Y_%H:%M:%S')
         backup_name = date + ".backup"
@@ -41,13 +40,6 @@ def create_backup(router_name, router_ip, username):
                                                                                            universal_newlines=True,
                                                                                            stdout=subprocess.PIPE,
                                                                                            stderr=subprocess.PIPE)
-            print(f'stdout: {backup_output.stdout}')
-            print(f'sterr: {backup_output.stderr}')
-            if backup_output.stdout == 'Configuration backup saved':
-                print('IT WORKED.')
-            #     logging.info(backup_output.stdout)
-            #     tqdm.write("stdout: {}".format(backup_output.stdout))
-
             try:
                 tqdm.write(f'Starting transfer for {router_name}')
                 top_folder = os.path.dirname(__file__)
@@ -65,16 +57,17 @@ def create_backup(router_name, router_ip, username):
                                                  stderr=subprocess.PIPE)
                 if transfer_output.stdout == '':
                     logging.info(transfer_output.stdout)
-                    tqdm.write("stdout: {}".format(transfer_output.stdout))
+                    tqdm.write("transfer stdout: {}".format(transfer_output.stdout))
+                    tqdm.write("Backup Status set to complete")
                     backup_status = "Backup Complete"
                 elif transfer_output.stdout != '':
                     logging.info(transfer_output.stdout)
-                    tqdm.write("stdout: {}".format(transfer_output.stdout))
+                    tqdm.write("transfer stdout: {}".format(transfer_output.stdout))
                     backup_status = transfer_output.stdout
 
                 if transfer_output.stderr != '':
                     logging.warning(transfer_output.stderr)
-                    tqdm.write("stderr: {}".format(transfer_output.stderr))
+                    tqdm.write("transfer stderr: {}".format(transfer_output.stderr))
             except:
                 logging.error(sys.exc_info()[1])
                 tqdm.write("Exception: {}".format(sys.exc_info()[1]))
@@ -116,7 +109,6 @@ def create_backup(router_name, router_ip, username):
     return backup_status
 
 def create_config(router_name, router_ip, username):
-    global config_status
     try:
         date = datetime.datetime.today().strftime('%m-%d-%Y_%H:%M:%S')
         export_name = date + ".rsc"
