@@ -57,12 +57,9 @@ def create_backup(router_name, router_ip, username):
                                                  stderr=subprocess.PIPE)
                 if transfer_output.stdout == '':
                     logging.info(transfer_output.stdout)
-                    tqdm.write("transfer stdout: {}".format(transfer_output.stdout))
-                    tqdm.write("Backup Status set to complete")
                     backup_status = "Backup Complete"
                 elif transfer_output.stdout != '':
                     logging.info(transfer_output.stdout)
-                    tqdm.write("transfer stdout: {}".format(transfer_output.stdout))
                     backup_status = transfer_output.stdout
 
                 if transfer_output.stderr != '':
@@ -128,16 +125,13 @@ def create_config(router_name, router_ip, username):
                                                                                        stderr=subprocess.PIPE)
             if config_output.stdout == '':
                 logging.info(config_output.stdout)
-                tqdm.write("stdout: {}".format(config_output.stdout))
                 config_status = "Config Complete"
             elif config_output.stdout != '':
                 logging.info(config_output.stdout)
-                tqdm.write("stdout: {}".format(config_output.stdout))
                 config_status = config_output.stdout
 
             if config_output.stderr != '':
                 logging.warning(config_output.stderr)
-                tqdm.write("stderr: {}".format(config_output.stdout))
                 config_status = config_output.stderr
         except:
             logging.info(sys.exc_info()[1])
