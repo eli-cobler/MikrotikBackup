@@ -57,10 +57,12 @@ def check_date(filename, file_path):
         pass
 
 def run():
-    backup_path = os.listdir(os.path.join(os.getcwd(),'..' 'backups'))
+    top_folder = os.path.dirname(__file__)
+    rel_folder = os.path.join('..', 'backups')
+    backups_path = os.path.abspath(os.path.join(top_folder, rel_folder))
 
     ignore_list = router_service.get_router_ignore_list()
-    for folder in tqdm(backup_path, unit=" files"):
+    for folder in tqdm(backups_path, unit=" files"):
         if folder in ignore_list:
             tqdm.write("{} has been ignored.".format(folder))
             logging.info("%s has been ignored." % folder)
