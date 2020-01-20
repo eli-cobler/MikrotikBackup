@@ -1,18 +1,18 @@
-table {
+.routertable {
   border: 1px solid #ccc;
   border-collapse: collapse;
-  padding: 0;
-  /*table-layout: fixed;*/
-  width: 100%;
+  /*padding: 2px 2px 1px 2px;*/
+  margin: 10px;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-table tr {
-  background-color: #f8f8f8;
-  border: 1px solid #ddd;
-  padding: .35em;
+table th, tr {
+  border-radius: 20px;
+  /*border: 1px solid #ddd;*/
+  /*padding: .5em;*/
 }
 
-table th,
 table td {
   padding: .625em;
   text-align: left;
@@ -20,10 +20,10 @@ table td {
 
 @media screen and (max-width: 1000px) {
   table thead {
-    border: none;
+    /*border: none;*/
     clip: rect(0 0 0 0);
     height: 1px;
-    margin: 1px;
+    margin: 10px;
     overflow: hidden;
     padding: 0;
     position: absolute;
@@ -31,8 +31,10 @@ table td {
   }
 
   table tr {
-    border-bottom: 3px solid #ddd;
+    /*border-bottom: 3px solid #ddd;*/
     display: block;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
 
   table td {
