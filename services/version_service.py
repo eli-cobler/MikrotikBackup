@@ -57,18 +57,7 @@ def check_date(filename, file_path):
         pass
 
 def run():
-    backup_path = os.listdir(os.path.join(os.getcwd(), 'backups'))
-    # ignore_list = ['Broadway Liquor',
-    #                 'Spectrum Voice',
-    #                 'CASA',
-    #                 'Value Med Midwest City',
-    #                 'Valu Med Harrah',
-    #                 'Value Med FTG',
-    #                 'GPSS Hobart',
-    #                 '.DS_Store',
-    #                 'SPARK Datacenter',
-    #                'GPSS-CNH - EOMC - Poteau',
-    #                'Pinedale']
+    backup_path = os.listdir(os.path.join(os.getcwd(),'..' 'backups'))
 
     ignore_list = router_service.get_router_ignore_list()
     for folder in tqdm(backup_path, unit=" files"):
