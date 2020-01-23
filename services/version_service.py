@@ -75,8 +75,8 @@ def run():
             path = os.path.join(os.getcwd(), '..', 'backups/{}'.format(folder))
             listed = os.listdir(path)
             for file in listed:
-                files_date = creation_date(os.path.join(os.getcwd(), 'backups/{}/{}'.format(folder, file)))
-                file_path = os.path.join(os.getcwd(), 'backups/{}/{}'.format(folder, file))
+                files_date = creation_date(os.path.join(os.getcwd(), '..', 'backups/{}/{}'.format(folder, file)))
+                file_path = os.path.join(os.getcwd(), '..', 'backups/{}/{}'.format(folder, file))
                 check_date(files_date, file_path)
 
             tqdm.write("{} has been checked.".format(folder))
