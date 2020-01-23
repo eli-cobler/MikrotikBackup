@@ -59,7 +59,8 @@ def check_date(filename, file_path):
 def run():
     top_folder = os.path.dirname(__file__)
     rel_folder = os.path.join('..', 'backups')
-    backups_path = os.path.abspath(os.path.join(top_folder, rel_folder))
+    complete_path = os.path.abspath(os.path.join(top_folder, rel_folder))
+    backups_path = os.listdir(complete_path)
 
     ignore_list = router_service.get_router_ignore_list()
     for folder in tqdm(backups_path, unit=" files"):
