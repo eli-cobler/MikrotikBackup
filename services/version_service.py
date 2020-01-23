@@ -72,7 +72,7 @@ def run():
         else:
             tqdm.write("{} is being checked.".format(folder))
             logging.info("%s has been checked." % folder)
-            path = os.path.join(os.getcwd(), 'backups/{}'.format(folder))
+            path = os.path.join(os.getcwd(), '..', 'backups/{}'.format(folder))
             listed = os.listdir(path)
             for file in listed:
                 files_date = creation_date(os.path.join(os.getcwd(), 'backups/{}/{}'.format(folder, file)))
