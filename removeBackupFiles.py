@@ -43,7 +43,7 @@ def run():
     logging.info("Routers Gathered.")
 
     for item in routers:
-        print("Starting Removal for {}...".format(item['router_name']))
+        print(f"Starting Removal for {item['router_name']}...")
         logging.info("Starting Removal for %s...", item['router_name'])
         if item['router_name'] in ignore_list:
             print("Removal skipped.")
@@ -58,16 +58,16 @@ def run():
                                                                                     stderr=subprocess.PIPE)
                 if remove_backup.stdout != '':
                     logging.info(remove_backup.stdout)
-                    print("stdout: {}".format(remove_backup.stdout))
+                    print(f"stdout: {remove_backup.stdout}")
 
                 if remove_backup.stderr != '':
                     logging.warning(remove_backup.stderr)
-                    print("stderr: {}".format(remove_backup.stderr))
+                    print(f"stderr: {remove_backup.stderr}")
             except:
                 logging.error(sys.exc_info()[1])
-                print("Exception: {}".format(sys.exc_info()[1]))
+                print(f"Exception: {sys.exc_info()[1]}")
 
-            print("Removal for {} completed.".format(['router_name']))
+            print(f"Removal for {['router_name']} completed.")
             logging.info("Removal for %s completed.", item['router_name'])
 
 if __name__ == "__main__":

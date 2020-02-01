@@ -37,8 +37,8 @@ def init_db():
     db_session.global_init(db_file)
 
 def get_info(router_name,router_ip, username):
-    tqdm.write('Gathering info for {}...'.format(router_name))
-    logging.info('Gathering info for {}...'.format(router_name))
+    tqdm.write(f'Gathering info for {router_name}...')
+    logging.info(f'Gathering info for {router_name}...')
     # sshing into router to get router OS verison
     tqdm.write('Running system info command')
     logging.info('Running system info command')
@@ -50,8 +50,8 @@ def get_info(router_name,router_ip, username):
                                                                         universal_newlines=True,
                                                                         stdout=subprocess.PIPE,
                                                                         stderr=subprocess.PIPE)
-        logging.info("Info gatherered for {}".format(router_name))
-        tqdm.write("Info gatherered for {}".format(router_name))
+        logging.info(f"Info gatherered for {router_name}")
+        tqdm.write(f"Info gatherered for {router_name}")
 
         # paths to router info file 
         logging.info("Saving info to file.")
@@ -67,7 +67,7 @@ def get_info(router_name,router_ip, username):
         tqdm.write("Info saved.")
     except:
         logging.error(sys.exc_info()[1])
-        tqdm.write("Exception: {}".format(sys.exc_info()[1]))
+        tqdm.write(f"Exception: {sys.exc_info()[1]}")
 
 def parse_info(router_name):
 
@@ -85,7 +85,7 @@ def parse_info(router_name):
                 data = line.split(':')
                 cleaned_data = data[1].split(' ')
                 uptime = cleaned_data[1]
-                tqdm.write("{} uptime: {}".format(router_name, uptime))
+                tqdm.write(f"{router_name} uptime: {uptime}")
                 logging.info(f'{router_name} uptime: {uptime}')
                 r.uptime = uptime
 
@@ -93,7 +93,7 @@ def parse_info(router_name):
                 data = line.split(':')
                 cleaned_data = data[1].split(' ')
                 router_os = cleaned_data[1]
-                tqdm.write("{}: {}".format(router_name,router_os))
+                tqdm.write(f"{router_name}: {router_os}")
                 logging.info(f'{router_name} has a RouterOS: {router_os}')
                 r.router_os_version = router_os
 
@@ -101,7 +101,7 @@ def parse_info(router_name):
                 data = line.split(':')
                 cleaned_data = data[1].split(' ')
                 free_memory = cleaned_data[1]
-                tqdm.write("{} free_memory: {}".format(router_name, free_memory))
+                tqdm.write(f"{router_name} free_memory: {free_memory}")
                 logging.info(f'{router_name} free_memory: {free_memory}')
                 r.free_memory = free_memory
 
@@ -109,7 +109,7 @@ def parse_info(router_name):
                 data = line.split(':')
                 cleaned_data = data[1].split(' ')
                 total_memory = cleaned_data[1]
-                tqdm.write("{} total_memory: {}".format(router_name, total_memory))
+                tqdm.write(f"{router_name} total_memory: {total_memory}")
                 logging.info(f'{router_name} total_memory: {total_memory}')
                 r.total_memory = total_memory
 
@@ -117,7 +117,7 @@ def parse_info(router_name):
                 data = line.split(':')
                 cleaned_data = data[1].split(' ')
                 cpu_load = cleaned_data[1]
-                tqdm.write("{} cpu_load: {}".format(router_name, cpu_load))
+                tqdm.write(f"{router_name} cpu_load: {cpu_load}")
                 logging.info(f'{router_name} cpu_load: {cpu_load}')
                 r.cpu_load = cpu_load
 
@@ -125,7 +125,7 @@ def parse_info(router_name):
                 data = line.split(':')
                 cleaned_data = data[1].split(' ')
                 free_hdd_space = cleaned_data[1]
-                tqdm.write("{} free_hdd_space: {}".format(router_name, free_hdd_space))
+                tqdm.write(f"{router_name} free_hdd_space: {free_hdd_space}")
                 logging.info(f'{router_name} free_hdd_space: {free_hdd_space}')
                 r.free_hdd_space = free_hdd_space
 
@@ -133,7 +133,7 @@ def parse_info(router_name):
                 data = line.split(':')
                 cleaned_data = data[1].split(' ')
                 total_hdd_space = cleaned_data[1]
-                tqdm.write("{} total_hdd_space: {}".format(router_name, total_hdd_space))
+                tqdm.write(f"{router_name} total_hdd_space: {total_hdd_space}")
                 logging.info(f'{router_name} total_hdd_space: {total_hdd_space}')
                 r.total_hdd_space = total_hdd_space
 
@@ -141,7 +141,7 @@ def parse_info(router_name):
                 data = line.split(':')
                 cleaned_data = data[1].split(' ')
                 bad_blocks = cleaned_data[1]
-                tqdm.write("{} bad_blocks: {}".format(router_name, bad_blocks))
+                tqdm.write(f"{router_name} bad_blocks: {bad_blocks}")
                 logging.info(f'{router_name} bad_blocks: {bad_blocks}')
                 r.bad_blocks = bad_blocks
 
@@ -149,7 +149,7 @@ def parse_info(router_name):
                 data = line.split(':')
                 cleaned_data = data[1].split(' ')
                 board_name = cleaned_data[1]
-                tqdm.write("{} board_name: {}".format(router_name, board_name))
+                tqdm.write(f"{router_name} board_name: {board_name}")
                 logging.info(f'{router_name} board_name: {board_name}')
                 r.board_name = board_name
 

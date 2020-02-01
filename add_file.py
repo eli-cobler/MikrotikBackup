@@ -38,8 +38,8 @@ def ssh_key(username, password, router_ip):
         remotepath_export = "/id_rsa-2.pub"
         localpath_export = 'id_rsa-2.pub'
 
-        print("Trying to place file at {}".format(remotepath_export))
-        logging.info("Trying to place file at %s." % remotepath_export)
+        print(f"Trying to place file at {remotepath_export}")
+        logging.info(f"Trying to place file at {remotepath_export}.")
         sftp.put(localpath_export, remotepath_export)
         print("SSH Pub Key transfered")
         logging.info("SSH Pub Key transfered")
@@ -68,7 +68,7 @@ def ssh_key(username, password, router_ip):
 
         print('Running import command')
         logging.info('Running import command')
-        ssh.exec_command("/user ssh-keys import public-key-file=id_rsa-2.pub user={}".format(username))
+        ssh.exec_command(f"/user ssh-keys import public-key-file=id_rsa-2.pub user={username}")
         logging.info("Command successful.")
 
         print("Closing connection")
@@ -96,7 +96,7 @@ def ssh_key(username, password, router_ip):
         logging.error(err)
     except:
         the_type, the_value, the_traceback = sys.exc_info()
-        print("{}\n{}".format(the_type, the_value))
+        print(f"{the_type}\n{the_value}")
         logging.info("Ran the unexpected error below:")
         logging.error(the_type,the_value)
 
@@ -105,8 +105,8 @@ def autoUpdater(router_name, router_ip, username, password):
     today = datetime.datetime.today() 
     tomorrow = today + datetime.timedelta(1)
 
-    print("Trying to connect to {}".format(router_name))
-    logging.info("Trying to connect to %s" % router_name)
+    print(f"Trying to connect to {router_name}")
+    logging.info(f"Trying to connect to {router_name}")
     try: 
         # sftping script to router
         transport = paramiko.Transport((router_ip))
@@ -156,7 +156,7 @@ def autoUpdater(router_name, router_ip, username, password):
         print('Running commands...')
         logging.info('Running commands...')
         ssh.exec_command('/system script add name=autoupdate policy=ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon source="/import file-name=autoUpdater.rsc"')
-        ssh.exec_command('/system scheduler add name=AutoUpdate interval=24h start-time=02:30:00 on-event=autoupdate start-date={}'.format(tomorrow.strftime('%b/%d/%Y')))
+        ssh.exec_command(f"/system scheduler add name=AutoUpdate interval=24h start-time=02:30:00 on-event=autoupdate start-date={tomorrow.strftime('%b/%d/%Y')}")
         print("Commands successful")
         logging.info("Commands successful")
 
@@ -181,6 +181,6 @@ def autoUpdater(router_name, router_ip, username, password):
         logging.error(err)
     except:
         the_type, the_value, the_traceback = sys.exc_info()
-        print("{}\n{}".format(the_type, the_value))
+        print(f"{the_type}\n{the_value}")
         logging.info("Ran the unexpected error below:")
         logging.error(the_type, the_value)

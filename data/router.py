@@ -31,4 +31,4 @@ class Router(SqlAlchemyBase):
     board_name = sa.Column(sa.String, index=True)
 
     def __repr__(self):
-        return '<Router {}>'.format(self.id)
+        return f'<Router {self.id}>'

@@ -25,16 +25,16 @@ def create_backup(router_name, router_ip, username, password):
                                                                                         stderr=subprocess.PIPE)
             if backup_output.stdout != '':
                 logging.info(backup_output.stdout)
-                tqdm.write("stdout: {}".format(backup_output.stdout))
+                tqdm.write(f"stdout: {backup_output.stdout}")
                 #backup_status = backup_output.stdout
 
             if backup_output.stderr != '':
                 logging.warning(backup_output.stderr)
-                tqdm.write("stderr: {}".format(backup_output.stderr))
+                tqdm.write(f"stderr: {backup_output.stderr}")
                 #backup_status = backup_output.stderr
         except:
             logging.error(sys.exc_info()[1])
-            tqdm.write("Exception: {}".format(sys.exc_info()[1]))
+            tqdm.write(f"Exception: {sys.exc_info()[1]}")
             #backup_status = sys.exc_info()[1]
 
         
@@ -50,14 +50,14 @@ def create_backup(router_name, router_ip, username, password):
                                                                                     stderr=subprocess.PIPE)
             if transfer_output.stdout != '':
                 logging.info(transfer_output.stdout)
-                tqdm.write("stdout: {}".format(transfer_output.stdout))
+                tqdm.write(f"stdout: {transfer_output.stdout}")
 
             if transfer_output.stderr != '':
                 logging.warning(transfer_output.stderr)
-                tqdm.write("stderr: {}".format(transfer_output.stderr))
+                tqdm.write(f"stderr: {transfer_output.stderr}")
         except:
             logging.error(sys.exc_info()[1])
-            tqdm.write("Exception: {}".format(sys.exc_info()[1]))
+            tqdm.write(f"Exception: {sys.exc_info()[1]}")
             
         backup_status = 'Backup Complete'
     except TimeoutError as err:
@@ -74,7 +74,7 @@ def create_backup(router_name, router_ip, username, password):
         backup_status = err
     except:
         the_type, the_value, the_traceback = sys.exc_info()
-        tqdm.write("{}\n{}".format(the_type, the_value))
+        tqdm.write(f"{the_type}\n{the_value}")
         #flash("{}\n{}".format(the_type, the_value))
         backup_status = the_value
 
@@ -99,16 +99,16 @@ def create_config(router_name, router_ip, username, password, backup_status):
                                                                                             stderr=subprocess.PIPE)
             if config_output.stdout != '':
                 logging.info(config_output.stdout)
-                tqdm.write("stdout: {}".format(config_output.stdout))
+                tqdm.write(f"stdout: {config_output.stdout}")
                 #config_status = config_output.stdout
 
             if config_output.stderr != '':
                 logging.warning(config_output.stderr)
-                tqdm.write("stderr: {}".format(config_output.stdout))
+                tqdm.write(f"stderr: {config_output.stdout}")
                 #config_status = config_output.stderr
         except:
             logging.info(sys.exc_info()[1])
-            tqdm.write("Exception: {}".format(sys.exc_info()[1]))
+            tqdm.write(f"Exception: {sys.exc_info()[1]}")
             #config_status = sys.exc_info()[1]
         
         config_status = 'Config Export Complete'
@@ -126,7 +126,7 @@ def create_config(router_name, router_ip, username, password, backup_status):
         config_status = err
     except:
         the_type, the_value, the_traceback = sys.exc_info()
-        tqdm.write("{}\n{}".format(the_type, the_value))
+        tqdm.write(f"{the_type}\n{the_value}")
         #flash("{}\n{}".format(the_type, the_value))
         config_status = the_value
 
@@ -162,20 +162,20 @@ def run():
         else:
             # starting backup
             #tqdm.write("Starting backup for {}...".format(item['router_name']))
-            tqdm.write("Starting backup for {}...".format(item['router_name']))
+            tqdm.write(f"Starting backup for {item['router_name']}...")
             logging.info("Starting backup for %s...", item['router_name'])
             backup_status = create_backup(item['router_name'], item['router_ip'], item['username'], item['password'])
             #tqdm.write("Completed backup for {}".format(item['router_name']))
-            tqdm.write("Completed backup for {}".format(item['router_name']))
+            tqdm.write(f"Completed backup for {item['router_name']}")
             logging.info("Completed backup for %s", item['router_name'])
 
             # starting config export
             #tqdm.write("Starting config export for {}...".format(item['router_name']))
-            tqdm.write("Starting config export for {}...".format(item['router_name']))
+            tqdm.write(f"Starting config export for {item['router_name']}...")
             logging.info("Starting config export for %s...", item['router_name'])
             config_status = create_config(item['router_name'], item['router_ip'], item['username'], item['password'], backup_status)
             #tqdm.write("Config export complete for {}".format(item['router_name']))
-            tqdm.write("Config export complete for {}".format(item['router_name']))
+            tqdm.write(f"Config export complete for {item['router_name']}")
             logging.info("Config export complete for %s", item['router_name'])
 
             # gathering info from rotuers

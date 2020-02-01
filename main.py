@@ -234,8 +234,11 @@ def single_backup():
 @app.route('/stream')
 def stream():
     def backup_background_process():
+        top_folder = os.path.dirname(__file__)
+        rel_folder = os.path.join('bin', 'interate.py')
+        interate_script_path = os.path.abspath(os.path.join(top_folder, rel_folder))
         proc = subprocess.Popen(
-            ['python /Users/coblere/Documents/GitHub/MikrotikBackup/bin/interate.py'],  # call something with a lot of output so we can see it
+            [f'python {interate_script_path}'],  # call something with a lot of output so we can see it
             shell=True,
             universal_newlines=True,
             stdout=subprocess.PIPE
@@ -246,7 +249,7 @@ def stream():
             yield line.rstrip() + '\n'
 
     terminal_output = backup_background_process()
-    return Response(stream_template('home/stream.html', rows=terminal_output))
+    return Response(stream_template('home/stream_progress.html', rows=terminal_output, router_total=router_service.get_router_count()))
 
 # ################### ACCOUNT #################################
 

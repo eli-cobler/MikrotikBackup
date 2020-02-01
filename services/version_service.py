@@ -47,11 +47,11 @@ def check_date(filename, file_path):
     if filename < compare_date:
         try:
             os.remove(str(file_path))
-            tqdm.write("{} was removed.".format(filename))
-            logging.info("%s was removed." % filename)
+            tqdm.write(f"{filename} was removed.")
+            logging.info(f"{filename} was removed.")
         except:
-            tqdm.write("There was an issue removeing {}.".format(filename))
-            logging.error("There was an issue removing %s." % filename)
+            tqdm.write(f"There was an issue removeing {filename}.")
+            logging.error(f"There was an issue removing {filename}.")
             logging.error(sys.exc_info()[1])
     else:
         pass
@@ -65,21 +65,21 @@ def run():
     ignore_list = router_service.get_router_ignore_list()
     for folder in tqdm(backups_path, unit=" files"):
         if folder in ignore_list:
-            tqdm.write("{} has been ignored.".format(folder))
-            logging.info("%s has been ignored." % folder)
+            tqdm.write(f"{folder} has been ignored.")
+            logging.info(f"{folder} has been ignored.")
         elif folder =='.DS_Store':
             tqdm.write(f'Found .ds_store in {folder}')
         else:
-            tqdm.write("{} is being checked.".format(folder))
-            logging.info("%s has been checked." % folder)
-            path = os.path.join(os.getcwd(), 'backups/{}'.format(folder))
+            tqdm.write(f"{folder} is being checked.")
+            logging.info(f"{folder} has been checked.")
+            path = os.path.join(os.getcwd(), f'backups/{folder}')
             listed = os.listdir(path)
             for file in listed:
-                files_date = creation_date(os.path.join(os.getcwd(), 'backups/{}/{}'.format(folder, file)))
-                file_path = os.path.join(os.getcwd(), 'backups/{}/{}'.format(folder, file))
+                files_date = creation_date(os.path.join(os.getcwd(), f'backups/{folder}/{file}'))
+                file_path = os.path.join(os.getcwd(), f'backups/{folder}/{file}')
                 check_date(files_date, file_path)
 
-            tqdm.write("{} has been checked.".format(folder))
+            tqdm.write(f"{folder} has been checked.")
 
 if __name__ == "__main__":
     init_db()

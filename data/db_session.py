@@ -16,7 +16,7 @@ def global_init(db_file: str):
         raise Exception("You must specify a db file.")
 
     conn_str = 'sqlite:///' + db_file.strip()
-    print("Connecting to DB with {}".format(conn_str))
+    print(f"Connecting to DB with {conn_str}")
 
     engine = sa.create_engine(conn_str, echo=False)
     __factory = orm.sessionmaker(bind=engine)
