@@ -3,7 +3,7 @@ import logging
 import os
 import subprocess
 import sys
-
+import colorama
 from tqdm import tqdm
 
 # setting path for cron job
@@ -172,12 +172,14 @@ def create_config(router_name, router_ip, username):
     return config_status
 
 def run():
+    # setting start time for sync to async comparison
+    t0 = datetime.datetime.now()
+
+    # gathering list all routers and list of routers to be ignored and router count
     routers = router_service.get_router_list()
     ignored_routers = router_service.get_router_ignore_list()
+    router_count = router_service.get_router_count()
 
-    router_count = 0
-    for r in routers:
-        router_count += 1
 
     for item in tqdm(routers, total=router_count, unit=" router"):
         if item.router_name in ignored_routers:
@@ -209,6 +211,9 @@ def run():
             # gathering info from rotuers
             router_details_service.get_info(item.router_name, item.router_ip, item.username)
             router_details_service.parse_info(item.router_name)
+
+    dt = datetime.datetime.now() - t0
+    print(colorama.Fore.WHITE + "App exiting, total time: {:,.2f} sec.".format(dt.total_seconds()), flush=True)
 
 if __name__ == "__main__":
     init_db()
