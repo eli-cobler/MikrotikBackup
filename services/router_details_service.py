@@ -8,8 +8,8 @@
 #  This project allows you generate and store backup and config
 #  files from Mikrotik Routers. 
 #
-#  Gets the current version of routerOS running on the router. 
-
+#  Gets the current version of routerOS running on the router.
+import asyncio
 import subprocess, os, logging, sys
 from tqdm import tqdm
 from data import db_session
@@ -36,7 +36,7 @@ def init_db():
     db_file = os.path.abspath(os.path.join(top_folder, rel_file))
     db_session.global_init(db_file)
 
-def get_info(router_name,router_ip, username):
+async def get_info(router_name,router_ip, username):
     tqdm.write(f'Gathering info for {router_name}...')
     logging.info(f'Gathering info for {router_name}...')
     # sshing into router to get router OS verison
@@ -44,12 +44,10 @@ def get_info(router_name,router_ip, username):
     logging.info('Running system info command')
     
     try:
-        router_info = subprocess.run('ssh {}@{} /system resource print'.format(username,
-                                                                        router_ip),
-                                                                        shell=True,
-                                                                        universal_newlines=True,
-                                                                        stdout=subprocess.PIPE,
-                                                                        stderr=subprocess.PIPE)
+        router_info = await asyncio.create_subprocess_shell('ssh {}@{} /system resource print'.format(username,
+                                                                                        router_ip),
+                                                                                        stdout = asyncio.subprocess.PIPE,
+                                                                                        stderr = asyncio.subprocess.PIPE)
         logging.info(f"Info gatherered for {router_name}")
         tqdm.write(f"Info gatherered for {router_name}")
 
