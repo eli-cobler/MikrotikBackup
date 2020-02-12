@@ -10,7 +10,7 @@
 #  This file is used to add the various files needed on the routers like ssh key's and the auto 
 #  updater script.
 
-import datetime, paramiko, database, sys, logging
+import datetime, paramiko, sys, logging
 
 # log setup
 logging.basicConfig(filename='logs/add_file.log',
