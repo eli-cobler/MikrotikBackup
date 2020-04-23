@@ -27,7 +27,7 @@ def get_config_complete_count() -> int:
     config_status_query = session.query(Router.config_status)
     complete_count = 0
     for status in config_status_query:
-        if status == ('Config Export Complete',):
+        if status == ('Config Complete',):
             complete_count += 1
 
     session.close()
