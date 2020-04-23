@@ -6,7 +6,7 @@
             <h4>Which router do you want to update?</h4>
             <div class="select-router">
                  <select class="form-control" name="selected router">
-                    {% for r in routers[1:] %}
+                    {% for r in routers[0:] %}
                         <option value= "{{r.router_name}}">{{r.router_name}}</option>
                     {% endfor %}
                 </select>
