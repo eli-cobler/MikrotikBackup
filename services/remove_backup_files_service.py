@@ -70,7 +70,7 @@ def run():
                 tqdm.write(f"{log_date_time} Exception: {sys.exc_info()[1]}")
 
             tqdm.write(f"{log_date_time} Removal for {item.router_name} completed.")
-            print(f"Removal for {item.router_name} completed.")
+            print(f"{log_date_time} Removal for {item.router_name} completed.")
 
 
 
