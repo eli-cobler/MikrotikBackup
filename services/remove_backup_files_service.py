@@ -11,7 +11,8 @@
 #   This file removes all backup files from the router keeping them from filling up on backups.
 
 # python module imports
-import os,logging,sys, subprocess
+import os,sys, subprocess
+from datetime import datetime
 from tqdm import tqdm
 
 # setting path for cron job
@@ -23,11 +24,7 @@ import data.db_session as db_session
 from services import router_service
 
 # log setup
-logging.basicConfig(filename='logs/removeBackupFiles.log',
-                    format='%(asctime)s %(levelname)s %(message)s',
-                    datefmt='%m/%d/%Y %I:%M:%S %p',
-                    filemode='w',
-                    level=logging.DEBUG)
+log_date_time = datetime.now().strftime("%m-%d-%Y %H:%M:%S")
 
 def init_db():
     top_folder = os.path.dirname(__file__)
@@ -37,23 +34,23 @@ def init_db():
 
 
 def run():
-    tqdm.write("Gathering Routers...")
-    logging.info("Gathering Routers...")
+    tqdm.write(f"{log_date_time} Gathering Routers...")
+    print(f"{log_date_time} Gathering Routers...")
 
     ignore_list = router_service.get_router_ignore_list()
     router_list = router_service.get_router_list()
     router_count = router_service.get_router_count()
 
-    tqdm.write("Routers Gathered.")
-    logging.info("Routers Gathered.")
+    tqdm.write(f"{log_date_time} Routers Gathered.")
+    print(f"{log_date_time} Routers Gathered.")
 
     for item in tqdm(router_list, total=router_count, unit=" routers"):
-        tqdm.write(f"Starting Removal for {item.router_name}...")
-        logging.info(f"Starting Removal for {item.router_name}...")
+        tqdm.write(f"{log_date_time} Starting Removal for {item.router_name}...")
+        print(f"{log_date_time} Starting Removal for {item.router_name}...")
 
         if item.router_name in ignore_list:
-            tqdm.write("Removal skipped.")
-            logging.info("Removal skipped.")
+            tqdm.write(f"{log_date_time} Removal skipped.")
+            print(f"{log_date_time} Removal skipped.")
         else:
             try:
                 remove_backup = subprocess.run(f'ssh {item.username}@{item.router_ip} /file remove [find type="backup"]',
@@ -62,18 +59,18 @@ def run():
                                                stdout=subprocess.PIPE,
                                                stderr=subprocess.PIPE)
                 if remove_backup.stdout != '':
-                    logging.info(remove_backup.stdout)
-                    tqdm.write(f"stdout: {remove_backup.stdout}")
+                    print(f"{log_date_time} {remove_backup.stdout}")
+                    tqdm.write(f"{log_date_time} stdout: {remove_backup.stdout}")
 
                 if remove_backup.stderr != '':
-                    logging.warning(remove_backup.stderr)
-                    tqdm.write(f"stderr: {remove_backup.stderr}")
+                    print(f"{log_date_time} {remove_backup.stderr}")
+                    tqdm.write(f"{log_date_time} stderr: {remove_backup.stderr}")
             except:
-                logging.error(sys.exc_info()[1])
-                tqdm.write(f"Exception: {sys.exc_info()[1]}")
+                print(f'{log_date_time} {sys.exc_info()[1]}')
+                tqdm.write(f"{log_date_time} Exception: {sys.exc_info()[1]}")
 
-            tqdm.write(f"Removal for {item.router_name} completed.")
-            logging.info(f"Removal for {item.router_name} completed.")
+            tqdm.write(f"{log_date_time} Removal for {item.router_name} completed.")
+            print(f"Removal for {item.router_name} completed.")
 
 
 
