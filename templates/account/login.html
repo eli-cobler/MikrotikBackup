@@ -1,9 +1,31 @@
-<title>Backup Files</title>
 {% extends "shared/_layout.html" %}
-{% block main_content %}
-     <h1>This is the account login page.</h1>
+{% block title %}Mikrotik Backup | Login{% endblock %}
 
-    <div>
-        This is page is still a work in progress.
+{% block main_content %}
+    <div class="form-container">
+        <form action="" method="POST" class="account-form">
+            <h1>Login</h1>
+
+            <input name="email" type="email" placeholder=" Your email address" class="form-control" value="{{ email }}" required>
+            <input name="password" type="password" placeholder=" Password" class="form-control" value="{{ password }}" required>
+            <button type="submit" class="btn btn-success">Login</button>
+            <div style="clear: both;"></div>
+
+            {% if error %}
+                <div class="alert alert-danger error-msg">{{ error }}</div>
+            {% endif %}
+        </form>
     </div>
+
+    <div class="login_warning">
+        <img src="/static/img/SPARK_Logo_(OEM).png" class="d-inline-block align-top" alt="">
+        <h3>This is a secure server unauthorized access strictly forbidden!</h3>
+        <p>_________________________________________________________________________</p>
+        <p>All activity is monitored! If you don't belong here then leave now! We will prosecute to the fullest extent of the law!</p>
+    </div>
+
+{% endblock %}
+
+{% block additional_css %}
+    <link rel="stylesheet" href="/static/css/account.css">
 {% endblock %}

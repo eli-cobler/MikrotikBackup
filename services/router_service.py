@@ -254,3 +254,10 @@ def update_router(selected_router,router_name, router_ip, username, password, ig
     r.ignore = ignore
     session.commit()
     logging.info("Database values updated successfully.")
+
+def find_router_by_name(router_name: str) -> Optional[Router]:
+    session = db_session.create_session()
+    user = session.query(Router).filter(Router.router_name == router_name).first()
+    session.close()
+
+    return user

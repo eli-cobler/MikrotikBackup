@@ -1,7 +1,14 @@
 {% extends "shared/_layout.html" %}
-{% block title %}Backup Files{% endblock %}
+{% block title %}Mikrotik Backup | Backup Files{% endblock %}
 {% block main_content %}
     <div class="files">
+        <div class="col-1">
+            {% for file in files %}
+               {% if '.zip' in file %}
+                   <a href="/backups/{{ backups }}/{{ file }}" class="btn btn-outline-dark btn-sm">{{ file }}</a>
+               {% endif %}
+            {% endfor %}
+        </div>
         <div class="row">
             {% for file in files %}
             {% if '.rsc' in file %}

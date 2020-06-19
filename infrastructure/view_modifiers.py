@@ -1,6 +1,8 @@
 from functools import wraps
 
 import flask
+import werkzeug
+import werkzeug.wrappers
 
 
 def response(*, mimetype: str = None, template_file: str = None):
@@ -10,6 +12,10 @@ def response(*, mimetype: str = None, template_file: str = None):
         @wraps(f)
         def view_method(*args, **kwargs):
             response_val = f(*args, **kwargs)
+
+            if isinstance(response_val, werkzeug.wrappers.Response):
+                return response_val
+
             if isinstance(response_val, flask.Response):
                 return response_val
 
@@ -20,7 +26,7 @@ def response(*, mimetype: str = None, template_file: str = None):
 
             if template_file and not isinstance(response_val, dict):
                 raise Exception(
-                    f"Invalid return type {type(response_val)}, we expected a dict as the return value.")
+                    "Invalid return type {}, we expected a dict as the return value.".format(type(response_val)))
 
             if template_file:
                 response_val = flask.render_template(template_file, **response_val)

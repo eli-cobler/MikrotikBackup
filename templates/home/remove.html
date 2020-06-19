@@ -1,12 +1,12 @@
 {% extends "shared/_layout.html" %}
-{% block title %}Remove Router{% endblock %}
+{% block title %}Mikrotik Backup | Remove Router{% endblock %}
 {% block main_content %}
 
 <div class="router-form">
     <form action="/remove" method="POST">
         <h4>Which router do you want to remove?</h4>
         <div class="select-router">
-            <select class="form-control" name="selected router">
+            <select class="form-control" name="selected_router">
                 {% for r in routers[1:] %}
                     <option value= "{{r.router_name}}">{{r.router_name}}</option>
                 {% endfor %}

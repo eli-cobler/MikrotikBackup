@@ -172,7 +172,7 @@ async def create_config(router_name, router_ip, username):
 
 def run():
     # setting start time for sync to async comparison
-    t0 = datetime.datetime.now()
+    start_time = datetime.datetime.now()
 
     # gathering list all routers and list of routers to be ignored and router count
     routers = router_service.get_router_list()
@@ -222,7 +222,7 @@ def run():
 
             loop.run_until_complete(final_task)
 
-    dt = datetime.datetime.now() - t0
+    dt = datetime.datetime.now() - start_time
     print(colorama.Fore.WHITE + "App exiting, total time: {:,.2f} sec.".format(dt.total_seconds()), flush=True)
 
 if __name__ == "__main__":

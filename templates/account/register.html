@@ -1,19 +1,19 @@
 {% extends "shared/_layout.html" %}
-{% block title %}Register{% endblock %}
+{% block title %}Mikrotik Backup | Register{% endblock %}
+
 {% block main_content %}
     <div class="form-container">
         <form action="" method="POST" class="account-form">
             <h1>Register at Mikrotik Backup</h1>
 
-            <input name="name" type="text" placeholder=" Your Name" class="form-control" value="{{ name }}">
-            <input name="email" type="text" placeholder=" Your email address" class="form-control" value="{{ email }}">
-            <input name="password" type="password" placeholder=" Password" class="form-control" value="{{ password }}">
-            <p>NOTE: This page is still a work in progress and currently doing do anyting. </p>
+            <input name="name" type="text" placeholder=" Your name" class="form-control" value="{{ name }}" required>
+            <input name="email" type="email" placeholder=" Your email address" class="form-control" value="{{ email }}" required>
+            <input name="password" type="password" placeholder=" Password" class="form-control" value="{{ password }}" required>
             <button type="submit" class="btn btn-danger">Register</button>
             <div style="clear: both;"></div>
 
             {% if error %}
-                <div class="error-msg">{{ error }}</div>
+                <div class="alert alert-danger error-msg">{{ error }}</div>
             {% endif %}
         </form>
     </div>

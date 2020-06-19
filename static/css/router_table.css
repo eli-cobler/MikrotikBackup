@@ -38,7 +38,7 @@ table td {
   }
 
   table td {
-    border-bottom: 1px solid #ddd;
+    /*border-bottom: 1px solid #ddd;*/
     display: block;
     text-align: center;
   }
