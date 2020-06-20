@@ -311,18 +311,18 @@ modules.xml
 .idea/sonarlint
 
 ### Alembic ###
-/alembic.ini
-/alembic/env.py
-/alembic/README
-/alembic/script.py.mako
+/mikrotik_backup/alembic.ini
+/mikrotik_backup/alembic/env.py
+/mikrotik_backup/alembic/README
+/mikrotik_backup/alembic/script.py.mako
 
 ### Random Ignored Files ###
 *.db
 *.db copy
 **/backups
 **/router_info
-/db/mikrotikbackup.sqlite
-/id_rsa-2.pub
-/services/path_test.py
+/mikrotik_backup/db/mikrotikbackup.sqlite
+/mikrotik_backup/id_rsa-2.pub
+/mikrotik_backup/services/path_test.py
 
 # End of https://www.gitignore.io/api/macos,flask,python,visualstudiocode
