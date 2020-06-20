@@ -1,0 +1,36 @@
+{% extends "shared/_layout.html" %}
+{% block title %}Mikrotik Backup | Add Router{% endblock %}
+{% block main_content %}
+    <div class="router-form">
+        <form action="/add" method="post">
+            <h4>Add Router</h4>
+
+            <input class="form-control" name="name" type="text" placeholder="Name" required/>
+            <input class="form-control" name="router_ip" type="text" placeholder="Router IP/Hostname" required/>
+            <input class="form-control" name="username" type="text" placeholder="Username" required/>
+
+            <button type="button" class="btn btn-light btn-group-sm" style="float: right; margin-top: 10px;" onclick="showPassword()">
+                <img src="/static/img/icons/lock.svg" width="20" height="20" title="Hide_Pwd">
+            </button>
+            <div style="overflow: hidden; padding-right: .65em;">
+                <input style="overflow: hidden; padding-right: .65em;" class="form-control" id="password" name="password" type="password" placeholder="Password" required/>
+            </div>
+
+            <div class="form-check">
+                <input name="skipped" type="checkbox" id="skipped">
+                <label for="skipped" class="form-check-label">Would you like to skip this router in the backups?</label>
+            </div>
+            {% if error %}
+                <div class="alert alert-danger error-msg">{{ error }}</div>
+            {% endif %}
+            <div class="actions">
+                <button type="submit" class="btn btn-outline-success btn-group-sm">Add Router</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block additional_js %}
+    <script src="/static/js/show_password.js"></script>
+{% endblock %}
+

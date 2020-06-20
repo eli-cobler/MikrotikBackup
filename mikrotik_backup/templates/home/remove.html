@@ -1,0 +1,51 @@
+{% extends "shared/_layout.html" %}
+{% block title %}Mikrotik Backup | Remove Router{% endblock %}
+{% block main_content %}
+
+<div class="router-form">
+    <form action="/remove" method="POST">
+        <h4>Which router do you want to remove?</h4>
+        <div class="select-router">
+            <select class="form-control" name="selected_router">
+                {% for r in routers[0:] %}
+                    <option value= "{{r.router_name}}">{{r.router_name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="actions">
+            <button type="button" class="btn btn-outline-danger btn-group-sm" data-toggle="modal" data-target="#removeRouterModal">Remove Router</button>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="removeRouterModal" tabindex="-1" role="dialog" aria-labelledby="removeRouterModalModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="removeRouterModalLabel">Remove Router</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Are you sure you want to remove this router? <br>
+                  By doing so you will be PERMANENTLY removing ALL of the following:
+                  <ul>
+                      <li>All Backups Files</li>
+                      <li>All Config Files</li>
+                      <li>All System Information</li>
+                  </ul>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-outline-danger">Remove Router</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </form>
+
+
+</div>
+
+{% endblock %}

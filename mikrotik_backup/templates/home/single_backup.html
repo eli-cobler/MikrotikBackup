@@ -1,0 +1,82 @@
+{% extends "shared/_layout.html" %}
+{% block title %}Single Backup{% endblock %}
+{% block main_content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<div class="router-form">
+    <form action="/single_backup" method="POST">
+        <h4>Which router do you want to backup?</h4>
+        <div class="select-router">
+            <select class="form-control" name="selected router">
+                {% for r in routers[1:] %}
+                    <option value= "{{r.router_name}}">{{r.router_name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="actions">
+            <button type="button" class="btn btn-outline-success btn-group-sm" data-toggle="modal" data-target="#singleBackupModal" onclick="makeProgress()">Run Backup</button>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="singleBackupModal" tabindex="-1" role="dialog" aria-labelledby="singleBackupModalModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="singleBackupModalLabel">Running Backup</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <!-- Progress bar HTML -->
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"></div>
+                </div>
+                <p>NOTE: This currently doesn't actually do anything on the backend.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="backupCompleteModal" tabindex="-1" role="dialog" aria-labelledby="backupCompleteModalModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="backupCompleteModalLabel">Backup Completed!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Router backup completed.
+              </div>
+              <div class="modal-footer">
+                  <a href="/venv/lib/python3.7/site-packages" class="btn btn-outline-success btn-sm">Awesome!</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- jQuery Script -->
+        <script type="text/javascript">
+        var i = 0;
+        function makeProgress(){
+
+            if (i < 100) {
+                i = i + 1;
+                $(".progress-bar").css("width", i + "%").text(i + "%");
+            }
+            else {
+                $('#singleBackupModal').modal('hide');
+                $('#backupCompleteModal').modal();
+            }
+            // Wait for sometime before running this script again
+            setTimeout("makeProgress()", 100);
+        }
+        </script>
+    </form>
+</div>
+
+
+{% endblock %}
