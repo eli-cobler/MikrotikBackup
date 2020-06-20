@@ -13,7 +13,7 @@
 import datetime, paramiko, sys, logging
 
 # log setup
-logging.basicConfig(filename='logs/add_file.log',
+logging.basicConfig(filename='/mikrotik_backup/logs/add_file.log',
                     format='%(asctime)s %(levelname)s %(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p',
                     level=logging.DEBUG)
