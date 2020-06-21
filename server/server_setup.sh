@@ -63,7 +63,7 @@ pip install -r requirements.txt
 sudo cp /apps/app_repo/server/MikrotikBackup.service /etc/systemd/system/MikrotikBackup.service
 
 sudo systemctl start MikrotikBackup
-#sudo systemctl status ping_dashboard
+#sudo systemctl status MikrotikBackup
 sudo systemctl enable MikrotikBackup
 
 # Setup the public facing server (NGINX)
