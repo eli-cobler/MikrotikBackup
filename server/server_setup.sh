@@ -38,8 +38,8 @@ git config --global user.name "eli-cobler"
 sudo mkdir /apps
 sudo chmod 777 /apps
 sudo mkdir /apps/logs
-sudo mkdir /apps/logs/mikrotik_backup
-sudo mkdir /apps/logs/mikrotik_backup/app_log
+sudo mkdir /apps/logs/MikrotikBackup
+sudo mkdir /apps/logs/MikrotikBackup/app_log
 cd /apps
 
 # Create a virtual env for the app.
@@ -60,11 +60,11 @@ cd /apps/app_repo/
 pip install -r requirements.txt
 
 # Copy and enable the daemon
-sudo cp /apps/app_repo/server/mikrotik_backup.service /etc/systemd/system/mikrotik_backup.service
+sudo cp /apps/app_repo/server/MikrotikBackup.service /etc/systemd/system/MikrotikBackup.service
 
-sudo systemctl start mikrotik_backup
+sudo systemctl start MikrotikBackup
 #sudo systemctl status ping_dashboard
-sudo systemctl enable mikrotik_backup
+sudo systemctl enable MikrotikBackup
 
 # Setup the public facing server (NGINX)
 sudo apt install nginx
@@ -72,7 +72,7 @@ sudo apt install nginx
 # CAREFUL HERE. If you are using default, maybe skip this
 sudo rm /etc/nginx/sites-enabled/default
 
-sudo cp /apps/app_repo/server/mikrotik_backup.nginx /etc/nginx/sites-enabled/mikrotik_backup.nginx
+sudo cp /apps/app_repo/server/MikrotikBackup.nginx /etc/nginx/sites-enabled/MikrotikBackup.nginx
 sudo update-rc.d nginx enable
 sudo service nginx restart
 
