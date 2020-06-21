@@ -1,9 +1,10 @@
 from flask import Flask
 import os
-from MikrotikBackup.data import db_session
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 app = Flask(__name__, root_path=dir_path)
+
+from MikrotikBackup.data import db_session
 
 def configure():
     register_blueprints()
