@@ -33,7 +33,7 @@ python-dateutil==2.8.0
 python-editor==1.0.4
 python-utils==2.3.0
 pytz==2018.9
-requests==2.21.0
+requests==2.22.0
 requests-oauthlib==1.2.0
 RouterOS-api==0.15.0
 schedule==0.5.0
