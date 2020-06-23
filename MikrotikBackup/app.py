@@ -3,6 +3,7 @@ import os
 from MikrotikBackup.data import db_session
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
+print(dir_path)
 app = Flask(__name__, root_path=dir_path)
 
 def configure():
@@ -11,7 +12,7 @@ def configure():
 
 def main():
     configure()
-    app.run(debug=True, port=5006)
+    app.run(debug=True, host='0.0.0.0', port=5006)
 
 def setup_db():
     db_file = os.path.join(
