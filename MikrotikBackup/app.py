@@ -1,5 +1,9 @@
 from flask import Flask
-import os
+import os, sys
+
+# setting path for app
+folder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+path = sys.path.insert(0, folder)
 from MikrotikBackup.data import db_session
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
