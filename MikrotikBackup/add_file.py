@@ -11,10 +11,10 @@
 #  updater script.
 
 import datetime, paramiko, sys, logging
-from datetime import datetime
+from datetime import datetime as date
 
 # log setup
-log_date_time = datetime.now().strftime("%m-%d-%Y %H:%M:%S")
+log_date_time = date.now().strftime("%m-%d-%Y %H:%M:%S")
 
 def ssh_key(username, password, router_ip):
     try:
