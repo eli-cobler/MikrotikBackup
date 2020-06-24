@@ -1,0 +1,12 @@
+[Unit]
+Description=MikrotikBackup web app at port 5000
+After=multi-user.target
+
+[Service]
+Type=simple
+User=spark
+WorkingDirectory=/var/MikrotikBackup
+ExecStart=/apps/venv/bin/python3 /apps/app_repo/MikrotikBackup/app.py
+
+[Install]
+WantedBy=multi-user.target
