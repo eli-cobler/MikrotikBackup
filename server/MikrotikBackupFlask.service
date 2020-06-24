@@ -5,7 +5,7 @@ After=multi-user.target
 [Service]
 Type=simple
 User=spark
-WorkingDirectory=/var/MikrotikBackup
+WorkingDirectory=/apps/app_repo/
 ExecStart=/apps/venv/bin/python3 /apps/app_repo/MikrotikBackup/app.py
 
 [Install]
