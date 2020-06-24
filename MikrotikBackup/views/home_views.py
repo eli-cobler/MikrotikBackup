@@ -67,6 +67,9 @@ def index():
 def router_table():
     vm = IndexViewModel()
 
+    if not vm.user:
+        return flask.redirect('/account/login')
+
     return vm.to_dict()
 
 
@@ -74,6 +77,9 @@ def router_table():
 @response(template_file='home/details.html')
 def router_info(router_name: str):
     vm = RouterInfoViewModel()
+
+    if not vm.user:
+        return flask.redirect('/account/login')
 
     if not vm.router_name:
         return flask.abort(status=404)
@@ -89,6 +95,10 @@ def router_info(router_name: str):
 @response(template_file='home/add.html')
 def add_get():
     vm = AddViewModel()
+
+    if not vm.user:
+        return flask.redirect('/account/login')
+
     return vm.to_dict()
 
 
@@ -96,6 +106,9 @@ def add_get():
 @response(template_file='home/add.html')
 def add_post():
     vm = AddViewModel()
+
+    if not vm.user:
+        return flask.redirect('/account/login')
 
     vm.validate()
 
@@ -126,12 +139,19 @@ def add_post():
 @response(template_file='home/remove.html')
 def remove_get():
     vm = RemoveViewModel()
+
+    if not vm.user:
+        return flask.redirect('/account/login')
+
     return vm.to_dict()
 
 @blueprint.route('/remove', methods=['POST'])
 @response(template_file='home/remove.html')
 def remove_post():
     vm = RemoveViewModel()
+
+    if not vm.user:
+        return flask.redirect('/account/login')
 
     router_service.remove_router(vm.router_to_remove)
 
@@ -146,12 +166,19 @@ def remove_post():
 @response(template_file='home/update.html')
 def update_get():
     vm = UpdateViewModel()
+
+    if not vm.user:
+        return flask.redirect('/account/login')
+
     return vm.to_dict()
 
 @blueprint.route('/update', methods=['POST'])
 @response(template_file='home/update.html')
 def update_post():
     vm = UpdateViewModel()
+
+    if not vm.user:
+        return flask.redirect('/account/login')
 
     router_details = router_service.get_router_details(vm.router_to_update)
 
