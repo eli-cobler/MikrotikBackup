@@ -53,11 +53,10 @@ def dir_listing(req_path):
 def index():
     vm = IndexViewModel()
 
-    if vm.user_id:
-        resp = flask.redirect('/account/router_table')
-        cookie_auth.set_auth(resp, vm.user_id)
+    if not vm.user:
+        return flask.redirect('/account/login')
 
-    resp = flask.redirect('/account/login')
+    resp = flask.redirect('/router_table')
     cookie_auth.set_auth(resp, vm.user_id)
 
     return resp
