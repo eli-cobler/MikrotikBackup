@@ -2,7 +2,7 @@ import shutil, os, logging, sys
 from tqdm import tqdm
 
 # setting path for cron job
-folder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+folder = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
 sys.path.insert(0, folder)
 from MikrotikBackup.data import db_session
 from MikrotikBackup.services import router_service

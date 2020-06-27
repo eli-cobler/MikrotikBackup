@@ -28,7 +28,7 @@ logging.basicConfig(filename='logs/versions.log',
 
 def init_db():
     top_folder = os.path.dirname(__file__)
-    rel_file = os.path.join('..', 'db', 'mikrotikbackup.sqlite')
+    rel_file = os.path.join('../..', 'db', 'mikrotikbackup.sqlite')
     db_file = os.path.abspath(os.path.join(top_folder, rel_file))
     db_session.global_init(db_file)
 
@@ -57,7 +57,7 @@ def check_date(filename, file_path):
 
 def run():
     top_folder = os.path.dirname(__file__)
-    rel_folder = os.path.join('..', 'backups')
+    rel_folder = os.path.join('../..', 'backups')
     complete_path = os.path.abspath(os.path.join(top_folder, rel_folder))
     backups_path = os.listdir(complete_path)
 
