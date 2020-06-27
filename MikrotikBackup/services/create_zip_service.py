@@ -1,5 +1,6 @@
 import shutil, os, logging, sys
 from tqdm import tqdm
+from datetime import datetime
 
 # setting path for cron job
 folder = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
@@ -8,11 +9,7 @@ from MikrotikBackup.data import db_session
 from MikrotikBackup.services import router_service
 
 # log setup
-logging.basicConfig(filename='logs/create_zip_service.log',
-                    format='%(asctime)s %(levelname)s %(message)s',
-                    datefmt='%m/%d/%Y %I:%M:%S %p',
-                    filemode='w',
-                    level=logging.DEBUG)
+log_date_time = datetime.now().strftime("%m-%d-%Y %H:%M:%S")
 
 def main():
     init_db()
@@ -39,39 +36,39 @@ def run():
         zip_path = os.path.join(backup_path,f'{router.router_name}.zip')
 
         if router.router_name in ignore_list:
-            tqdm.write(f'{router.router_name} skipped.')
-            logging.info(f'{router.router_name} skipped.')
+            tqdm.write(f'{log_date_time} {router.router_name} skipped.')
+            print(f'{log_date_time} {router.router_name} skipped.')
         elif os.path.exists(zip_path):
-            tqdm.write(f'{router.router_name} Found.')
-            logging.info(f'{router.router_name} Found.')
-            tqdm.write(f'Removing old {router.router_name}.zip')
-            logging.info(f'Removing old {router.router_name}.zip')
+            tqdm.write(f'{log_date_time} {router.router_name} Found.')
+            print(f'{log_date_time} {router.router_name} Found.')
+            tqdm.write(f'{log_date_time} Removing old {router.router_name}.zip')
+            print(f'{log_date_time} Removing old {router.router_name}.zip')
             os.remove(zip_path)
-            tqdm.write(f'{router.router_name} removed.')
-            logging.info(f'{router.router_name} removed.')
-            tqdm.write(f'Creating new {router.router_name}.zip')
-            logging.info(f'Creating new {router.router_name}.zip')
+            tqdm.write(f'{log_date_time} {router.router_name} removed.')
+            print(f'{log_date_time} {router.router_name} removed.')
+            tqdm.write(f'{log_date_time} Creating new {router.router_name}.zip')
+            print(f'{log_date_time} Creating new {router.router_name}.zip')
             shutil.make_archive(router.router_name, 'zip', backup_path)
-            tqdm.write(f'New {router.router_name}.zip created.')
-            logging.info(f'New {router.router_name}.zip created.')
-            tqdm.write(f'Moving {router.router_name}.zip to backup directory.')
-            logging.info(f'Moving {router.router_name}.zip to backup directory.')
+            tqdm.write(f'{log_date_time} New {router.router_name}.zip created.')
+            print(f'{log_date_time} New {router.router_name}.zip created.')
+            tqdm.write(f'{log_date_time} Moving {router.router_name}.zip to backup directory.')
+            print(f'{log_date_time} Moving {router.router_name}.zip to backup directory.')
             os.rename(f'{router.router_name}.zip', f'{backup_path}/{router.router_name}.zip')
-            tqdm.write(f'{router.router_name}.zip moved.')
-            logging.info(f'{router.router_name}.zip moved.')
+            tqdm.write(f'{log_date_time} {router.router_name}.zip moved.')
+            print(f'{log_date_time} {router.router_name}.zip moved.')
         else:
-            tqdm.write(f'{router.router_name} Not Found.')
-            logging.info(f'{router.router_name} Not Found.')
-            tqdm.write(f'Creating new {router.router_name}.zip')
-            logging.info(f'Creating new {router.router_name}.zip')
+            tqdm.write(f'{log_date_time} {router.router_name} Not Found.')
+            print(f'{log_date_time} {router.router_name} Not Found.')
+            tqdm.write(f'{log_date_time} Creating new {router.router_name}.zip')
+            print(f'{log_date_time} Creating new {router.router_name}.zip')
             shutil.make_archive(router.router_name,'zip',backup_path)
-            tqdm.write(f'New {router.router_name}.zip created.')
-            logging.info(f'New {router.router_name}.zip created.')
-            tqdm.write(f'Moving {router.router_name}.zip to backup directory.')
-            logging.info(f'Moving {router.router_name}.zip to backup directory.')
+            tqdm.write(f'{log_date_time} New {router.router_name}.zip created.')
+            print(f'{log_date_time} New {router.router_name}.zip created.')
+            tqdm.write(f'{log_date_time} Moving {router.router_name}.zip to backup directory.')
+            print(f'{log_date_time} Moving {router.router_name}.zip to backup directory.')
             os.rename(f'{router.router_name}.zip', f'{backup_path}/{router.router_name}.zip')
-            tqdm.write(f'{router.router_name}.zip moved.')
-            logging.info(f'{router.router_name}.zip moved.')
+            tqdm.write(f'{log_date_time} {router.router_name}.zip moved.')
+            print(f'{log_date_time} {router.router_name}.zip moved.')
 
 if __name__ == '__main__':
     main()
