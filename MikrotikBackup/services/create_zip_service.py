@@ -5,6 +5,8 @@ from datetime import datetime
 # setting path for cron job
 folder = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
 sys.path.insert(0, folder)
+
+# project module imports
 from MikrotikBackup.data import db_session
 from MikrotikBackup.services import router_service
 
