@@ -199,7 +199,6 @@ def remove_router(router_name):
 
 def update_router(selected_router,router_name, router_ip, username, password, ignore):
     path = os.path.abspath(os.path.join(os.path.dirname(__file__),'../backups/'))
-    print(f'path: {path}')
 
     if router_name != selected_router:
         logging.info(f"Changing name of router from {selected_router} to {router_name}.")
