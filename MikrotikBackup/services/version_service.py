@@ -16,19 +16,21 @@ from tqdm import tqdm
 # setting path for cron job
 folder = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
 sys.path.insert(0, folder)
+
+# project module imports
 import MikrotikBackup.data.db_session as db_session
 from MikrotikBackup.services import router_service
 
 # log setup
-logging.basicConfig(filename='logs/versions.log',
-                    format='%(asctime)s %(levelname)s %(message)s',
-                    datefmt='%m/%d/%Y %I:%M:%S %p',
-                    filemode='w',
-                    level=logging.DEBUG)
+log_date_time = datetime.now().strftime("%m-%d-%Y %H:%M:%S")
+
+def main():
+    init_db()
+    run()
 
 def init_db():
     top_folder = os.path.dirname(__file__)
-    rel_file = os.path.join('../..', 'db', 'mikrotikbackup.sqlite')
+    rel_file = os.path.join('..', 'db', 'mikrotikbackup.sqlite')
     db_file = os.path.abspath(os.path.join(top_folder, rel_file))
     db_session.global_init(db_file)
 
@@ -47,17 +49,17 @@ def check_date(filename, file_path):
         try:
             os.remove(str(file_path))
             tqdm.write(f"{filename} was removed.")
-            logging.info(f"{filename} was removed.")
+            print(f'{log_date_time} {filename} was removed.')
         except:
             tqdm.write(f"There was an issue removeing {filename}.")
-            logging.error(f"There was an issue removing {filename}.")
-            logging.error(sys.exc_info()[1])
+            print(f'{log_date_time} There was an issue removing {filename}.')
+            print(f'{log_date_time} {sys.exc_info()[1]}')
     else:
         pass
 
 def run():
     top_folder = os.path.dirname(__file__)
-    rel_folder = os.path.join('../..', 'backups')
+    rel_folder = os.path.join('..', 'backups')
     complete_path = os.path.abspath(os.path.join(top_folder, rel_folder))
     backups_path = os.listdir(complete_path)
 
@@ -65,12 +67,12 @@ def run():
     for folder in tqdm(backups_path, unit=" files"):
         if folder in ignore_list:
             tqdm.write(f"{folder} has been ignored.")
-            logging.info(f"{folder} has been ignored.")
+            print(f'{log_date_time} {folder} has been ignored.')
         elif folder =='.DS_Store':
             tqdm.write(f'Found .ds_store in {folder}')
         else:
             tqdm.write(f"{folder} is being checked.")
-            logging.info(f"{folder} has been checked.")
+            print(f'{log_date_time} {folder} has been checked.')
             path = os.path.join(os.getcwd(), f'backups/{folder}')
             listed = os.listdir(path)
             for file in listed:
@@ -79,7 +81,7 @@ def run():
                 check_date(files_date, file_path)
 
             tqdm.write(f"{folder} has been checked.")
+            print(f'{log_date_time} {folder} has been checked.')
 
 if __name__ == "__main__":
-    init_db()
-    run()
+    main()
