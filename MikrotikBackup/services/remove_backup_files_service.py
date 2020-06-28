@@ -26,6 +26,10 @@ from MikrotikBackup.services import router_service
 # log setup
 log_date_time = datetime.now().strftime("%m-%d-%Y %H:%M:%S")
 
+def main():
+    init_db()
+    run()
+
 def init_db():
     top_folder = os.path.dirname(__file__)
     rel_file = os.path.join('..', 'db', 'mikrotikbackup.sqlite')
@@ -75,5 +79,4 @@ def run():
 
 
 if __name__ == "__main__":
-    init_db()
-    run()
+    main()
