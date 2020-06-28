@@ -207,7 +207,7 @@ def update_router(selected_router,router_name, router_ip, username, password, ig
 
         # creating new backup directory
         try:
-            os.mkdir(path + router_name)
+            os.mkdir(path + f'/{router_name}')
             logging.info("New backup directory created.")
         except:
             logging.error("There was a problem creating new backup direcotry. See the error below.")
