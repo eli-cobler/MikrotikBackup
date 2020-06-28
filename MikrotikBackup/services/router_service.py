@@ -139,10 +139,10 @@ def add_router(router_name,router_ip,username,password,ignore):
     logging.info(f"Checking if directory for {router_name} already exists.")
 
     if directory_exists:
-        logging.info("The direcotry did already exist.")
+        logging.info("The directory did already exist.")
         return True
     else:
-        logging.info("The direcotry didn't exist.")
+        logging.info("The directory didn't exist.")
         # writes new router to database file
         logging.info("Attempting to write new router to database.")
         r = Router()
@@ -199,6 +199,7 @@ def remove_router(router_name):
 
 def update_router(selected_router,router_name, router_ip, username, password, ignore):
     path = os.path.abspath(os.path.join(os.path.dirname(__file__),'../backups/'))
+    print(f'path: {path}')
 
     if router_name != selected_router:
         logging.info(f"Changing name of router from {selected_router} to {router_name}.")
