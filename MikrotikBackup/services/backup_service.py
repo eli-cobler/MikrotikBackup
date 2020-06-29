@@ -5,21 +5,23 @@ import subprocess
 import sys
 import colorama
 from tqdm import tqdm
+from datetime import datetime as logging_datetime
 
 # setting path for cron job
 folder = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
 sys.path.insert(0, folder)
+
+# project module imports
 import MikrotikBackup.data.db_session as db_session
 from MikrotikBackup.data.router import Router
 from MikrotikBackup.services import router_details_service, router_service
 
 # log setup
-logging.basicConfig(filename='logs/backup.log',
-                    format='%(asctime)s %(levelname)s %(message)s',
-                    datefmt='%m/%d/%Y %I:%M:%S %p',
-                    filemode='w',
-                    level=logging.DEBUG)
+log_date_time = logging_datetime.now().strftime("%m-%d-%Y %H:%M:%S")
 
+def main():
+    init_db()
+    run()
 
 def init_db():
     top_folder = os.path.dirname(__file__)
@@ -42,7 +44,8 @@ def create_backup(router_name, router_ip, username):
                                                                                            stdout=subprocess.PIPE,
                                                                                            stderr=subprocess.PIPE)
             try:
-                tqdm.write(f'Starting transfer for {router_name}')
+                tqdm.write(f'{log_date_time} Starting transfer for {router_name}')
+                print(f'{log_date_time} Starting transfer for {router_name}')
                 top_folder = os.path.dirname(__file__)
                 rel_folder = os.path.join('..', 'backups')
                 backups_path = os.path.abspath(os.path.join(top_folder, rel_folder))
@@ -57,23 +60,23 @@ def create_backup(router_name, router_ip, username):
                                                  stdout=subprocess.PIPE,
                                                  stderr=subprocess.PIPE)
                 if transfer_output.stdout == '':
-                    logging.info(transfer_output.stdout)
+                    print(f'{log_date_time} {transfer_output.stdout}')
                     backup_status = "Backup Complete"
                 elif transfer_output.stdout != '':
-                    logging.info(transfer_output.stdout)
+                    print(f'{log_date_time} {transfer_output.stdout}')
                     backup_status = transfer_output.stdout
 
                 if transfer_output.stderr != '':
-                    logging.warning(transfer_output.stderr)
+                    print(f'{log_date_time} {transfer_output.stderr}')
                     tqdm.write(f"transfer stderr: {transfer_output.stderr}")
             except:
-                logging.error(sys.exc_info()[1])
+                print(f'{log_date_time} {sys.exc_info()[1]}')
                 tqdm.write(f"Exception: {sys.exc_info()[1]}")
                 #backup_status = sys.exc_info()[1]
 
 
             if backup_output.stderr != '':
-                logging.warning(backup_output.stderr)
+                print(f'{log_date_time} {backup_output.stderr}')
                 tqdm.write(f"stderr: {backup_output.stderr}")
                 backup_status = backup_output.stderr
         except:
@@ -128,17 +131,17 @@ def create_config(router_name, router_ip, username):
             #                                                                                     stdout=subprocess.PIPE,
             #                                                                                     stderr=subprocess.PIPE)
             if config_output.stdout == '':
-                logging.info(config_output.stdout)
+                print(f'{log_date_time} {config_output.stdout}')
                 config_status = "Config Complete"
             elif config_output.stdout != '':
-                logging.info(config_output.stdout)
+                print(f'{log_date_time} {config_output.stdout}')
                 config_status = config_output.stdout
 
             if config_output.stderr != '':
-                logging.warning(config_output.stderr)
+                print(f'{log_date_time} {config_output.stderr}')
                 config_status = config_output.stderr
         except:
-            logging.info(sys.exc_info()[1])
+            print(f'{log_date_time} {sys.exc_info()[1]}')
             tqdm.write(f"Exception: {sys.exc_info()[1]}")
             # config_status = sys.exc_info()[1]
 
@@ -184,7 +187,7 @@ def run():
 
     for item in tqdm(routers, total=router_count, unit=" router"):
         if item.router_name in ignored_routers:
-            logging.info(f"Backup skipped for {item.router_name}")
+            print(f'{log_date_time} Backup skipped for {item.router_name}')
             tqdm.write(f"Backup skipped for {item.router_name}")
             backup_status = "Backup Skipped"
             config_status = "Config Skipped"
@@ -197,17 +200,17 @@ def run():
         else:
             # starting backup
             tqdm.write(f"Starting backup for {item.router_name}...")
-            logging.info(f"Starting backup for {item.router_name}...")
+            print(f'{log_date_time} Starting backup for {item.router_name}...')
             create_backup(item.router_name, item.router_ip, item.username)
             tqdm.write(f"Completed backup for {item.router_name}")
-            logging.info(f"Completed backup for {item.router_name}")
+            print(f'{log_date_time} Completed backup for {item.router_name}')
 
             # starting config export
             tqdm.write(f"Starting config export for {item.router_name}...")
-            logging.info(f"Starting config export for {item.router_name}...")
+            print(f'{log_date_time} Starting config export for {item.router_name}...')
             create_config(item.router_name, item.router_ip, item.username)
             tqdm.write(f"Config export complete for {item.router_name}")
-            logging.info(f"Config export complete for {item.router_name}")
+            print(f'{log_date_time} Config export complete for {item.router_name}')
 
             # gathering info from rotuers
             router_details_service.get_info(item.router_name, item.router_ip, item.username)
@@ -217,5 +220,4 @@ def run():
     print(colorama.Fore.WHITE + "App exiting, total time: {:,.2f} sec.".format(dt.total_seconds()), flush=True)
 
 if __name__ == "__main__":
-    init_db()
-    run()
+    main()
