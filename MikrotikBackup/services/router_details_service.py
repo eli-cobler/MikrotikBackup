@@ -12,6 +12,12 @@
 import subprocess, os, logging, sys
 from datetime import datetime
 from tqdm import tqdm
+
+# setting path for cron job
+folder = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
+sys.path.insert(0, folder)
+
+# project module imports
 from MikrotikBackup.data import db_session
 from MikrotikBackup.data.router import Router
 from MikrotikBackup.services import router_service
