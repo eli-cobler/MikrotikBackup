@@ -57,24 +57,26 @@ def check_date(filename, file_path):
 def run():
     top_folder = os.path.dirname(__file__)
     rel_folder = os.path.join('..', 'backups')
-    complete_path = os.path.abspath(os.path.join(top_folder, rel_folder))
-    backups_path = os.listdir(complete_path)
+    backups_path = os.path.abspath(os.path.join(top_folder, rel_folder))
+    backups_path_listdir = os.listdir(backups_path)
 
     ignore_list = router_service.get_router_ignore_list()
-    for folder in tqdm(backups_path, unit=" files"):
+    for folder in tqdm(backups_path_listdir, unit=" files"):
         if folder in ignore_list:
             tqdm.write(f"{folder} has been ignored.")
             print(f'{log_date_time} {folder} has been ignored.')
         elif folder =='.DS_Store':
             tqdm.write(f'Found .ds_store in {folder}')
+        elif folder =='PlaceHolder.txt':
+            tqdm.write(f'Found the placeholder.txt')
         else:
             tqdm.write(f"{folder} is being checked.")
             print(f'{log_date_time} {folder} has been checked.')
-            path = os.path.join(os.getcwd(), f'backups/{folder}')
+            path = os.path.join(backups_path, folder)
             listed = os.listdir(path)
             for file in listed:
-                files_date = creation_date(os.path.join(os.getcwd(), f'backups/{folder}/{file}'))
-                file_path = os.path.join(os.getcwd(), f'backups/{folder}/{file}')
+                files_date = creation_date(os.path.join(backups_path, folder, file))
+                file_path = os.path.join(backups_path, folder, file)
                 check_date(files_date, file_path)
 
             tqdm.write(f"{folder} has been checked.")
