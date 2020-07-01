@@ -73,6 +73,7 @@ def get_info(router_name,router_ip, username):
         logging.error(sys.exc_info()[1])
         tqdm.write(f"Exception: {sys.exc_info()[1]}")
 
+#TODO Refactor router details service to save router details directory to the DB
 def parse_info(router_name):
 
     # setting up db session and making query for update
@@ -176,7 +177,7 @@ def run():
     routers = router_service.get_router_list()
 
     router_count = 0
-    for r in routers:
+    for _ in routers:
         router_count += 1
 
     for r in tqdm(routers, total=router_count, unit=" router"):
