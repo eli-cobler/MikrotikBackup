@@ -1,5 +1,4 @@
 import datetime
-import logging
 import os
 import subprocess
 import sys
@@ -62,7 +61,7 @@ def create_backup(router_name, router_ip, username):
                 if transfer_output.stdout == '':
                     print(f'{log_date_time} {transfer_output.stdout}')
                     backup_status = "Backup Complete"
-                elif transfer_output.stdout != '':
+                else:
                     print(f'{log_date_time} {transfer_output.stdout}')
                     backup_status = transfer_output.stdout
 
@@ -84,7 +83,7 @@ def create_backup(router_name, router_ip, username):
             tqdm.write(f"{the_type}\n{the_value}")
             #backup_status = the_value
 
-        #backup_status = 'Backup Complete'
+            #backup_status = 'Backup Complete'
     except TimeoutError as err:
         tqdm.write(err)
         backup_status = err
@@ -133,7 +132,7 @@ def create_config(router_name, router_ip, username):
             if config_output.stdout == '':
                 print(f'{log_date_time} {config_output.stdout}')
                 config_status = "Config Complete"
-            elif config_output.stdout != '':
+            else:
                 print(f'{log_date_time} {config_output.stdout}')
                 config_status = config_output.stdout
 
@@ -145,7 +144,7 @@ def create_config(router_name, router_ip, username):
             tqdm.write(f"Exception: {sys.exc_info()[1]}")
             # config_status = sys.exc_info()[1]
 
-        #config_status = 'Config Export Complete'
+            #config_status = 'Config Export Complete'
     except TimeoutError as err:
         tqdm.write(err)
         # flash(err)
