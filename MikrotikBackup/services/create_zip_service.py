@@ -1,4 +1,4 @@
-import shutil, os, logging, sys
+import shutil, os, sys
 from tqdm import tqdm
 from datetime import datetime
 
@@ -28,7 +28,7 @@ def run():
     ignore_list = router_service.get_router_ignore_list()
 
     router_count = 0
-    for r in routers:
+    for _ in routers:
         router_count += 1
 
     for router in tqdm(routers, total=router_count, unit=" router"):
