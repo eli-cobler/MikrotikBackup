@@ -35,8 +35,7 @@ def init_db():
     db_session.global_init(db_file)
 
 def filename_date(filename):
-    date = os.path.basename(filename).split('_')[0]
-    return date
+    return os.path.basename(filename).split('_')[0]
 
 def creation_date(filename):
     t = os.path.getmtime(filename)
@@ -54,8 +53,6 @@ def check_date(filename, file_path):
             tqdm.write(f"There was an issue removeing {filename}.")
             print(f'{log_date_time} There was an issue removing {filename}.')
             print(f'{log_date_time} {sys.exc_info()[1]}')
-    else:
-        pass
 
 def run():
     top_folder = os.path.dirname(__file__)
