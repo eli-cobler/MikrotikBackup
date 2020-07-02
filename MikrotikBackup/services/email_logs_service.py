@@ -36,8 +36,8 @@ message["Subject"] = subject
 message.attach(MIMEText(body, "plain"))
 
 top_folder = os.path.dirname(__file__)
-rel_folder = os.path.join('../..', 'logs')
-log_directory = os.path.abspath(os.path.join(top_folder, 'logs'))
+rel_folder = os.path.join('..', 'logs')
+log_directory = os.path.abspath(os.path.join(top_folder, rel_folder))
 log_directory_listdir = os.listdir(log_directory)
 print(f'log_directory: {log_directory}')
 
@@ -58,7 +58,7 @@ for log in log_directory_listdir:
     # Add header as key/value pair to attachment part
     part.add_header(
         "Content-Disposition",
-        f"attachment; filename= {filename.replace('logs','')}",
+        f"attachment; filename= {filename.replace(log_directory,'')}",
     )
 
     # Add attachment to message and convert message to string
