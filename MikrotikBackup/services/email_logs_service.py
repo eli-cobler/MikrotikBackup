@@ -9,11 +9,16 @@
 #
 #  This file will send out and email with the log files attached to the specified email receptiant.
 
-import smtplib, ssl, os
+import smtplib, ssl, os, sys
 from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+
+# setting path for cron job
+folder = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
+sys.path.insert(0, folder)
+
 
 subject = 'Mikrotik Backup Log Files'
 body = 'Attached is all the log files for Mikrotik Backup'
@@ -30,10 +35,15 @@ message["Subject"] = subject
 # Add body to email
 message.attach(MIMEText(body, "plain"))
 
-log_directory = os.listdir('logs/')
+top_folder = os.path.dirname(__file__)
+rel_folder = os.path.join('../..', 'logs')
+log_directory = os.path.abspath(os.path.join(top_folder, 'logs'))
+log_directory_listdir = os.listdir(log_directory)
+print(f'log_directory: {log_directory}')
 
-for log in log_directory:
-    filename = os.path.join('logs/', log) # File to attach
+for log in log_directory_listdir:
+    filename = os.path.join(log_directory, log) # File to attach
+
 
     # Open PDF file in binary mode
     with open(filename, "rb") as attachment:
