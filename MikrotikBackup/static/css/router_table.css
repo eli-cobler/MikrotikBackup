@@ -3,16 +3,43 @@
   border-collapse: collapse;
   /*padding: 2px 2px 1px 2px;*/
   margin: 10px;
-  border-radius: 20px;
+  border-radius: 3px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-
+.table-wrapper {
+  /*min-width: 1000px;*/
+  background: #fff;
+  padding: 20px 25px;
+  border-radius: 3px;
+  border: 1px solid #000000;
+  border-collapse: collapse;
+  box-shadow: 0 1px 1px rgba(0,0,0,.05);
+  margin: 10px;
+}
+.table-title {
+  background: #FFFFFF;
+  color: #000000;
+  padding: 16px 30px;
+  margin: -20px -25px 10px;
+  border-radius: 3px 3px 0 0;
+  /*border: 1px solid #000000;*/
+  border-bottom: 1px solid #000000;
+}
+.table-title h2 {
+    margin: 5px 0 0;
+    font-size: 24px;
+}
 table th, tr {
   border-radius: 20px;
   /*border: 1px solid #ddd;*/
-  /*padding: .5em;*/
+  padding: .5em;
 }
-
+table.table td a {
+    font-weight: bold;
+    color: #fff;
+    display: inline-block;
+    text-decoration: none;
+}
 table td {
   padding: .625em;
   text-align: left;

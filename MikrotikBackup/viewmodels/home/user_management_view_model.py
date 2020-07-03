@@ -2,12 +2,15 @@ from MikrotikBackup.services import user_service
 from MikrotikBackup.viewmodels.shared.viewmodelbase import ViewModelBase
 
 
-class RegisterViewModel(ViewModelBase):
+class UserManagementViewModel(ViewModelBase):
     def __init__(self):
         super().__init__()
+        self.user = user_service.find_user_by_id(self.user_id)
+        self.users = user_service.get_users_list()
         self.name = self.request_dict.name
         self.email = self.request_dict.email.lower().strip()
         self.password = self.request_dict.password.strip()
+        self.user_to_remove = self.request_dict.selected_user
 
     def validate(self):
         if not self.name or not self.name.strip():

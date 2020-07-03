@@ -1,5 +1,8 @@
 {% extends "shared/_layout.html" %}
 {% block title %}Mikrotik Backup | Router Table{% endblock %}
+{% block additional_css %}
+    <link rel="stylesheet" href="/static/css/router_table.css">
+{% endblock %}
 {% block main_content %}
 
 <div class="router-stats">
@@ -11,7 +14,18 @@
     <div class="stat">{{ "{:,}".format(unknown_count) }} Status Unknown</div>
 </div>
 
-<div class="routertable">
+<div class="table-wrapper">
+    <div class="table-title">
+        <div class="row">
+            <div class="col-sm-5">
+                <h2>Router <b>Table</b></h2>
+            </div>
+{#            <div class="col-sm-7">#}
+{#                <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE147;</i> <span>Add New User</span></a>#}
+{#                        <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i> <span>Export to Excel</span></a>#}
+{#            </div>#}
+        </div>
+    </div>
     <table class="table table-hover">
         <thead>
             <tr>
@@ -72,8 +86,4 @@
         </tbody>
     </table>
 </div>
-{% endblock %}
-
-{% block additional_css %}
-    <link rel="stylesheet" href="/static/css/router_table.css">
 {% endblock %}

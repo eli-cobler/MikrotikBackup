@@ -1,0 +1,121 @@
+{% extends "shared/_layout.html" %}
+{% block title %}Mikrotik Backup | User Management{% endblock %}
+{% block main_content %}
+{% block additional_css %}
+  <link rel="stylesheet" href="/static/css/user_portal.css">
+{% endblock %}
+<body>
+<form action="/users" method="POST" class="account-form">
+  <div class="container-xl">
+      <div class="table-responsive">
+          <div class="table-wrapper">
+              <div class="table-title">
+                  <div class="row">
+                      <div class="col-sm-5">
+                          <h2>User <b>Management</b></h2>
+                      </div>
+                      <div class="actions col-sm-7">
+                          <button class="btn btn-secondary" data-toggle="modal" data-target="#addUserModal"><i class="material-icons">&#xE147;</i> <span>Add New User</span></button>
+                      </div>
+                  </div>
+              </div>
+              <div>
+                {% if error %}
+                  <div class="alert alert-danger error-msg">{{ error }}</div>
+                {% endif %}
+              </div>
+              <table class="table table-striped table-hover">
+                  <thead>
+                      <tr>
+                          <th></th>
+                          <th>Name</th>
+                          <th>Role</th>
+                          <th>Date Created</th>
+                          <th>Last Login</th>
+                          <th>Email</th>
+                          <th>Action</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% for user in users %}
+                      <tr>
+                          {% if user.profile_image_url == None%}
+                              <td><img src="/static/img/default_user_icon.png" width="50" height="50" class="avatar" alt="Avatar"></td>
+                          {% else %}
+                              <td><img src="{{ user.profile_image_url }}" class="avatar" alt="Avatar"></td>
+                          {% endif %}
+                          <td>{{ user.name }}</td>
+                          {% if user.is_admin %}
+                              <td>Admin</td>
+                          {% else %}
+                              <td>User</td>
+                          {% endif %}
+                          <td>{{ user.created_date.strftime('%m/%d/%Y') }}</td>
+                          <td>{{ user.last_login.strftime('%m/%d/%Y') }}</td>
+                          <td>{{ user.email }}</td>
+                          <td>
+                              <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
+                              <a href="#" class="delete" title="Delete" data-toggle="modal" data-target="#removeUserModal"><i class="material-icons">&#xE5C9;</i></a>
+                            <label hidden>
+                              <select class="form-control" name="selected_user" hidden>
+                                <option value= "{{ user.email }}">{{ user.email }}</option>
+                              </select>
+                            </label>
+                          </td>
+                      </tr>
+                      {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+</form>
+    <!-- Add User Modal -->
+    <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <input name="name" type="text" placeholder=" User name" class="form-control" value="{{ name }}" required>
+            <input name="email" type="email" placeholder=" User email address" class="form-control" value="{{ email }}" required>
+            <input name="password" type="password" placeholder=" Password" class="form-control" value="{{ password }}" required>
+            <div class="switch">
+                <input name="is_admin" type="checkbox" id="is_admin">
+                <label for="is_admin">Is Admin?</label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" name="user_management" value="add_user" class="btn btn-outline-success">Add User</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Remove UserModal -->
+    <div class="modal fade" id="removeUserModal" tabindex="-1" role="dialog" aria-labelledby="removeUserModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="removeUserModalLabel">Remove User</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to remove this User?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" name="user_management" value="remove_user" class="btn btn-outline-danger">Remove User</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+{% endblock %}

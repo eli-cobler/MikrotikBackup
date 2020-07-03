@@ -1,5 +1,4 @@
 from typing import Optional
-
 from MikrotikBackup.services import user_service, router_service
 from MikrotikBackup.viewmodels.shared.viewmodelbase import ViewModelBase
 

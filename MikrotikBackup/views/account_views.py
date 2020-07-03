@@ -4,7 +4,7 @@ from flask import request
 from MikrotikBackup.infrastructure import cookie_auth
 from MikrotikBackup.infrastructure.view_modifiers import response
 from MikrotikBackup.services import user_service
-from MikrotikBackup.services.user_service import delete_user
+from MikrotikBackup.services.user_service import delete_user_by_id
 from MikrotikBackup.viewmodels.account.index_view_model import IndexViewModel
 from MikrotikBackup.viewmodels.account.login_viewmodel import LoginViewModel
 from MikrotikBackup.viewmodels.account.register_View_model import RegisterViewModel
@@ -32,7 +32,7 @@ def index_post():
     form_id = request.form.get('delete','')
     if form_id == 'delete':
         resp = flask.redirect('/account/logout')
-        delete_user(vm.user_id)
+        delete_user_by_id(vm.user_id)
 
         return resp
 

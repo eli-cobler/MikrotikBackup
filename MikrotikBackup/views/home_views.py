@@ -4,12 +4,13 @@ from MikrotikBackup import add_file
 from MikrotikBackup.data import db_session
 from MikrotikBackup.infrastructure import cookie_auth
 from MikrotikBackup.infrastructure.view_modifiers import response
-from MikrotikBackup.services import router_service
+from MikrotikBackup.services import router_service, user_service
 from MikrotikBackup.viewmodels.home.add_view_model import AddViewModel
 from MikrotikBackup.viewmodels.home.index_view_model import IndexViewModel
 from MikrotikBackup.viewmodels.home.remove_view_model import RemoveViewModel
 from MikrotikBackup.viewmodels.home.router_info_view_model import RouterInfoViewModel
 from MikrotikBackup.viewmodels.home.update_view_model import UpdateViewModel
+from MikrotikBackup.viewmodels.home.user_management_view_model import UserManagementViewModel
 
 blueprint = flask.Blueprint('home', __name__, template_folder='templates')
 
@@ -61,7 +62,6 @@ def index():
 
     return resp
 
-
 @blueprint.route('/router_table', methods=['GET'])
 @response(template_file='home/router_table.html')
 def router_table():
@@ -72,6 +72,50 @@ def router_table():
 
     return vm.to_dict()
 
+@blueprint.route('/users', methods=['GET'])
+@response(template_file='admin/users.html')
+def user_management_get():
+    vm = UserManagementViewModel()
+
+    if not vm.user:
+        return flask.redirect('/account/login')
+
+    if not vm.user.is_admin:
+        return flask.redirect('/router_table')
+
+    return vm.to_dict()
+
+@blueprint.route('/users', methods=['POST'])
+@response(template_file='admin/users.html')
+def user_management_post():
+    vm = UserManagementViewModel()
+
+    form_id = request.form.get('user_management', '')
+
+    if form_id == 'add_user':
+        print("add_user triggered")
+        vm.validate()
+
+        if vm.error:
+            return vm.to_dict()
+
+        is_admin = True if request.form.getlist('is_admin') == ['on'] else False
+        user = user_service.create_user(vm.name, vm.email, vm.password, is_admin)
+        if not user:
+            vm.error = 'The account could not be created.'
+            return vm.to_dict()
+
+    if form_id == 'remove_user':
+        print(f'remove_user triggered on {vm.user_to_remove}')
+        if vm.error:
+            return vm.to_dict()
+
+        resp = flask.redirect('/users')
+        user_service.delete_user_by_email(vm.user_to_remove)
+
+        return resp
+
+    return flask.redirect('/users')
 
 @blueprint.route('/router-info/<router_name>')
 @response(template_file='home/details.html')
@@ -115,11 +159,7 @@ def add_post():
     if vm.error:
         return vm.to_dict()
 
-    if request.form.getlist('skipped') == ['on']:
-        ignore = True
-    else:
-        ignore = False
-
+    ignore = True if request.form.getlist('skipped') == ['on'] else False
     exists = router_service.add_router(vm.router_name, vm.router_ip, vm.username, vm.password, ignore)
     add_file.autoUpdater(vm.router_name, vm.router_ip, vm.username, vm.password)
     add_file.ssh_key(vm.username, vm.password, vm.router_ip)
@@ -182,31 +222,11 @@ def update_post():
 
     router_details = router_service.get_router_details(vm.router_to_update)
 
-    if vm.router_name == '':
-        router_name = vm.router_to_update
-    else:
-        router_name = vm.router_name
-
-    if vm.router_ip == '':
-        router_ip = router_details.router_ip
-    else:
-        router_ip = vm.router_ip
-
-    if vm.username == '':
-        username = router_details.username
-    else:
-        username = vm.username
-
-    if vm.password == '':
-        password = router_details.password
-    else:
-        password = vm.password
-
-    if request.form.getlist('skipped') == ['on']:
-        ignore = True
-    else:
-        ignore = False
-
+    router_name = vm.router_to_update if vm.router_name == '' else vm.router_name
+    router_ip = router_details.router_ip if vm.router_ip == '' else vm.router_ip
+    username = router_details.username if vm.username == '' else vm.username
+    password = router_details.password if vm.password == '' else vm.password
+    ignore = True if request.form.getlist('skipped') == ['on'] else False
     router_service.update_router(vm.router_to_update, router_name, router_ip, username, password, ignore)
 
     resp = flask.redirect('/router_table')
