@@ -72,8 +72,43 @@
 
                 <td data-label="{{ r.last_attempted }}">{{ r.last_attempted }}</td>
                 <td data-label="{{ r.router_os_version }}">
+{#                    <div class="actions">#}
+{#                        <a href="/router-info/{{ r.router_name }}" class="btn btn-dark">{{ r.router_os_version }}</a>#}
+{#                    </div>#}
                     <div class="actions">
-                        <a href="/router-info/{{ r.router_name }}" class="btn btn-dark">{{ r.router_os_version }}</a>
+                        <button type="button" class="btn btn-dark btn-group-sm" data-toggle="modal" data-target="#{{ r.router_name.replace(' ', '') }}InfoModal">{{ r.router_os_version }}</button>
+                    </div>
+                  <!-- Router Info UserModal -->
+                    <div class="modal fade" id="{{ r.router_name.replace(' ', '') }}InfoModal" tabindex="-1" role="dialog" aria-labelledby="{{ r.router_name.replace(' ', '') }}InfoModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="{{ r.router_name.replace(' ', '') }}InfoModal"></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="router-info">
+                              <div class="info">
+                                  <h4>{{ r.router_name }}</h4>
+                                  <p>Uptime: {{ r.uptime }}</p>
+                                  <p>Router OS: {{ r.version }}</p>
+                                  <p>Free Memory: {{ r.free_memory }}</p>
+                                  <p>Total Memory: {{ r.total_memory }}</p>
+                                  <p>CPU Load: {{ r.cpu_load }}</p>
+                                  <p>Free HDD Space: {{ r.free_hdd_space }}</p>
+                                  <p>Total HDD Space: {{ r.total_hdd_space }}</p>
+                                  <p>Bad Blocks: {{ r.bad_blocks }}</p>
+                                  <p>Board Name: {{ r.board_name }}</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                 </td>
                 <td data-label="Download Backups">
