@@ -10,7 +10,7 @@ class UserManagementViewModel(ViewModelBase):
         self.name = self.request_dict.name
         self.email = self.request_dict.email.lower().strip()
         self.password = self.request_dict.password.strip()
-        self.user_to_remove = self.request_dict.selected_user
+        self.user_to_remove = self.request_dict.user_to_remove
 
     def validate(self):
         if not self.name or not self.name.strip():
