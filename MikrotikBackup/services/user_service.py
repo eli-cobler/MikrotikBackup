@@ -1,3 +1,4 @@
+import datetime
 from typing import Optional, List
 
 from passlib.handlers.sha2_crypt import sha512_crypt as crypto
@@ -35,7 +36,7 @@ def find_user_by_email(email: str) -> Optional[User]:
     finally:
         session.close()
 
-def create_user(name: str, email: str, password: str, is_admin) -> Optional[User]:
+def user_management_create_user(name: str, email: str, password: str, is_admin:bool) -> Optional[User]:
     if find_user_by_email(email):
         return None
 
@@ -44,6 +45,24 @@ def create_user(name: str, email: str, password: str, is_admin) -> Optional[User
     user.name = name
     user.hashed_password = hash_text(password)
     user.is_admin = is_admin
+
+    session = db_session.create_session()
+    try:
+        session.add(user)
+        session.commit()
+    finally:
+        session.close()
+
+    return user
+
+def create_user(name: str, email: str, password: str) -> Optional[User]:
+    if find_user_by_email(email):
+        return None
+
+    user = User()
+    user.email = email
+    user.name = name
+    user.hashed_password = hash_text(password)
 
     session = db_session.create_session()
     try:
@@ -89,6 +108,7 @@ def verify_hash(hashed_text: str, plain_text: str) -> bool:
     return crypto.verify(plain_text, hashed_text)
 
 def login_user(email: str, password: str) -> Optional[User]:
+
     session = db_session.create_session()
     try:
         user = session.query(User).filter(User.email == email).first()
@@ -97,6 +117,9 @@ def login_user(email: str, password: str) -> Optional[User]:
 
         if not verify_hash(user.hashed_password, password):
             return None
+
+        user.last_login = datetime.datetime.now()
+        session.commit()
 
         return user
     finally:

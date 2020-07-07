@@ -100,7 +100,7 @@ def user_management_post():
             return vm.to_dict()
 
         is_admin = True if request.form.getlist('is_admin') == ['on'] else False
-        user = user_service.create_user(vm.name, vm.email, vm.password, is_admin)
+        user = user_service.user_management_create_user(vm.name, vm.email, vm.password, is_admin)
         if not user:
             vm.error = 'The account could not be created.'
             return vm.to_dict()
