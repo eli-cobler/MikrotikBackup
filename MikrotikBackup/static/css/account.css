@@ -8,7 +8,6 @@ body {
     padding: 50px;
     padding-bottom: 10px;
 }
-
 .login_warning {
     margin-top: 1px;
     margin-bottom: 5px;
@@ -20,25 +19,20 @@ body {
     padding-bottom: 40px;
     text-align: center;
 }
-
 .login_warning h3 {
     padding-top: 35px;
     /*margin-top: 5px;*/
 }
-
 form.account-form > * {
     margin-top: 5px;
     margin-bottom: 5px;
 }
-
 form.account-form h1 {
     text-align: center;
 }
-
 form.account-form button {
     float: right;
 }
-
 form.account-form {
     margin-left: auto;
     margin-right: auto;
@@ -48,7 +42,6 @@ form.account-form {
     border-radius: 5px;
     padding: 10px;
 }
-
 .error-msg {
     text-align: center;
 }
