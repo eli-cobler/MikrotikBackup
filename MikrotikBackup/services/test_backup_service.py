@@ -1,4 +1,9 @@
-import os
+import os, sys
+
+# setting path for cron job
+folder = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
+sys.path.insert(0, folder)
+
 from MikrotikBackup.data import db_session
 from MikrotikBackup.services import backup_service, router_details_service
 
