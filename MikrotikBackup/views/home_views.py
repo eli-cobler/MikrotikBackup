@@ -90,31 +90,25 @@ def user_management_get():
 def user_management_post():
     vm = UserManagementViewModel()
 
-    form_id = request.form.get('user_management', '')
+    vm.validate()
 
-    if form_id == 'add_user':
-        print("add_user triggered")
-        vm.validate()
+    if vm.error:
+        return vm.to_dict()
 
-        if vm.error:
-            return vm.to_dict()
+    is_admin = True if request.form.getlist('is_admin') == ['on'] else False
+    user = user_service.user_management_create_user(vm.name, vm.email, vm.password, is_admin)
+    if not user:
+        vm.error = 'The account could not be created.'
+        return vm.to_dict()
 
-        is_admin = True if request.form.getlist('is_admin') == ['on'] else False
-        user = user_service.user_management_create_user(vm.name, vm.email, vm.password, is_admin)
-        if not user:
-            vm.error = 'The account could not be created.'
-            return vm.to_dict()
 
-    if form_id == 'remove_user':
-        print(f'remove_user triggered on {vm.user_to_remove}')
-        if vm.error:
-            return vm.to_dict()
+    return flask.redirect('/users')
 
-        resp = flask.redirect('/users')
-        user_service.delete_user_by_email(vm.user_to_remove)
-
-        return resp
-
+@blueprint.route('/remove_user/<user_to_remove>', methods=['GET'])
+@response(template_file='admin/users.html')
+def remove_user(user_to_remove):
+    print(f'Remove User triggered on {user_to_remove}.')
+    user_service.delete_user_by_email(user_to_remove)
     return flask.redirect('/users')
 
 @blueprint.route('/router-info/<router_name>')
