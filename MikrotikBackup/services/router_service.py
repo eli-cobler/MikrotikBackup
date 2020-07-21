@@ -111,7 +111,7 @@ def get_router_ignore_count() -> int:
     session.close()
 
     ignore_count = 0
-    for r in routers:
+    for _ in routers:
         ignore_count += 1
 
     return ignore_count
