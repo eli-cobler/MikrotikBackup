@@ -14,7 +14,7 @@ password = input("What is the password? ")
 
 def init_db():
     top_folder = os.path.dirname(__file__)
-    rel_file = os.path.join('../..', 'db', 'mikrotikbackup.sqlite')
+    rel_file = os.path.join('..', 'db', 'mikrotikbackup.sqlite')
     db_file = os.path.abspath(os.path.join(top_folder, rel_file))
     db_session.global_init(db_file)
 
