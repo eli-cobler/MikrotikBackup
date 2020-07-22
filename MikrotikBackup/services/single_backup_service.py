@@ -1,29 +1,20 @@
-import logging
-from tqdm import tqdm
+import os, sys
+
+# setting path for cron job
+folder = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
+sys.path.insert(0, folder)
+
+from MikrotikBackup.data import db_session
 from MikrotikBackup.services import backup_service, router_details_service
 
+def init_db():
+    top_folder = os.path.dirname(__file__)
+    rel_file = os.path.join('..', 'db', 'mikrotikbackup.sqlite')
+    db_file = os.path.abspath(os.path.join(top_folder, rel_file))
+    db_session.global_init(db_file)
 
 def run(router_name,router_ip,username):
-    backup_service.init_db()
-
-    # starting backup
-    tqdm.write(f"Starting backup for {router_name}...")
-    logging.info(f"Starting backup for {router_name}...")
-    backup_status = backup_service.create_backup(router_name, router_ip, username)
-    tqdm.write(f"Completed backup for {router_name}")
-    logging.info(f"Completed backup for {router_name}")
-
-    # starting config export
-    # tqdm.write("Starting config export for {}...".format('router_name']))
-    tqdm.write(f"Starting config export for {router_name}...")
-    logging.info(f"Starting config export for {router_name}...")
-    config_status = backup_service.create_config(router_name, router_ip, username)
-    # tqdm.write("Config export complete for {}".format('router_name']))
-    tqdm.write(f"Config export complete for {router_name}")
-    logging.info(f"Config export complete for {router_name}")
-
-    # gathering info from rotuers
+    backup_service.create_backup(router_name, router_ip, username)
+    backup_service.create_config(router_name, router_ip, username)
     router_details_service.get_info(router_name, router_ip, username)
     router_details_service.parse_info(router_name)
-
-
