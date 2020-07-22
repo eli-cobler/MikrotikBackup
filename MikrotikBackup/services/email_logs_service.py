@@ -23,7 +23,7 @@ sys.path.insert(0, folder)
 subject = 'Mikrotik Backup Log Files'
 body = 'Attached is all the log files for Mikrotik Backup'
 sender_email = 'sparkappnotifications@gmail.com'
-receiver_email = 'eli@sparkservices.net'
+receiver_email = 'ihsupport@sparkservices.net'
 password = "rigzhubdkgwzbmva"
 
 # Create a multipart message and set headers
