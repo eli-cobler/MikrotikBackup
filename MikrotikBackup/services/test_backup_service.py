@@ -10,7 +10,6 @@ from MikrotikBackup.services import backup_service, router_details_service
 router_name = input("What is the router_name? ")
 router_ip = input("What is the router_ip? ")
 username = input("What is the username? ")
-password = input("What is the password? ")
 
 def init_db():
     top_folder = os.path.dirname(__file__)
