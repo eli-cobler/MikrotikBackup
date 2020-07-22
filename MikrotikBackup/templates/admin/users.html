@@ -55,37 +55,29 @@
                           <td>{{ user.email }}</td>
                           <td>
                               <a href="#" class="settings" title="Settings" data-toggle="tooltip"><i class="material-icons">&#xE8B8;</i></a>
-                              <a href="#" class="delete" title="Delete" data-toggle="modal" data-target="#removeUserModal"><i class="material-icons">&#xE5C9;</i></a>
-                            <label hidden>
-                              <select class="form-control" name="selected_user" hidden>
-                                <option value= "{{ user.email }}">{{ user.email }}</option>
-                              </select>
-                            </label>
+                              <a href="#" class="delete" title="Delete" data-toggle="modal" data-target="#{{ user.name.replace(' ', '') }}Modal"><i class="material-icons">&#xE5C9;</i></a>
+                              <!-- Remove UserModal -->
+                              <div class="modal fade" id="{{ user.name.replace(' ', '') }}Modal" tabindex="-1" role="dialog" aria-labelledby="{{ user.name.replace(' ', '') }}ModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="{{ user.name.replace(' ', '') }}ModalLabel">Remove User</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body">
+                                      Are you sure you want to remove this User?
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                                      <a class="btn btn-outline-danger" href="/remove_user/{{ user.email }}" role="button">Remove User</a>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
                           </td>
                       </tr>
-
-                      <!-- Remove UserModal -->
-                      <div class="modal fade" id="removeUserModal" tabindex="-1" role="dialog" aria-labelledby="removeUserModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="removeUserModalLabel">Remove User</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <div class="modal-body">
-                              Are you sure you want to remove this User?
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-                  {#            <button type="button" name="user_management" value="remove_user" class="btn btn-outline-danger">Remove User</button>#}
-                              <a class="btn btn-outline-danger" href="/remove_user/{{ user.email }}" role="button">Remove User</a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
                       {% endfor %}
                   </tbody>
               </table>
