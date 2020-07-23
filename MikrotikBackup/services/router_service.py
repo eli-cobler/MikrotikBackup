@@ -167,6 +167,7 @@ def add_router(router_name,router_ip,username,password,ignore):
         except:
             logging.error("There was a problem creating backup folder. See the error below.")
             logging.error(sys.exc_info()[1])
+            return f'Error: {sys.exc_info()[1]}'
         return False
 
 def remove_router(router_name):

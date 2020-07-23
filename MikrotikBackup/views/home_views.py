@@ -4,7 +4,7 @@ from MikrotikBackup import add_file
 from MikrotikBackup.data import db_session
 from MikrotikBackup.infrastructure import cookie_auth
 from MikrotikBackup.infrastructure.view_modifiers import response
-from MikrotikBackup.services import router_service, user_service
+from MikrotikBackup.services import router_service, user_service, single_backup_service
 from MikrotikBackup.viewmodels.home.add_view_model import AddViewModel
 from MikrotikBackup.viewmodels.home.index_view_model import IndexViewModel
 from MikrotikBackup.viewmodels.home.remove_view_model import RemoveViewModel
@@ -127,6 +127,11 @@ def router_info(router_name: str):
 
     return vm.to_dict()
 
+@blueprint.route('/single_backup/<router_name>/<router_ip>/<router_username>')
+@response(template_file='home/details.html')
+def single_backup(router_name,router_ip,router_username):
+    #single_backup_service.run(router_name,router_ip,router_username)
+    print(f'single backup triggered with the following info: {router_name, router_ip, router_username}')
 
 # takes input form from user to add needed info to the db
 @blueprint.route('/add', methods=['GET'])
@@ -136,6 +141,9 @@ def add_get():
 
     if not vm.user:
         return flask.redirect('/account/login')
+
+    if vm.error:
+        return vm.to_dict()
 
     return vm.to_dict()
 
@@ -160,6 +168,10 @@ def add_post():
 
     if exists:
         vm.error = "This has already be Added or the folder already exists in backups directory."
+        return vm.to_dict()
+
+    if 'error' in exists:
+        vm.error = exists
         return vm.to_dict()
 
     resp = flask.redirect('/router_table')
@@ -259,43 +271,6 @@ def run_backup():
 
     terminal_output = backup_background_process()
     return Response(stream_template('home/stream.html', rows=terminal_output))
-
-
-@blueprint.route('/single_backup', methods=['GET', 'POST'])
-def single_backup():
-    routers = router_service.get_router_list()
-
-    if request.method == 'POST':
-        selected_router = request.form.get('selected router')
-        router_details = router_service.get_router_details(selected_router)
-
-        router_ip = router_details.router_ip
-        username = router_details.username
-
-        def backup_background_process():
-            top_folder = os.path.dirname(__file__)
-            rel_folder = os.path.join('services', 'single_backup_service.py')
-            backup_script_path = os.path.abspath(os.path.join(top_folder, rel_folder))
-
-            proc = subprocess.Popen(
-                [f'python {backup_script_path}'],
-                # call something with a lot of output so we can see it
-                shell=True,
-                universal_newlines=True,
-                stdout=subprocess.PIPE
-            )
-
-            for line in iter(proc.stdout.readline, ''):
-                time.sleep(.1)  # Don't need this just shows the text streaming
-                yield line.rstrip() + '\n'
-
-        terminal_output = backup_background_process()
-        return Response(stream_template('home/stream.html', rows=terminal_output))
-
-        single_backup_service.run(selected_router, router_ip, username)
-        return redirect(url_for('index'))
-
-    return render_template('home/single_backup.html', routers=routers)
 
 
 @blueprint.route('/stream')
