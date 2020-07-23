@@ -168,7 +168,7 @@ def add_post():
         add_file.ssh_key(vm.username, vm.password, vm.router_ip)
 
     if exists:
-        vm.error = "There was an error, please check that router is in Table and that backup directory was created."
+        vm.error = "There was an error in creating the router, please check that router is in Table and that backup directory was created."
         return vm.to_dict()
 
     resp = flask.redirect('/router_table')
