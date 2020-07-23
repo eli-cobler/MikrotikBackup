@@ -135,6 +135,7 @@ def get_router_details(router_name: str)-> Optional[Router]:
 def add_router(router_name,router_ip,username,password,ignore):
 
     path = os.getcwd()
+    print(f'path: {path}')
     directory_exists = os.path.isdir(path + f'/backups/{router_name}')
     logging.info(f"Checking if directory for {router_name} already exists.")
 
@@ -167,7 +168,6 @@ def add_router(router_name,router_ip,username,password,ignore):
         except:
             logging.error("There was a problem creating backup folder. See the error below.")
             logging.error(sys.exc_info()[1])
-            return f'Error: {sys.exc_info()[1]}'
         return False
 
 def remove_router(router_name):
