@@ -163,8 +163,9 @@ def add_post():
 
     ignore = True if request.form.getlist('skipped') == ['on'] else False
     exists = router_service.add_router(vm.router_name, vm.router_ip, vm.username, vm.password, ignore)
-    add_file.autoUpdater(vm.router_name, vm.router_ip, vm.username, vm.password)
-    add_file.ssh_key(vm.username, vm.password, vm.router_ip)
+    if not ignore:
+        add_file.autoUpdater(vm.router_name, vm.router_ip, vm.username, vm.password)
+        add_file.ssh_key(vm.username, vm.password, vm.router_ip)
 
     if exists:
         vm.error = "This has already be Added or the folder already exists in backups directory."
