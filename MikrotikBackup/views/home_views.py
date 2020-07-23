@@ -168,11 +168,11 @@ def add_post():
         add_file.ssh_key(vm.username, vm.password, vm.router_ip)
 
     if 'error' in exists:
-        vm.error = exists
+        vm.error = "Error in creating the direcotry."
         return vm.to_dict()
 
     if exists:
-        vm.error = "This has already be Added or the folder already exists in backups directory."
+        vm.error = "This has already been added or the folder already exists in backups directory."
         return vm.to_dict()
 
     resp = flask.redirect('/router_table')
