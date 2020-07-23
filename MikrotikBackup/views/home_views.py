@@ -167,12 +167,12 @@ def add_post():
         add_file.autoUpdater(vm.router_name, vm.router_ip, vm.username, vm.password)
         add_file.ssh_key(vm.username, vm.password, vm.router_ip)
 
-    if exists:
-        vm.error = "This has already be Added or the folder already exists in backups directory."
-        return vm.to_dict()
-
     if 'error' in exists:
         vm.error = exists
+        return vm.to_dict()
+
+    if exists:
+        vm.error = "This has already be Added or the folder already exists in backups directory."
         return vm.to_dict()
 
     resp = flask.redirect('/router_table')
