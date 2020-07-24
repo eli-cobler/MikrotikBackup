@@ -1,10 +1,9 @@
 import os, flask
-from flask import request, redirect, url_for, render_template, abort, send_file
-from MikrotikBackup import add_file
+from flask import request, render_template, abort, send_file
 from MikrotikBackup.data import db_session
 from MikrotikBackup.infrastructure import cookie_auth
 from MikrotikBackup.infrastructure.view_modifiers import response
-from MikrotikBackup.services import router_service, user_service, single_backup_service
+from MikrotikBackup.services import router_service, user_service, add_file_service
 from MikrotikBackup.viewmodels.home.add_view_model import AddViewModel
 from MikrotikBackup.viewmodels.home.index_view_model import IndexViewModel
 from MikrotikBackup.viewmodels.home.remove_view_model import RemoveViewModel
@@ -163,8 +162,8 @@ def add_post():
 
     ignore = True if request.form.getlist('skipped') == ['on'] else False
     exists = router_service.add_router(vm.router_name, vm.router_ip, vm.username, vm.password, ignore)
-    add_file.autoUpdater(vm.router_name, vm.router_ip, vm.username, vm.password)
-    add_file.ssh_key(vm.username, vm.password, vm.router_ip)
+    add_file_service.autoUpdater(vm.router_name, vm.router_ip, vm.username, vm.password)
+    add_file_service.ssh_key(vm.username, vm.password, vm.router_ip)
 
     if exists:
         vm.error = "There was an error in creating the router, please check that router is in Table and that backup directory was created."

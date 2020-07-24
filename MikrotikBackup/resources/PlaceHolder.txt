@@ -1,0 +1,2 @@
+This is just not the folder will be created.
+This folder is for your SSH key file as well as the autoUpdater script.

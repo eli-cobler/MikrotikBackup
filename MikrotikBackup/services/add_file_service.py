@@ -10,13 +10,14 @@
 #  This file is used to add the various files needed on the routers like ssh key's and the auto 
 #  updater script.
 
-import datetime, paramiko, sys, logging
+import datetime, paramiko, sys, logging, os
 from datetime import datetime as date
 
 # log setup
 log_date_time = date.now().strftime("%m-%d-%Y %H:%M:%S")
 
 def ssh_key(username, password, router_ip):
+    path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../resources/'))
     try:
         # sftping ssh pub key to router
         transport = paramiko.Transport((router_ip))
@@ -30,7 +31,7 @@ def ssh_key(username, password, router_ip):
 
         print(f"{log_date_time} Set remote and local path for transfer...")
         remotepath_export = "/id_rsa-2.pub"
-        localpath_export = 'id_rsa-2.pub'
+        localpath_export = path + '/id_rsa-2.pub'
 
         print(f"{log_date_time} Trying to place file at {remotepath_export}")
         sftp.put(localpath_export, remotepath_export)
@@ -76,6 +77,7 @@ def ssh_key(username, password, router_ip):
 
 def autoUpdater(router_name, router_ip, username, password):
 
+    path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../resources/'))
     today = datetime.datetime.today() 
     tomorrow = today + datetime.timedelta(1)
 
@@ -98,7 +100,7 @@ def autoUpdater(router_name, router_ip, username, password):
         print(f"{log_date_time} Set remote and local path")
         print("Set remote and local path")
         remotepath = "/autoUpdater.rsc"
-        localpath = 'autoUpdater.rsc'
+        localpath = path + '/autoUpdater.rsc'
         
         print("Transfering Script...")
         print(f"{log_date_time} Transfering Script...")
