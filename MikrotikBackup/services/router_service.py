@@ -136,7 +136,7 @@ def add_router(router_name,router_ip,username,password,ignore):
 
     path = os.path.abspath(os.path.join(os.path.dirname(__file__),'../backups/'))
     logging.info(f'Add router path set to: {path}')
-    directory_exists = os.path.isdir(path + f'/MikrotikBackup/backups/{router_name}')
+    directory_exists = os.path.isdir(path + f'/{router_name}')
     logging.info(f"Checking if directory for {router_name} already exists.")
 
     if directory_exists:
