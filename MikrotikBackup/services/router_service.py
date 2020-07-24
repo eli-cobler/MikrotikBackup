@@ -162,11 +162,15 @@ def add_router(router_name,router_ip,username,password,ignore):
         logging.info(f"Attempting to create backup folder for {router_name}")
         try:
             os.mkdir(path + f'/{router_name}')
-            f = open(os.path.abspath(os.path.join(os.path.dirname(__file__),'../router_info/{router_name}.txt', "w+")))
+        except:
+            logging.error("There was a problem creating backup folder. See the error below:")
+            logging.error(sys.exc_info()[1])
+        try:
+            f = open(os.path.abspath(os.path.join(os.path.dirname(__file__), f'../router_info/{router_name}.txt')), "w+")
             f.write('')
             f.close()
         except:
-            logging.error("There was a problem creating backup folder. See the error below.")
+            logging.error("There was a problem creating the router info text file. See the error below:")
             logging.error(sys.exc_info()[1])
         return False
 
