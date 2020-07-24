@@ -7,7 +7,6 @@ path = sys.path.insert(0, folder)
 from MikrotikBackup.data import db_session
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
-print(dir_path)
 app = Flask(__name__, root_path=dir_path)
 
 def configure():
