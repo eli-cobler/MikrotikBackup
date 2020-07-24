@@ -166,8 +166,8 @@ def add_router(router_name,router_ip,username,password,ignore):
             f.write('')
             f.close()
         except:
-            print("There was a problem creating backup folder. See the error below.")
-            print(sys.exc_info()[1])
+            logging.error("There was a problem creating backup folder. See the error below.")
+            logging.error(sys.exc_info()[1])
         return False
 
 def remove_router(router_name):
@@ -195,12 +195,13 @@ def remove_router(router_name):
         os.remove(router_info_path)
         print("Router info successfully removed.")
     except:
-        print("There was a problem removing the router's backups. See the error below.")
-        print(sys.exc_info()[1])
+        logging.error("There was a problem removing the router's backups. See the error below.")
+        logging.error(sys.exc_info()[1])
 
 def update_router(selected_router,router_name, router_ip, username, password, ignore):
     path = os.path.abspath(os.path.join(os.path.dirname(__file__),'../backups/'))
-
+    logging.info(f'Path for update set to: {path}')
+    
     if router_name != selected_router:
         print(f"Changing name of router from {selected_router} to {router_name}.")
         print(f"Creating new backup directory for {router_name}")
@@ -210,8 +211,8 @@ def update_router(selected_router,router_name, router_ip, username, password, ig
             os.mkdir(path + f'/{router_name}')
             print("New backup directory created.")
         except:
-            print("There was a problem creating new backup direcotry. See the error below.")
-            print(sys.exc_info()[1])
+            logging.error("There was a problem creating new backup direcotry. See the error below.")
+            logging.error(sys.exc_info()[1])
 
         print("Moving the backups from old direcotry.")
 
@@ -222,8 +223,8 @@ def update_router(selected_router,router_name, router_ip, username, password, ig
             copy_tree(fromDirectory, toDirectory)
             print("Files moved successfully.")
         except:
-            print("There was a problem moving the backups. See the error below.")
-            print(sys.exc_info()[1])
+            logging.error("There was a problem moving the backups. See the error below.")
+            logging.error(sys.exc_info()[1])
 
         print("Removing old backups directory.")
 
@@ -232,8 +233,8 @@ def update_router(selected_router,router_name, router_ip, username, password, ig
             shutil.rmtree(path + f'/{selected_router}')
             print("Directory removed successfully.")
         except:
-            print("There was a problem removing the directory. See the error below.")
-            print(sys.exc_info()[1])
+            logging.error("There was a problem removing the directory. See the error below.")
+            logging.error(sys.exc_info()[1])
 
         # # renaming info text file
         # try:
@@ -241,8 +242,8 @@ def update_router(selected_router,router_name, router_ip, username, password, ig
         #     new_info_file = path + '/{}.txt'.format(router_name)
         #     os.rename(old_info_file,new_info_file)
         # except:
-        #     print("There was a problem renaming the info file. See the error below.")
-        #     print(sys.exc_info()[1])
+        #     logging.error("There was a problem renaming the info file. See the error below.")
+        #     logging.error(sys.exc_info()[1])
 
     # updating database values in sql database
     print(f"Updating database values for {selected_router}.")
