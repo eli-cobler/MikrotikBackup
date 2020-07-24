@@ -322,7 +322,7 @@ modules.xml
 **/backups
 **/router_info
 /MikrotikBackup/db/mikrotikbackup.sqlite
-/MikrotikBackup/id_rsa-2.pub
+/MikrotikBackup/resources/id_rsa-2.pub
 /MikrotikBackup/services/path_test.py
 
 # End of https://www.gitignore.io/api/macos,flask,python,visualstudiocode
