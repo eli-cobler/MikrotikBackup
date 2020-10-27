@@ -8,7 +8,7 @@ certifi==2018.11.29
 chardet==3.0.4
 Click==7.0
 colorama==0.4.3
-cryptography==2.4.2
+cryptography==3.2
 Flask==1.0.2
 flynt==0.40.1
 html3==1.17
