@@ -1,33 +1,36 @@
 #
-#  get_router_version
-#  Mikrotik Backup
+#   get_router_version
+#   Mikrotik Backup
 #
-#  Created by Eli Cobler on 08/08/19.
-#  Copyright © 2018 Eli Cobler. All rights reserved.
+#   Created by Eli Cobler on 08/08/19.
+#   Copyright © 2018 Eli Cobler. All rights reserved.
 #
-#  This project allows you generate and store backup and config
+#   This project allows you generate and store backup and config
 #  files from Mikrotik Routers. 
 #
-#  Gets the current version of routerOS running on the router.
-import subprocess, os, logging, sys
+#   Gets the current version of routerOS running on the router.
+import subprocess
+import os
+import logging
+import sys
 from datetime import datetime
 from tqdm import tqdm
+from MikrotikBackup.data import db_session
+from MikrotikBackup.data.router import Router
+from MikrotikBackup.services import router_service
 
 # setting path for cron job
 folder = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
 sys.path.insert(0, folder)
 
-# project module imports
-from MikrotikBackup.data import db_session
-from MikrotikBackup.data.router import Router
-from MikrotikBackup.services import router_service
-
 # log setup
 log_date_time = datetime.now().strftime("%m-%d-%Y %H:%M:%S")
+
 
 def main():
     init_db()
     run()
+
 
 def init_db():
     top_folder = os.path.dirname(__file__)
@@ -35,27 +38,26 @@ def init_db():
     db_file = os.path.abspath(os.path.join(top_folder, rel_file))
     db_session.global_init(db_file)
 
-def get_info(router_name,router_ip, username):
+
+def get_info(router_name, router_ip, username):
     tqdm.write(f'Gathering info for {router_name}...')
     print(f'{log_date_time} Gathering info for {router_name}...')
-    # sshing into router to get router OS verison
+    # sshing into router to get router OS version
     tqdm.write('Running system info command')
     print(f'{log_date_time} Running system info command')
-    
+
     try:
         router_info = subprocess.run('ssh {}@{} /system resource print'.format(username,
-                                                                        router_ip),
-                                                                        shell=True,
-                                                                        universal_newlines=True,
-                                                                        stdout=subprocess.PIPE,
-                                                                        stderr=subprocess.PIPE)
+                                                                               router_ip),
+                                     shell=True,
+                                     universal_newlines=True,
+                                     stdout=subprocess.PIPE,
+                                     stderr=subprocess.PIPE)
 
         # router_info = await asyncio.create_subprocess_shell('ssh {}@{} /system resource print'.format(username,
-        #                                                                                 router_ip),
-        #                                                                                 stdout = asyncio.subprocess.PIPE,
-        #                                                                                 stderr = asyncio.subprocess.PIPE)
-        print(f'{log_date_time} Info gatherered for {router_name}')
-        tqdm.write(f"Info gatherered for {router_name}")
+        # router_ip), stdout = asyncio.subprocess.PIPE, stderr = asyncio.subprocess.PIPE)
+        print(f'{log_date_time} Info gathered for {router_name}')
+        tqdm.write(f"Info gathered for {router_name}")
 
         # paths to router info file 
         print(f'{log_date_time} Saving info to file.')
@@ -66,16 +68,16 @@ def get_info(router_name,router_ip, username):
         filepath = os.path.abspath(os.path.join(top_folder, rel_folder))
         with open(filepath, 'w+') as f:
             f.write(router_info.stdout)
-        
+
         print(f'{log_date_time} Info saved.')
         tqdm.write("Info saved.")
     except:
         logging.error(sys.exc_info()[1])
         tqdm.write(f"Exception: {sys.exc_info()[1]}")
 
-#TODO Refactor router details service to save router details directory to the DB
-def parse_info(router_name):
 
+# TODO Refactor router details service to save router details directory to the DB
+def parse_info(router_name):
     # setting up db session and making query for update
     session = db_session.create_session()
     r = session.query(Router).filter(Router.router_name == router_name).one()
@@ -158,7 +160,6 @@ def parse_info(router_name):
                 print(f'{log_date_time} {router_name} board_name: {board_name}')
                 r.board_name = board_name
 
-
     # committing changes to the db
     session.commit()
 
@@ -167,7 +168,7 @@ def run():
     ignore_list = ['Spectrum Voice',
                    'CASA',
                    'Value Med Midwest City',
-                   'Valu Med Harrah',
+                   'Value Med Harrah',
                    'Value Med FTG',
                    'GPSS Hobart',
                    'Farmers Caleb Conner',
@@ -176,10 +177,7 @@ def run():
 
     routers = router_service.get_router_list()
 
-    router_count = 0
-    for _ in routers:
-        router_count += 1
-
+    router_count = sum(1 for _ in routers)
     for r in tqdm(routers, total=router_count, unit=" router"):
         if r.router_name in ignore_list:
             print(f'{log_date_time} Gathering info skipped for {r.router_name}')
@@ -187,6 +185,6 @@ def run():
         else:
             parse_info(r.router_name)
 
-    
+
 if __name__ == "__main__":
     main()

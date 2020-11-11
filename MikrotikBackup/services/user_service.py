@@ -5,15 +5,17 @@ from passlib.handlers.sha2_crypt import sha512_crypt as crypto
 import MikrotikBackup.data.db_session as db_session
 from MikrotikBackup.data.users import User
 
+
 def get_users_list() -> List[User]:
     session = db_session.create_session()
-    routers = session.query(User). \
+    users = session.query(User). \
         order_by(User.name.asc()). \
         all()
 
     session.close()
 
-    return routers
+    return users
+
 
 def get_is_admin(user_id):
     session = db_session.create_session()
@@ -22,12 +24,14 @@ def get_is_admin(user_id):
     finally:
         session.close()
 
+
 def get_user_count() -> int:
     session = db_session.create_session()
     try:
         return session.query(User).count()
     finally:
         session.close()
+
 
 def find_user_by_email(email: str) -> Optional[User]:
     session = db_session.create_session()
@@ -36,7 +40,8 @@ def find_user_by_email(email: str) -> Optional[User]:
     finally:
         session.close()
 
-def user_management_create_user(name: str, email: str, password: str, is_admin:bool) -> Optional[User]:
+
+def user_management_create_user(name: str, email: str, password: str, is_admin: bool) -> Optional[User]:
     if find_user_by_email(email):
         return None
 
@@ -54,6 +59,7 @@ def user_management_create_user(name: str, email: str, password: str, is_admin:b
         session.close()
 
     return user
+
 
 def create_user(name: str, email: str, password: str) -> Optional[User]:
     if find_user_by_email(email):
@@ -73,6 +79,7 @@ def create_user(name: str, email: str, password: str) -> Optional[User]:
 
     return user
 
+
 def delete_user_by_id(user_id: int):
     if not find_user_by_id(user_id):
         return None
@@ -85,6 +92,7 @@ def delete_user_by_id(user_id: int):
         session.commit()
     finally:
         session.close()
+
 
 def delete_user_by_email(email: str):
     if not find_user_by_email(email):
@@ -101,11 +109,14 @@ def delete_user_by_email(email: str):
     finally:
         session.close()
 
+
 def hash_text(text: str) -> str:
     return crypto.encrypt(text, rounds=171204)
 
+
 def verify_hash(hashed_text: str, plain_text: str) -> bool:
     return crypto.verify(plain_text, hashed_text)
+
 
 def login_user(email: str, password: str) -> Optional[User]:
 
@@ -124,6 +135,7 @@ def login_user(email: str, password: str) -> Optional[User]:
         return user
     finally:
         session.close()
+
 
 def find_user_by_id(user_id: int) -> Optional[User]:
     session = db_session.create_session()

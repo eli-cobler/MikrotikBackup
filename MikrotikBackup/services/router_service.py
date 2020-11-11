@@ -1,38 +1,43 @@
-import os,logging,shutil,sys
+import os
+import logging
+import shutil
+import sys
 from distutils.dir_util import copy_tree
 from typing import List, Optional
 
 import MikrotikBackup.data.db_session as db_session
 from MikrotikBackup.data.router import Router
 
+
 def get_router_count() -> int:
     session = db_session.create_session()
     session.close()
     return session.query(Router).count()
 
+
 def get_backup_complete_count() -> int:
     session = db_session.create_session()
     backup_status_query = session.query(Router.backup_status)
-    complete_count = 0
-    for status in backup_status_query:
-        if status == ('Backup Complete',):
-            complete_count += 1
+    complete_count = sum(
+        1 for status in backup_status_query if status == ('Backup Complete',)
+    )
 
     session.close()
 
     return complete_count
+
 
 def get_config_complete_count() -> int:
     session = db_session.create_session()
     config_status_query = session.query(Router.config_status)
-    complete_count = 0
-    for status in config_status_query:
-        if status == ('Config Complete',):
-            complete_count += 1
+    complete_count = sum(
+        1 for status in config_status_query if status == ('Config Complete',)
+    )
 
     session.close()
 
     return complete_count
+
 
 def get_backup_failed_count() -> int:
     session = db_session.create_session()
@@ -48,6 +53,7 @@ def get_backup_failed_count() -> int:
 
     return failed_count
 
+
 def get_config_failed_count() -> int:
     session = db_session.create_session()
     config_status_query = session.query(Router.config_status)
@@ -62,14 +68,17 @@ def get_config_failed_count() -> int:
 
     return failed_count
 
+
 def get_unknown_status_count() -> int:
     session = db_session.create_session()
     backup_status_query = session.query(Router.backup_status)
     config_status_query = session.query(Router.config_status)
-    unknown_count = 0
-    for backup_status in backup_status_query:
-        if backup_status == ('Unknown',):
-            unknown_count += 1
+    unknown_count = sum(
+        1
+        for backup_status in backup_status_query
+        if backup_status == ('Unknown',)
+    )
+
     for config_status in config_status_query:
         if config_status == ('Unknown',):
             unknown_count += 1
@@ -78,15 +87,17 @@ def get_unknown_status_count() -> int:
 
     return unknown_count
 
+
 def get_router_list() -> List[Router]:
     session = db_session.create_session()
-    routers = session.query(Router).\
-        order_by(Router.router_name.asc()).\
+    routers = session.query(Router). \
+        order_by(Router.router_name.asc()). \
         all()
 
     session.close()
 
     return routers
+
 
 def get_router_ignore_list() -> List[Router]:
     session = db_session.create_session()
@@ -96,11 +107,8 @@ def get_router_ignore_list() -> List[Router]:
 
     session.close()
 
-    ignored_routers = []
-    for r in routers:
-        ignored_routers.append(r.router_name)
+    return [r.router_name for r in routers]
 
-    return ignored_routers
 
 def get_router_ignore_count() -> int:
     session = db_session.create_session()
@@ -110,13 +118,10 @@ def get_router_ignore_count() -> int:
 
     session.close()
 
-    ignore_count = 0
-    for _ in routers:
-        ignore_count += 1
+    return sum(1 for _ in routers)
 
-    return ignore_count
 
-def get_router_details(router_name: str)-> Optional[Router]:
+def get_router_details(router_name: str) -> Optional[Router]:
     if not router_name:
         return None
 
@@ -132,9 +137,10 @@ def get_router_details(router_name: str)-> Optional[Router]:
 
     return router
 
-def add_router(router_name,router_ip,username,password,ignore):
 
-    path = os.path.abspath(os.path.join(os.path.dirname(__file__),'../backups/'))
+# noinspection PyBroadException
+def add_router(router_name, router_ip, username, password, ignore):
+    path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../backups/'))
     logging.info(f'Add router path set to: {path}')
     directory_exists = os.path.isdir(path + f'/{router_name}')
     logging.info(f"Checking if directory for {router_name} already exists.")
@@ -166,19 +172,19 @@ def add_router(router_name,router_ip,username,password,ignore):
             logging.error("There was a problem creating backup folder. See the error below:")
             logging.error(sys.exc_info()[1])
         try:
-            f = open(os.path.abspath(os.path.join(os.path.dirname(__file__), f'../router_info/{router_name}.txt')), "w+")
-            f.write('')
-            f.close()
+            with open(os.path.abspath(os.path.join(os.path.dirname(__file__), f'../router_info/{router_name}.txt')),
+                      "w+") as f:
+                f.write('')
         except:
             logging.error("There was a problem creating the router info text file. See the error below:")
             logging.error(sys.exc_info()[1])
         return False
 
+
+# noinspection PyBroadException
 def remove_router(router_name):
-    path = os.getcwd()
 
     print(f"Attempting to remove {router_name} from the database.")
-    r = Router()
     session = db_session.create_session()
     router = session.query(Router) \
         .filter(Router.router_name == router_name) \
@@ -190,7 +196,7 @@ def remove_router(router_name):
     print(f"Attempting to remove the backups for {router}.")
     try:
         # Gathering Backups path and removing it
-        backup_path = os.path.abspath(os.path.join(os.path.dirname(__file__),f'../backups/{router_name}'))
+        backup_path = os.path.abspath(os.path.join(os.path.dirname(__file__), f'../backups/{router_name}'))
         shutil.rmtree(backup_path)
         logging.info("Router backups successfully removed.")
 
@@ -202,8 +208,10 @@ def remove_router(router_name):
         logging.error("There was a problem removing the router's backups. See the error below.")
         logging.error(sys.exc_info()[1])
 
-def update_router(selected_router,router_name, router_ip, username, password, ignore):
-    path = os.path.abspath(os.path.join(os.path.dirname(__file__),'../backups/'))
+
+# noinspection PyBroadException
+def update_router(selected_router, router_name, router_ip, username, password, ignore):
+    path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../backups/'))
     logging.info(f'Path for update set to: {path}')
 
     if router_name != selected_router:
@@ -215,10 +223,10 @@ def update_router(selected_router,router_name, router_ip, username, password, ig
             os.mkdir(path + f'/{router_name}')
             print("New backup directory created.")
         except:
-            logging.error("There was a problem creating new backup direcotry. See the error below.")
+            logging.error("There was a problem creating new backup directory. See the error below.")
             logging.error(sys.exc_info()[1])
 
-        print("Moving the backups from old direcotry.")
+        print("Moving the backups from old directory.")
 
         # moving backup files to new backup directory
         try:
@@ -260,6 +268,7 @@ def update_router(selected_router,router_name, router_ip, username, password, ig
     r.ignore = ignore
     session.commit()
     logging.info("Database values updated successfully.")
+
 
 def find_router_by_name(router_name: str) -> Optional[Router]:
     session = db_session.create_session()
